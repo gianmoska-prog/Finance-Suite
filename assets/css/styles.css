@@ -433,3 +433,45 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 /* v5.2 GPT Studio link refinement */
 .assistant-gpt-link{justify-content:center;text-decoration:none}
 .gpt-link-panel .assistant-route-body{max-width:720px}
+
+/* v5.3 GPT bridge patch — section copy / paste workflow */
+.gpt-bridge-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 0 16px;
+  padding:12px 14px;
+  border:1px solid rgba(240,232,216,.13);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(240,232,216,.045),rgba(240,232,216,.018));
+}
+.gpt-bridge-copy{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+.gpt-bridge-title{
+  color:var(--muted);
+  font-size:.75rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.gpt-bridge-status{
+  flex:1 1 220px;
+  text-align:right;
+  color:var(--faint);
+  font-size:.82rem;
+  line-height:1.35;
+}
+.gpt-bridge-status.is-good{color:var(--safe)}
+.gpt-bridge-status.is-bad{color:var(--danger)}
+.gpt-bridge-status.is-warn{color:var(--caution)}
+.btn.bridge-primary{border-color:rgba(196,145,74,.42);background:rgba(196,145,74,.09)}
+.btn.bridge-apply{border-color:rgba(139,46,46,.42);background:rgba(139,46,46,.12)}
+@media(max-width:760px){
+  .gpt-bridge-toolbar{align-items:flex-start;flex-direction:column}
+  .gpt-bridge-status{text-align:left;width:100%}
+}

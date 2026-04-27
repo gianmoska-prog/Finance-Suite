@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.2';
+const APP_VERSION = '5.3';
 const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -722,6 +722,73 @@ Object.assign(translations.pt, {
   assistant_gpt_opened: 'O GPT dedicado foi aberto no ChatGPT.',
   assistant_gpt_popup_blocked: 'O navegador bloqueou a nova aba. Use “Abrir GPT diretamente” e depois cole manualmente o briefing copiado.',
   assistant_copy_failed: 'Não foi possível copiar automaticamente. Abra o GPT e cole manualmente o resumo do cenário.'
+});
+
+
+Object.assign(translations.en, {
+  bridge_title: 'GPT BRIDGE',
+  bridge_copy: 'Copy information',
+  bridge_paste: 'Paste GPT Instruction',
+  bridge_ready: 'Copy this section for the GPT, or paste a GPT patch block back into the calculator.',
+  bridge_copied: 'Section information copied for the GPT.',
+  bridge_no_clipboard: 'Clipboard access failed. Paste the GPT block manually in the prompt that appears.',
+  bridge_no_patch: 'No valid Moscatelli patch block found. Ask the GPT to return a moscatelli-workstation-patch block.',
+  bridge_applied: 'GPT instruction applied: {count} change(s).',
+  bridge_failed: 'Could not apply GPT instruction: {message}',
+  bridge_replace_confirm: 'The GPT patch wants to replace the fixed expense register. Continue?',
+  bridge_prompt_manual: 'Paste the GPT patch block here:',
+  bridge_section_overview: 'Overview',
+  bridge_section_launch: 'Launch assumptions',
+  bridge_section_unit: 'Unit economics',
+  bridge_section_fixed: 'Fixed expenses',
+  bridge_section_loan: 'Loan and capital',
+  bridge_section_risk: 'Risk dashboard',
+  bridge_section_comparison: 'Comparison',
+  bridge_section_archive: 'Archive'
+});
+
+Object.assign(translations.it, {
+  bridge_title: 'PONTE GPT',
+  bridge_copy: 'Copia informazioni',
+  bridge_paste: 'Incolla istruzione GPT',
+  bridge_ready: 'Copia questa sezione per il GPT, oppure incolla nel calcolatore un blocco patch prodotto dal GPT.',
+  bridge_copied: 'Informazioni della sezione copiate per il GPT.',
+  bridge_no_clipboard: 'Accesso agli appunti non riuscito. Incolla manualmente il blocco GPT nel campo che apparirà.',
+  bridge_no_patch: 'Nessun blocco patch Moscatelli valido trovato. Chiedi al GPT di restituire un blocco moscatelli-workstation-patch.',
+  bridge_applied: 'Istruzione GPT applicata: {count} modifica/e.',
+  bridge_failed: 'Impossibile applicare l’istruzione GPT: {message}',
+  bridge_replace_confirm: 'La patch GPT vuole sostituire il registro dei costi fissi. Continuare?',
+  bridge_prompt_manual: 'Incolla qui il blocco patch del GPT:',
+  bridge_section_overview: 'Sintesi',
+  bridge_section_launch: 'Ipotesi di lancio',
+  bridge_section_unit: 'Economia unitaria',
+  bridge_section_fixed: 'Costi fissi',
+  bridge_section_loan: 'Prestito e capitale',
+  bridge_section_risk: 'Cruscotto rischi',
+  bridge_section_comparison: 'Confronto',
+  bridge_section_archive: 'Archivio'
+});
+
+Object.assign(translations.pt, {
+  bridge_title: 'PONTE GPT',
+  bridge_copy: 'Copiar informações',
+  bridge_paste: 'Colar instrução do GPT',
+  bridge_ready: 'Copie esta seção para o GPT, ou cole de volta na calculadora um bloco patch criado pelo GPT.',
+  bridge_copied: 'Informações da seção copiadas para o GPT.',
+  bridge_no_clipboard: 'Não foi possível acessar a área de transferência. Cole manualmente o bloco do GPT no campo que aparecerá.',
+  bridge_no_patch: 'Nenhum bloco patch Moscatelli válido encontrado. Peça ao GPT para devolver um bloco moscatelli-workstation-patch.',
+  bridge_applied: 'Instrução do GPT aplicada: {count} alteração(ões).',
+  bridge_failed: 'Não foi possível aplicar a instrução do GPT: {message}',
+  bridge_replace_confirm: 'A patch do GPT quer substituir o registro de custos fixos. Continuar?',
+  bridge_prompt_manual: 'Cole aqui o bloco patch do GPT:',
+  bridge_section_overview: 'Resumo',
+  bridge_section_launch: 'Premissas de lançamento',
+  bridge_section_unit: 'Economia unitária',
+  bridge_section_fixed: 'Custos fixos',
+  bridge_section_loan: 'Empréstimo e capital',
+  bridge_section_risk: 'Painel de riscos',
+  bridge_section_comparison: 'Comparação',
+  bridge_section_archive: 'Arquivo'
 });
 
 const scenarioIds = ['scenarioName', 'scenarioStatus', 'fiscalMode', 'retailPrice', 'batchSize', 'sellThrough', 'salesVatRate', 'salesVatMode', 'paymentFee', 'fixedFee', 'shippingCharged'];
@@ -3442,6 +3509,323 @@ function injectContextualHelp() {
   if (railRisk) addHelpButton(railRisk, 'rail_risk', 'rail');
 }
 
+
+const gptBridgeSections = {
+  overview: { titleKey: 'bridge_section_overview', groups: ['summary', 'results'] },
+  launch: { titleKey: 'bridge_section_launch', groups: ['scenario'] },
+  unit: { titleKey: 'bridge_section_unit', groups: ['variable'] },
+  fixed: { titleKey: 'bridge_section_fixed', groups: ['fixedExpenses'] },
+  loan: { titleKey: 'bridge_section_loan', groups: ['loan'] },
+  risk: { titleKey: 'bridge_section_risk', groups: ['risk'] },
+  comparison: { titleKey: 'bridge_section_comparison', groups: ['comparison'] },
+  archive: { titleKey: 'bridge_section_archive', groups: ['archive'] }
+};
+
+const gptFieldGroups = {
+  scenario: scenarioIds,
+  variable: variableIds,
+  loan: loanIds
+};
+
+function riskSnapshot(c) {
+  const risks = [];
+  risks.push(risk(t('risk_structural'), c.breakEvenSellThrough > 100 ? 'bad' : 'good', c.breakEvenSellThrough > 100 ? t('risk_structural_bad') : t('risk_structural_ok')));
+  risks.push(risk(t('risk_loan_viability'), c.breakEvenLoanSellThrough > 100 ? 'bad' : c.breakEvenLoanSellThrough > 80 ? 'warn' : 'good', c.breakEvenLoanSellThrough > 100 ? t('risk_loan_bad') : tmpl('risk_loan_ok', { pct: Math.ceil(c.breakEvenLoanSellThrough || 0) })));
+  risks.push(risk(t('risk_packaging_moq'), c.packagingWaste > c.batch * 0.5 ? 'bad' : c.packagingWaste > 0 ? 'warn' : 'good', tmpl('risk_pkg_ok', { waste: c.packagingWaste, amount: eur(c.packagingTied, 0) })));
+  risks.push(risk(t('risk_packaging_shortage'), c.packagingShortage > 0 ? 'bad' : 'good', c.packagingShortage > 0 ? tmpl('risk_pkg_short_bad', { shortage: c.packagingShortage }) : t('risk_pkg_short_ok')));
+  risks.push(risk(t('risk_placeholders'), c.fixed.placeholders > 0 ? 'warn' : 'good', tmpl('risk_placeholders_text', { count: c.fixed.placeholders })));
+  risks.push(risk(t('risk_cash_drawdown'), c.cashDrawdown > 4100 ? 'warn' : 'good', tmpl('risk_drawdown_text', { amount: eur(c.cashDrawdown, 0) })));
+  risks.push(risk(t('risk_vanity_spend'), c.fixed.vanity > 0 ? 'warn' : 'good', tmpl('risk_vanity_text', { amount: eur(c.fixed.vanity, 0) })));
+  risks.push(risk(t('risk_fiscal_mode'), state.scenario.fiscalMode === 'forfettario' && state.scenario.salesVatMode !== 'none' ? 'bad' : 'good', state.scenario.fiscalMode === 'forfettario' ? t('risk_forfettario_caution') : t('risk_fiscal_check')));
+  risks.push(risk(t('risk_tax_excluded'), 'warn', t('risk_tax_text')));
+  return risks;
+}
+
+function localNowLabel() {
+  return new Date().toLocaleString('en-GB');
+}
+
+function formatObjectBlock(obj) {
+  return Object.entries(obj)
+    .map(([key, value]) => `- ${key}: ${value}`)
+    .join('\n');
+}
+
+function currentResultsSnapshot() {
+  const c = calc();
+  return {
+    cashDrawdown: eur(c.cashDrawdown, 2),
+    trueLandedCostPerUnit: eur(c.landedCostPerUnit, 2),
+    netRevenue: eur(c.netRevenue, 2),
+    cashResult: eur(c.cashResult, 2),
+    economicResultAfterInterest: eur(c.economicResultAfterInterest, 2),
+    financedCashPosition: eur(c.financedCashPosition, 2),
+    afterFullLoanRepayment: eur(c.afterLoan, 2),
+    breakEvenSellThrough: c.breakEvenSellThrough === null ? 'N/A' : `${Math.ceil(c.breakEvenSellThrough)}%`,
+    breakEvenWithLoanSellThrough: c.breakEvenLoanSellThrough === null ? 'N/A' : `${Math.ceil(c.breakEvenLoanSellThrough)}%`,
+    saleableUnits: c.saleableUnits,
+    keptSales: c.keptSales,
+    returnedUnits: c.returnedUnits,
+    defectUnits: c.defectUnits,
+    unsoldUnits: c.unsoldUnits,
+    boxesOrdered: c.boxes,
+    packagingWaste: c.packagingWaste,
+    packagingShortage: c.packagingShortage
+  };
+}
+
+function sectionStateForGpt(section) {
+  const c = calc();
+  const data = {
+    appVersion: APP_VERSION,
+    section,
+    sectionLabel: t(gptBridgeSections[section]?.titleKey || 'bridge_section_overview'),
+    copiedAt: localNowLabel(),
+    language: state.uiLang,
+    scenarioName: state.scenario.scenarioName,
+    status: state.scenario.scenarioStatus,
+    results: currentResultsSnapshot()
+  };
+
+  if (section === 'overview') {
+    data.scenario = state.scenario;
+    data.variableHighlights = {
+      productionUnitCost: state.variable.productionUnitCost,
+      packagingMode: state.variable.packagingMode,
+      packagingMoq: state.variable.packagingMoq,
+      boxCost: state.variable.boxCost,
+      returnRate: state.variable.returnRate,
+      defectRate: state.variable.defectRate
+    };
+    data.loan = state.loan;
+  }
+  if (section === 'launch') data.scenario = state.scenario;
+  if (section === 'unit') data.variable = state.variable;
+  if (section === 'fixed') {
+    data.fixedExpenses = state.expenses.map(exp => ({ ...exp, gross: expenseMath(exp).gross }));
+    data.fixedExpensesTotal = c.fixed.gross;
+  }
+  if (section === 'loan') data.loan = { ...state.loan, interest: c.interest, loanRepayment: c.loanRepayment };
+  if (section === 'risk') data.risks = riskSnapshot(c).map(r => ({ label: r.label, level: r.level, text: r.text }));
+  if (section === 'comparison') {
+    data.sensitivity = [25, 50, 75, 100].map(pct => {
+      const x = calc({ scenario: { sellThrough: pct } });
+      return { sellThrough: `${pct}%`, keptSales: x.keptSales, netRevenue: x.netRevenue, cashResult: x.cashResult, afterLoan: x.afterLoan };
+    });
+    data.batchComparison = [15, 30, 50, 75, 100].map(batch => {
+      const x = calc({ scenario: { batchSize: batch } });
+      return { batch, boxes: x.boxes, cashDrawdown: x.cashDrawdown, breakEvenSellThrough: x.breakEvenSellThrough, afterLoan: x.afterLoan };
+    });
+  }
+  if (section === 'archive') {
+    data.archive = {
+      storageKey: STORAGE_KEY,
+      lastSaved: storageAvailable ? localStorage.getItem(LAST_SAVED_KEY) : null,
+      lastBackup: storageAvailable ? localStorage.getItem(LAST_BACKUP_KEY) : null,
+      expenseCount: state.expenses.length
+    };
+  }
+  return data;
+}
+
+function gptPatchInstructionsForSection(section) {
+  return `\n\nWHEN YOU NEED TO SEND VALUES BACK TO THE CALCULATOR\nReturn ONLY the isolated block below. Do not add prose outside the block. If you are only explaining or reviewing, answer normally and do not use the isolated block.\n\n\`\`\`moscatelli-workstation-patch\n{\n  "moscatelliWorkstationPatch": true,\n  "workstationPatchVersion": 1,\n  "targetSection": "${section}",\n  "note": "Brief explanation of what this patch changes.",\n  "fieldUpdates": {\n    "retailPrice": 350,\n    "batchSize": 15\n  },\n  "stateUpdates": {\n    "scenario": {},\n    "variable": {},\n    "loan": {}\n  },\n  "expenseUpdates": {\n    "add": [],\n    "replace": []\n  }\n}\n\`\`\`\n\nRules for patch blocks:\n- Use fieldUpdates for normal calculator input fields by their exact ID.\n- Use stateUpdates.scenario, stateUpdates.variable, and stateUpdates.loan only with existing field keys.\n- For fixed expenses, use expenseUpdates.add to add rows, or expenseUpdates.replace only if explicitly asked.\n- Do not invent supplier quotes, taxes, or approvals.\n- If unsure, return a question or recommendation instead of a patch block.`;
+}
+
+function buildGptSectionPacket(section) {
+  const data = sectionStateForGpt(section);
+  return [
+    'MOSCATELLI FINANCIAL WORKSTATION — SECTION INFORMATION',
+    `Section: ${data.sectionLabel} (${section})`,
+    `Copied at: ${data.copiedAt}`,
+    `Language: ${data.language}`,
+    '',
+    'TASK FOR THE GPT',
+    'Review this section as the Moscatelli Financial Studio Assistant. Be severe, practical, and precise. If the user asks you to create values to paste back into the calculator, use the patch block format at the end.',
+    '',
+    'CURRENT RESULTS',
+    formatObjectBlock(data.results || {}),
+    '',
+    'SECTION DATA JSON',
+    JSON.stringify(data, null, 2),
+    gptPatchInstructionsForSection(section)
+  ].join('\n');
+}
+
+async function copySectionInformation(section, statusEl) {
+  const packet = buildGptSectionPacket(section);
+  try {
+    await navigator.clipboard.writeText(packet);
+    updateBridgeStatus(statusEl, t('bridge_copied'), 'good');
+  } catch {
+    alert(packet);
+    updateBridgeStatus(statusEl, t('bridge_copied'), 'warn');
+  }
+}
+
+function updateBridgeStatus(statusEl, message, level = '') {
+  if (!statusEl) return;
+  statusEl.textContent = message;
+  statusEl.classList.remove('is-good', 'is-bad', 'is-warn');
+  if (level) statusEl.classList.add(`is-${level}`);
+}
+
+function extractJsonCandidate(text) {
+  const fence = text.match(/```(?:moscatelli-workstation-patch|json)?\s*([\s\S]*?)```/i);
+  if (fence) return fence[1].trim();
+  const marker = text.indexOf('"moscatelliWorkstationPatch"');
+  const marker2 = text.indexOf('"workstationPatchVersion"');
+  const idx = marker >= 0 ? marker : marker2;
+  if (idx >= 0) {
+    const start = text.lastIndexOf('{', idx);
+    const end = text.lastIndexOf('}');
+    if (start >= 0 && end > start) return text.slice(start, end + 1);
+  }
+  return text.trim();
+}
+
+function parseGptPatch(text) {
+  const candidate = extractJsonCandidate(text);
+  const patch = JSON.parse(candidate);
+  if (!patch || (patch.moscatelliWorkstationPatch !== true && !patch.workstationPatchVersion)) {
+    throw new Error(t('bridge_no_patch'));
+  }
+  return patch;
+}
+
+function normaliseExpenseFromPatch(exp) {
+  const allowedCategories = ['Samples','Photography','Website','Legal / Admin','Marketing','Travel','Fulfilment','Contingency','Other'];
+  const allowedPriorities = ['Essential','Optional','Vanity'];
+  const allowedStatuses = ['Placeholder','Quote requested','Quote received','Sample approved','Approved','Paid'];
+  const allowedVatModes = ['included','excluded','none'];
+  return {
+    id: uid(),
+    item: String(exp.item || 'GPT suggested expense'),
+    category: allowedCategories.includes(exp.category) ? exp.category : 'Other',
+    priority: allowedPriorities.includes(exp.priority) ? exp.priority : 'Essential',
+    status: allowedStatuses.includes(exp.status) ? exp.status : 'Placeholder',
+    requiresApproval: exp.requiresApproval === 'no' ? 'no' : 'yes',
+    qty: Math.max(0, num(exp.qty ?? 1)),
+    unitCost: Math.max(0, num(exp.unitCost ?? 0)),
+    vatMode: allowedVatModes.includes(exp.vatMode) ? exp.vatMode : 'included',
+    vatRate: Math.max(0, num(exp.vatRate ?? 22)),
+    notes: String(exp.notes || 'Added from GPT patch.')
+  };
+}
+
+function applyFieldUpdate(id, value) {
+  let applied = false;
+  if (scenarioIds.includes(id)) {
+    state.scenario[id] = document.getElementById(id)?.type === 'number' ? num(value) : String(value);
+    applied = true;
+  } else if (variableIds.includes(id)) {
+    state.variable[id] = document.getElementById(id)?.type === 'number' ? num(value) : String(value);
+    applied = true;
+  } else if (loanIds.includes(id)) {
+    state.loan[id] = num(value);
+    applied = true;
+  }
+  if (state.scenario.fiscalMode === 'forfettario') {
+    state.scenario.salesVatMode = 'none';
+    state.scenario.salesVatRate = 0;
+  }
+  return applied ? 1 : 0;
+}
+
+function applyGptPatch(patch) {
+  let count = 0;
+
+  if (patch.fieldUpdates && typeof patch.fieldUpdates === 'object') {
+    Object.entries(patch.fieldUpdates).forEach(([id, value]) => { count += applyFieldUpdate(id, value); });
+  }
+
+  if (patch.stateUpdates && typeof patch.stateUpdates === 'object') {
+    Object.entries(gptFieldGroups).forEach(([group, ids]) => {
+      const source = patch.stateUpdates[group];
+      if (!source || typeof source !== 'object') return;
+      Object.entries(source).forEach(([key, value]) => {
+        if (ids.includes(key)) count += applyFieldUpdate(key, value);
+      });
+    });
+  }
+
+  const expenseUpdates = patch.expenseUpdates || {};
+  if (Array.isArray(expenseUpdates.add)) {
+    expenseUpdates.add.forEach(exp => {
+      state.expenses.push(normaliseExpenseFromPatch(exp));
+      count += 1;
+    });
+  }
+  if (Array.isArray(expenseUpdates.replace) && expenseUpdates.replace.length) {
+    if (confirm(t('bridge_replace_confirm'))) {
+      state.expenses = expenseUpdates.replace.map(normaliseExpenseFromPatch);
+      count += state.expenses.length;
+    }
+  }
+
+  render();
+  return count;
+}
+
+async function pasteGptInstruction(section, statusEl) {
+  let text = '';
+  try {
+    text = await navigator.clipboard.readText();
+  } catch {
+    const manual = prompt(t('bridge_prompt_manual'));
+    if (!manual) {
+      updateBridgeStatus(statusEl, t('bridge_no_clipboard'), 'warn');
+      return;
+    }
+    text = manual;
+  }
+
+  try {
+    const patch = parseGptPatch(text);
+    if (patch.targetSection && patch.targetSection !== section && patch.targetSection !== 'any') {
+      updateBridgeStatus(statusEl, `${t('bridge_applied').replace('{count}', '0')} Target: ${patch.targetSection}`, 'warn');
+    }
+    const count = applyGptPatch(patch);
+    updateBridgeStatus(statusEl, tmpl('bridge_applied', { count }), 'good');
+  } catch (error) {
+    updateBridgeStatus(statusEl, tmpl('bridge_failed', { message: error.message || String(error) }), 'bad');
+  }
+}
+
+function installGptBridgeControls() {
+  document.querySelectorAll('.calc-tab[data-calctab-panel]').forEach(tab => {
+    if (tab.querySelector(':scope > .gpt-bridge-toolbar')) return;
+    const section = tab.dataset.calctabPanel || 'overview';
+    const toolbar = document.createElement('div');
+    toolbar.className = 'gpt-bridge-toolbar';
+    toolbar.dataset.gptBridgeSection = section;
+    toolbar.innerHTML = `
+      <div class="gpt-bridge-copy">
+        <span class="gpt-bridge-title" data-i18n="bridge_title">GPT BRIDGE</span>
+        <button class="btn bridge-primary small" type="button" data-gpt-copy-section="${escapeHtml(section)}" data-i18n="bridge_copy">Copy information</button>
+        <button class="btn bridge-apply small" type="button" data-gpt-paste-section="${escapeHtml(section)}" data-i18n="bridge_paste">Paste GPT Instruction</button>
+      </div>
+      <div class="gpt-bridge-status" data-gpt-bridge-status data-i18n="bridge_ready">Copy this section for the GPT, or paste a GPT patch block back into the calculator.</div>
+    `;
+    tab.insertAdjacentElement('afterbegin', toolbar);
+  });
+
+  document.querySelectorAll('[data-gpt-copy-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.dataset.gptCopySection;
+      const statusEl = btn.closest('.gpt-bridge-toolbar')?.querySelector('[data-gpt-bridge-status]');
+      copySectionInformation(section, statusEl);
+    });
+  });
+  document.querySelectorAll('[data-gpt-paste-section]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.dataset.gptPasteSection;
+      const statusEl = btn.closest('.gpt-bridge-toolbar')?.querySelector('[data-gpt-bridge-status]');
+      pasteGptInstruction(section, statusEl);
+    });
+  });
+}
+
 function download(filename, content, type) {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
@@ -3455,6 +3839,7 @@ function download(filename, content, type) {
 }
 
 function attachEvents() {
+  installGptBridgeControls();
   document.querySelectorAll('.subtab').forEach(btn => btn.addEventListener('click', () => openCalcTab(btn.dataset.calctab)));
   document.querySelectorAll('[data-preset]').forEach(btn => { btn.onclick = () => preset(btn.dataset.preset); });
   if (els.alertsToggle) {

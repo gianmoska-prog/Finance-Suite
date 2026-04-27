@@ -32,3 +32,9 @@ The website does not contain API keys. The GPT opens through ChatGPT directly.
 Storage note:
 The existing localStorage key remains unchanged for data safety:
 moscatelliFinancialWorkstation.v31
+
+v5.3 GPT Bridge
+- Adds section-level “Copy information” buttons inside the calculator.
+- Adds “Paste GPT Instruction” buttons that can apply a valid moscatelli-workstation-patch block copied from the custom GPT.
+- Adds MOSCATELLI_FINANCIAL_STUDIO_GPT_INSTRUCTIONS.md with the recommended custom GPT instruction set.
+- The GPT should only use the isolated patch block when it is creating values for the user to paste into the calculator. Normal analysis should remain normal prose.
