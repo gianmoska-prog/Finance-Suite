@@ -207,22 +207,11 @@
     </section>
   </main>
 
-  <button class="assistant-fab" id="assistantFab" type="button" aria-label="Financial Studio GPT">Φ</button>
-  <aside class="assistant-panel" id="assistantPanel" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="assistantPanelTitle">
-    <div class="assistant-panel__head">
-      <div><span class="assistant-status-dot"></span><strong id="assistantPanelTitle" data-i18n="assistant_panel_title">MOSCATELLI FINANCIAL STUDIO GPT</strong></div>
-      <button class="btn small" id="closeAssistantPanel">×</button>
-    </div>
-    <p class="assistant-muted" id="aiStatusLine" data-i18n="assistant_panel_status">Status: ready to open the dedicated GPT in ChatGPT.</p>
-    <div class="assistant-chat-ready" data-i18n="assistant_chat_ready">Copy the current scenario brief, then open the Moscatelli GPT for the review. No API connection is required.</div>
-    <div class="assistant-actions">
-      <button class="btn primary" id="askAiBtn" data-i18n="assistant_ask_ai">Copy scenario brief & open GPT</button>
-      <a class="btn assistant-gpt-link" id="assistantGptDirectPanel" href="https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant" target="_blank" rel="noopener noreferrer" data-i18n="assistant_open_gpt">Open GPT directly</a>
-      <button class="btn" id="copyScenarioBtn" data-i18n="assistant_copy">Copy scenario brief</button>
-      <button class="btn" id="assistantExportJsonBtn" data-i18n="assistant_export_json">Export scenario JSON</button>
-    </div>
-    <div class="assistant-response is-visible" id="aiResponse" aria-live="polite" data-i18n="assistant_response_ready">The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.</div>
-    <p class="assistant-foot" data-i18n="assistant_security">No embedded API key is stored in this website. Use the dedicated GPT through ChatGPT.</p>
+  <button class="assistant-fab" id="assistantFab" type="button" aria-label="Open Leonardo GPT launcher">
+    <img src="assets/img/leonardo-fab.png" alt="" class="assistant-fab__img">
+  </button>
+  <aside class="assistant-panel assistant-panel--compact" id="assistantPanel" aria-hidden="true" role="dialog" aria-modal="false" aria-label="Leonardo GPT launcher">
+    <a class="btn primary assistant-launch-btn assistant-gpt-link" id="assistantGptDirectPanel" href="https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant" target="_blank" rel="noopener noreferrer">Chat with Leonardo</a>
   </aside>
 
   <div class="modal-backdrop" id="importConfirmModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="importConfirmTitle">

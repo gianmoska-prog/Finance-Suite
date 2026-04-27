@@ -1479,10 +1479,11 @@ function askFinancialAssistant() {
 }
 
 function toggleAssistant(open) {
+  if (!els.assistantPanel) return;
   els.assistantPanel.classList.toggle('is-open', open);
   els.assistantPanel.setAttribute('aria-hidden', String(!open));
-  if (open) {
-    if (els.aiResponse && !els.aiResponse.textContent.trim()) setAiResponse(t('assistant_response_ready'));
+  if (open && els.aiResponse && !els.aiResponse.textContent.trim()) {
+    setAiResponse(t('assistant_response_ready'));
   }
 }
 
@@ -3878,12 +3879,25 @@ function attachEvents() {
   els.backupFileInput.onchange = event => openImportConfirm(event.target.files[0]);
   els.cancelImportBtn.onclick = closeImportConfirm;
   els.confirmImportBtn.onclick = () => loadBackupFile(pendingImportFile);
-  els.assistantFab.onclick = () => toggleAssistant(!els.assistantPanel.classList.contains('is-open'));
+  if (els.assistantFab && els.assistantPanel) {
+    els.assistantFab.onclick = (event) => {
+      event.stopPropagation();
+      toggleAssistant(!els.assistantPanel.classList.contains('is-open'));
+    };
+    document.addEventListener('click', (event) => {
+      if (!els.assistantPanel.classList.contains('is-open')) return;
+      if (els.assistantPanel.contains(event.target) || els.assistantFab.contains(event.target)) return;
+      toggleAssistant(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') toggleAssistant(false);
+    });
+  }
   if (els.openAssistantPanel) els.openAssistantPanel.onclick = () => toggleAssistant(true);
   if (els.assistantRouteAskBtn) els.assistantRouteAskBtn.onclick = () => { toggleAssistant(true); askFinancialAssistant(); };
-  els.closeAssistantPanel.onclick = () => toggleAssistant(false);
-  els.copyScenarioBtn.onclick = copyScenarioSummary;
-  els.assistantExportJsonBtn.onclick = exportBackup;
+  if (els.closeAssistantPanel) els.closeAssistantPanel.onclick = () => toggleAssistant(false);
+  if (els.copyScenarioBtn) els.copyScenarioBtn.onclick = copyScenarioSummary;
+  if (els.assistantExportJsonBtn) els.assistantExportJsonBtn.onclick = exportBackup;
   if (els.askAiBtn) els.askAiBtn.onclick = askFinancialAssistant;
   scenarioIds.forEach(id => $(id).addEventListener($(id).tagName === 'SELECT' ? 'change' : 'input', () => {
     state.scenario[id] = $(id).type === 'number' ? num($(id).value) : $(id).value;
