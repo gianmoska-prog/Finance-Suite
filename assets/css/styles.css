@@ -370,3 +370,13 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
   color: rgba(240,232,216,.78);
   font-size: .81rem;
 }
+
+
+/* v4.9 Netlify AI integration patch */
+.assistant-label{display:block;margin:12px 0 6px;color:var(--text-muted);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+.assistant-input{width:100%;border:1px solid var(--border);background:rgba(0,0,0,.24);color:var(--text);border-radius:12px;padding:10px 11px;outline:none}
+.assistant-input:focus{border-color:rgba(196,145,74,.72)}
+.assistant-actions{display:grid;gap:8px;margin-top:10px}
+.assistant-response{display:none;margin-top:12px;border:1px solid var(--border);border-radius:14px;background:rgba(0,0,0,.18);padding:12px;white-space:pre-wrap;color:var(--text-data);font-size:.88rem;line-height:1.55;max-height:360px;overflow:auto}
+.assistant-response.is-visible{display:block}
+.assistant-response.is-error{border-color:rgba(192,57,43,.48);color:#e0a19a}
