@@ -1,4 +1,4 @@
-MOSCATELLI FINANCIAL WORKSTATION — v5.2 GPT Studio Link
+MOSCATELLI FINANCIAL WORKSTATION — v5.6 Safety Patch
 
 This package contains the Moscatelli Financial Workstation as a GitHub-ready static site.
 
@@ -33,8 +33,15 @@ Storage note:
 The existing localStorage key remains unchanged for data safety:
 moscatelliFinancialWorkstation.v31
 
-v5.3 GPT Bridge
+v5.6 GPT Bridge
 - Adds section-level “Copy information” buttons inside the calculator.
 - Adds “Paste GPT Instruction” buttons that can apply a valid moscatelli-workstation-patch block copied from the custom GPT.
 - Adds MOSCATELLI_FINANCIAL_STUDIO_GPT_INSTRUCTIONS.md with the recommended custom GPT instruction set.
 - The GPT should only use the isolated patch block when it is creating values for the user to paste into the calculator. Normal analysis should remain normal prose.
+
+
+v5.6 Safety Patch
+- Hardens Paste GPT Instruction validation and wrong-section patch protection.
+- Adds confirmation before loading Current Plan.
+- Optimises the Leonardo floating button asset and improves launcher accessibility.
+- Aligns visible app version while preserving localStorage key moscatelliFinancialWorkstation.v31.

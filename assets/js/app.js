@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.3';
+const APP_VERSION = '5.6';
 const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -26,7 +26,7 @@ const translations = {
     k_fixedRegister: 'Fixed / One-off Expense Register', k_fixedHint: 'Use this for samples, photography, legal, website, travel, admin, and non-scaling costs. Product and packaging are now calculated above.', k_addExpense: 'Add Expense', k_item: 'Item', k_category: 'Category', k_priority: 'Priority', k_approvalGate: 'Approval Gate', k_qty: 'Qty', k_unitCost: 'Unit Cost', k_vat: 'VAT', k_vatRate: 'VAT %', k_notes: 'Notes', k_gate: 'Gate', k_unit: 'Unit', k_gross: 'Gross',
     k_loanAmount: 'Loan Amount', k_interest: 'Interest / APR %', k_loanTerm: 'Loan Term Months', k_bufferTarget: 'Cash Buffer Target %', k_riskDashboard: 'Risk Dashboard', k_riskHint: 'Red flags appear when assumptions are dangerous or structurally impossible.', k_sensitivity: 'Sensitivity', k_sensitivityHint: 'Current batch result at different sell-through levels.', k_keptSales: 'Kept Sales', k_batchComparison: 'Batch Comparison', k_batchHint: 'Compares 15, 30, 50, 75, and 100 units using the same cost assumptions.', k_batch: 'Batch', k_boxes: 'Boxes', k_breakEven: 'Break-even', k_afterLoanCurrent: 'After Loan @ Current Sell-through',
     k_backupTitle: 'Version Backup', k_backupHint: 'Save or reload a full dated JSON version. This preserves assumptions, expenses, documentation status, notes, loan settings, and scenario state.', k_saveBackup: 'Save Backup', k_loadBackup: 'Load Backup', k_noBackup: 'No backup loaded in this session.', k_backupFooter: 'Local browser storage remains enabled, but JSON backups are the safer record. Export a backup after any important change.', rail_title: 'Current Scenario',
-    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Studio GPT', assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review there without any embedded API setup.', assistant_status_title: 'Dedicated GPT link', assistant_status_hint: 'Copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.', assistant_open: 'Open GPT launcher', assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT', assistant_panel_status: 'Status: ready to open the dedicated GPT in ChatGPT.', assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No API connection is required.', assistant_response_ready: 'The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.', assistant_prompt_label: 'Optional instruction for the GPT', assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.', assistant_endpoint_summary: 'GPT link settings', assistant_endpoint_label: 'GPT URL', assistant_ask_ai: 'Copy scenario brief & open GPT', assistant_netlify_note: 'No embedded API is used. The GPT opens in ChatGPT; the workstation remains a local financial tool.', assistant_ai_loading: 'Opening GPT…', assistant_ai_missing_endpoint: 'The GPT link is missing. Restore the dedicated GPT URL.', assistant_ai_error: 'GPT launch failed: {message}', assistant_copy: 'Copy scenario brief', assistant_export_json: 'Export scenario JSON', assistant_security: 'No embedded API key is stored in this website. Use the dedicated GPT through ChatGPT.', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
+    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Studio GPT', assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review there without any technical setup.', assistant_status_title: 'Dedicated GPT link', assistant_status_hint: 'Copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.', assistant_open: 'Open GPT launcher', assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT', assistant_panel_status: 'Status: ready to open the dedicated GPT in ChatGPT.', assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No extra setup is required.', assistant_response_ready: 'The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.', assistant_ask_ai: 'Copy scenario brief & open GPT', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
     status_draft: 'Draft', status_quote_based: 'Quote-based', status_sample_approved: 'Sample approved', status_approved: 'Approved', status_final: 'Final', table_swipe_hint: 'Swipe table horizontally if needed.',
     sub_repayment_over: '{amount} repayment over {months} months', sub_breakeven_detail: '{units} kept sales before loan · {loanUnits} with loan', sub_set_price: 'Set price to calculate', expenses_empty: 'No fixed expenses yet. Add costs above.',
     rev_batch: 'Batch size', rev_saleable: 'Saleable after defects', rev_initialSold: 'Initial sold', rev_returned: 'Returned/refunded', rev_keptSales: 'Kept sales', rev_unsold: 'Unsold units', rev_grossReceipts: 'Gross receipts kept', rev_outputVat: 'Output VAT shown', rev_paymentFees: 'Payment fees', rev_productCost: 'Product cost', rev_boxesOrdered: 'Boxes ordered', rev_packagingTied: 'Packaging cash tied in extras', rev_packagingShortage: 'Packaging shortage', rev_variableCosts: 'Variable costs', rev_fixedExpenses: 'Fixed expenses', rev_contingency: 'Contingency reserve', rev_initialRequired: 'Initial sales required after returns',
@@ -36,10 +36,10 @@ const translations = {
     alert_copied: 'Scenario summary copied.', confirm_reset: 'Reset all entries and restore default assumptions?', import_corrected: 'Backup loaded with {count} corrected field(s).', import_loaded: 'Backup loaded: {file}', import_error: 'Could not load backup: {message}', backup_saved: 'Backup saved: {file}', delete_expense: 'Delete this expense?', delete_btn: 'Delete', physical_approval: 'Physical approval', no_value: '—'
   },
   it: {
-    nav_threshold: 'Soglia', nav_calculator: 'Calcolatore', nav_academy: 'Accademia', nav_assistant: 'Assistente', threshold_title: 'Postazione Finanziaria', threshold_subtitle: 'Numeri prima dell’ambizione. Nessuna proiezione diventa dottrina finché non è provata da preventivo, campione e vendita.', threshold_enter: 'Entra nella postazione', threshold_academy: 'Apri Accademia', calc_title: 'Calcolatore Budget', academy_title: 'Accademia Finanziaria', assistant_title: 'Assistente Finanziario', btn_print: 'Stampa / Salva PDF', btn_export_csv: 'Esporta CSV', btn_reset: 'Reimposta', btn_cancel: 'Annulla', btn_confirm: 'Conferma', k_cashDrawdown: 'Fabbisogno massimo di cassa', k_landed: 'Costo reale unitario', k_netRevenue: 'Ricavo netto', k_cashResult: 'Risultato di cassa', k_afterLoan: 'Dopo rimborso completo prestito', k_breakEvenSell: 'Sell-through di pareggio', tab_overview: 'Sintesi', tab_launch: 'Lancio', tab_unit: 'Economia unitaria', tab_fixed: 'Costi fissi', tab_loan: 'Prestito e capitale', tab_risk: 'Rischio', tab_comparison: 'Confronto', tab_archive: 'Archivio', k_launchAssumptions: 'Ipotesi di lancio', k_variable: 'Economia variabile unitaria', k_fixedRegister: 'Registro costi fissi / una tantum', k_loanModel: 'Modello prestito / capitale', k_riskDashboard: 'Cruscotto rischi', k_sensitivity: 'Sensibilità', k_batchComparison: 'Confronto lotti', k_saveBackup: 'Salva backup', k_loadBackup: 'Carica backup', k_addExpense: 'Aggiungi costo', k_scenarioName: 'Nome scenario', k_status: 'Stato', k_fiscalMode: 'Regime fiscale', k_retailPrice: 'Prezzo retail', k_batchSize: 'Dimensione lotto', k_sellThrough: 'Sell-through %', k_paymentFee: 'Commissione pagamento %', k_loanAmount: 'Importo prestito', k_interest: 'Interesse / TAEG %', k_loanTerm: 'Durata prestito mesi', k_bufferTarget: 'Target riserva cassa %', k_item: 'Voce', k_category: 'Categoria', k_priority: 'Priorità', k_qty: 'Qtà', k_unitCost: 'Costo unitario', k_notes: 'Note', k_backupTitle: 'Backup versione', assistant_copy: 'Copia riepilogo scenario', assistant_export_json: 'Esporta JSON scenario', assistant_endpoint_label: 'URL del GPT', assistant_ask_ai: 'Copia brief scenario e apri GPT', assistant_netlify_note: 'Non viene usata alcuna chiave API. Il GPT si apre in ChatGPT; la postazione resta uno strumento finanziario locale.', assistant_ai_loading: 'Apertura del GPT…', assistant_ai_missing_endpoint: 'Il link al GPT manca. Ripristina l’URL del GPT dedicato.', assistant_ai_error: 'Apertura GPT non riuscita: {message}', tax_notice_title: 'Esclusione fiscale.', tax_notice_text: 'I risultati sono al lordo di imposte sul reddito, INPS, prelievi del fondatore e soggetti a conferma del commercialista.', risk_tax_text: 'Imposte sul reddito, INPS e prelievi del fondatore sono esclusi.', alert_copied: 'Riepilogo scenario copiato.', confirm_reset: 'Reimpostare tutto e ripristinare le ipotesi predefinite?'
+    nav_threshold: 'Soglia', nav_calculator: 'Calcolatore', nav_academy: 'Accademia', nav_assistant: 'Assistente', threshold_title: 'Postazione Finanziaria', threshold_subtitle: 'Numeri prima dell’ambizione. Nessuna proiezione diventa dottrina finché non è provata da preventivo, campione e vendita.', threshold_enter: 'Entra nella postazione', threshold_academy: 'Apri Accademia', calc_title: 'Calcolatore Budget', academy_title: 'Accademia Finanziaria', assistant_title: 'Assistente Finanziario', btn_print: 'Stampa / Salva PDF', btn_export_csv: 'Esporta CSV', btn_reset: 'Reimposta', btn_cancel: 'Annulla', btn_confirm: 'Conferma', k_cashDrawdown: 'Fabbisogno massimo di cassa', k_landed: 'Costo reale unitario', k_netRevenue: 'Ricavo netto', k_cashResult: 'Risultato di cassa', k_afterLoan: 'Dopo rimborso completo prestito', k_breakEvenSell: 'Sell-through di pareggio', tab_overview: 'Sintesi', tab_launch: 'Lancio', tab_unit: 'Economia unitaria', tab_fixed: 'Costi fissi', tab_loan: 'Prestito e capitale', tab_risk: 'Rischio', tab_comparison: 'Confronto', tab_archive: 'Archivio', k_launchAssumptions: 'Ipotesi di lancio', k_variable: 'Economia variabile unitaria', k_fixedRegister: 'Registro costi fissi / una tantum', k_loanModel: 'Modello prestito / capitale', k_riskDashboard: 'Cruscotto rischi', k_sensitivity: 'Sensibilità', k_batchComparison: 'Confronto lotti', k_saveBackup: 'Salva backup', k_loadBackup: 'Carica backup', k_addExpense: 'Aggiungi costo', k_scenarioName: 'Nome scenario', k_status: 'Stato', k_fiscalMode: 'Regime fiscale', k_retailPrice: 'Prezzo retail', k_batchSize: 'Dimensione lotto', k_sellThrough: 'Sell-through %', k_paymentFee: 'Commissione pagamento %', k_loanAmount: 'Importo prestito', k_interest: 'Interesse / TAEG %', k_loanTerm: 'Durata prestito mesi', k_bufferTarget: 'Target riserva cassa %', k_item: 'Voce', k_category: 'Categoria', k_priority: 'Priorità', k_qty: 'Qtà', k_unitCost: 'Costo unitario', k_notes: 'Note', k_backupTitle: 'Backup versione', assistant_ask_ai: 'Copia riepilogo scenario e apri GPT', tax_notice_title: 'Esclusione fiscale.', tax_notice_text: 'I risultati sono al lordo di imposte sul reddito, INPS, prelievi del fondatore e soggetti a conferma del commercialista.', risk_tax_text: 'Imposte sul reddito, INPS e prelievi del fondatore sono esclusi.', alert_copied: 'Riepilogo scenario copiato.', confirm_reset: 'Reimpostare tutto e ripristinare le ipotesi predefinite?'
   },
   pt: {
-    nav_threshold: 'Índice', nav_calculator: 'Calculadora', nav_academy: 'Academia', nav_assistant: 'Assistente', threshold_title: 'Estação Financeira', threshold_subtitle: 'Números antes da ambição. Nenhuma projeção vira doutrina antes de ser comprovada por orçamento, amostra e venda.', threshold_enter: 'Entrar na estação', threshold_academy: 'Abrir Academia', calc_title: 'Calculadora de Orçamento', academy_title: 'Academia Financeira', assistant_title: 'Assistente Financeiro', btn_print: 'Imprimir / Salvar PDF', btn_export_csv: 'Exportar CSV', btn_reset: 'Reiniciar', btn_cancel: 'Cancelar', btn_confirm: 'Confirmar', k_cashDrawdown: 'Necessidade máxima de caixa', k_landed: 'Custo real unitário', k_netRevenue: 'Receita líquida', k_cashResult: 'Resultado de caixa', k_afterLoan: 'Após quitação total do empréstimo', k_breakEvenSell: 'Sell-through de equilíbrio', tab_overview: 'Resumo', tab_launch: 'Lançamento', tab_unit: 'Economia unitária', tab_fixed: 'Custos fixos', tab_loan: 'Empréstimo e capital', tab_risk: 'Risco', tab_comparison: 'Comparação', tab_archive: 'Arquivo', k_launchAssumptions: 'Premissas de lançamento', k_variable: 'Economia variável unitária', k_fixedRegister: 'Registro de custos fixos / pontuais', k_loanModel: 'Modelo de empréstimo / capital', k_riskDashboard: 'Painel de riscos', k_sensitivity: 'Sensibilidade', k_batchComparison: 'Comparação de lotes', k_saveBackup: 'Salvar backup', k_loadBackup: 'Carregar backup', k_addExpense: 'Adicionar custo', k_scenarioName: 'Nome do cenário', k_status: 'Status', k_fiscalMode: 'Regime fiscal', k_retailPrice: 'Preço de venda', k_batchSize: 'Tamanho do lote', k_sellThrough: 'Sell-through %', k_paymentFee: 'Taxa de pagamento %', k_loanAmount: 'Valor do empréstimo', k_interest: 'Juros / taxa anual %', k_loanTerm: 'Prazo do empréstimo meses', k_bufferTarget: 'Meta de reserva de caixa %', k_item: 'Item', k_category: 'Categoria', k_priority: 'Prioridade', k_qty: 'Qtd', k_unitCost: 'Custo unitário', k_notes: 'Notas', k_backupTitle: 'Backup de versão', assistant_copy: 'Copiar resumo do cenário', assistant_export_json: 'Exportar JSON do cenário', assistant_endpoint_label: 'URL do GPT', assistant_ask_ai: 'Copiar briefing e abrir GPT', assistant_netlify_note: 'Nenhuma chave API é usada. O GPT abre no ChatGPT; a estação continua sendo uma ferramenta financeira local.', assistant_ai_loading: 'Abrindo o GPT…', assistant_ai_missing_endpoint: 'O link do GPT está faltando. Restaure a URL do GPT dedicado.', assistant_ai_error: 'Falha ao abrir o GPT: {message}', tax_notice_title: 'Exclusão fiscal.', tax_notice_text: 'Os resultados não incluem imposto de renda, INPS, retiradas do fundador e dependem de confirmação contábil.', risk_tax_text: 'Imposto de renda, INPS e retiradas do fundador estão excluídos.', alert_copied: 'Resumo do cenário copiado.', confirm_reset: 'Reiniciar tudo e restaurar as premissas padrão?'
+    nav_threshold: 'Índice', nav_calculator: 'Calculadora', nav_academy: 'Academia', nav_assistant: 'Assistente', threshold_title: 'Suite Financeira', threshold_subtitle: 'Números antes da ambição. Nenhuma projeção vira doutrina antes de ser comprovada por orçamento, amostra e venda.', threshold_enter: 'Abrir suite', threshold_academy: 'Abrir Academia', calc_title: 'Calculadora de Orçamento', academy_title: 'Academia Financeira', assistant_title: 'Assistente Financeiro', btn_print: 'Imprimir / Salvar PDF', btn_export_csv: 'Exportar CSV', btn_reset: 'Reiniciar', btn_cancel: 'Cancelar', btn_confirm: 'Confirmar', k_cashDrawdown: 'Necessidade máxima de caixa', k_landed: 'Custo real unitário', k_netRevenue: 'Receita líquida', k_cashResult: 'Resultado de caixa', k_afterLoan: 'Após quitação total do empréstimo', k_breakEvenSell: 'Sell-through de equilíbrio', tab_overview: 'Resumo', tab_launch: 'Lançamento', tab_unit: 'Economia unitária', tab_fixed: 'Custos fixos', tab_loan: 'Empréstimo e capital', tab_risk: 'Risco', tab_comparison: 'Comparação', tab_archive: 'Arquivo', k_launchAssumptions: 'Premissas de lançamento', k_variable: 'Economia variável unitária', k_fixedRegister: 'Registro de custos fixos / pontuais', k_loanModel: 'Modelo de empréstimo / capital', k_riskDashboard: 'Painel de riscos', k_sensitivity: 'Sensibilidade', k_batchComparison: 'Comparação de lotes', k_saveBackup: 'Salvar backup', k_loadBackup: 'Carregar backup', k_addExpense: 'Adicionar custo', k_scenarioName: 'Nome do cenário', k_status: 'Status', k_fiscalMode: 'Regime fiscal', k_retailPrice: 'Preço de venda', k_batchSize: 'Tamanho do lote', k_sellThrough: 'Sell-through %', k_paymentFee: 'Taxa de pagamento %', k_loanAmount: 'Valor do empréstimo', k_interest: 'Juros / taxa anual %', k_loanTerm: 'Prazo do empréstimo meses', k_bufferTarget: 'Meta de reserva de caixa %', k_item: 'Item', k_category: 'Categoria', k_priority: 'Prioridade', k_qty: 'Qtd', k_unitCost: 'Custo unitário', k_notes: 'Notas', k_backupTitle: 'Backup de versão', assistant_ask_ai: 'Copiar resumo e abrir GPT', tax_notice_title: 'Exclusão fiscal.', tax_notice_text: 'Os resultados não incluem imposto de renda, INPS, retiradas do fundador e dependem de confirmação contábil.', risk_tax_text: 'Imposto de renda, INPS e retiradas do fundador estão excluídos.', alert_copied: 'Resumo do cenário copiado.', confirm_reset: 'Reiniciar tudo e restaurar as premissas padrão?'
   }
 };
 
@@ -56,12 +56,12 @@ Object.assign(translations.en, {
   "opt_auto_packaging": "Auto: max batch/MOQ",
   "opt_manual_packaging": "Manual box quantity",
   "opt_needs_approval": "Needs physical approval",
-  "opt_no_approval": "No approval gate",
+  "opt_no_approval": "Sem aprovação necessária",
   "opt_vat_none": "No VAT",
   "ph_scenario": "e.g. Bootstrap proof launch",
   "ph_item": "e.g. product photography, legal review",
   "ph_notes": "Supplier, quote status, risk, or deadline",
-  "status_placeholder": "Placeholder",
+  "status_placeholder": "Valor provisório",
   "status_quote_requested": "Quote requested",
   "status_quote_received": "Quote received",
   "status_paid": "Paid",
@@ -169,7 +169,7 @@ Object.assign(translations.it, {
   "k_approvalGate": "Vincolo approvazione",
   "k_vat": "IVA",
   "k_vatRate": "IVA %",
-  "k_gate": "Vincolo",
+  "k_gate": "Verifica",
   "k_unit": "Unità",
   "k_gross": "Lordo",
   "k_riskHint": "Le bandiere rosse appaiono quando le ipotesi sono pericolose o strutturalmente impossibili.",
@@ -189,11 +189,10 @@ Object.assign(translations.it, {
   "assistant_eyebrow": "Moscatelli · Livello futuro",
   "assistant_subtitle": "Il livello AI non è ancora collegato. Per ora usa l’assistente flottante per copiare un riepilogo strutturato dello scenario o esportare il backup JSON corrente.",
   "assistant_status_title": "Stato assistente",
-  "assistant_status_hint": "Nessuna chiamata API è attiva. Nessuna chiave API è salvata in questo file.",
+  "assistant_status_hint": "La revisione avviene nel GPT dedicato, fuori da questo file.",
   "assistant_open": "Apri pannello assistente",
   "assistant_panel_title": "ASSISTENTE FINANZIARIO MOSCATELLI",
   "assistant_panel_status": "Stato: non collegato. Esporta lo scenario e incollalo in Claude, Grok, Gemini o ChatGPT per una revisione esterna.",
-  "assistant_security": "Non salvare mai chiavi API, dati bancari, codici fiscali o contratti fornitori nel codice client-side o in localStorage.",
   "import_confirm_title": "Caricare il backup?",
   "import_confirm_text": "Questa azione sostituirà lo stato corrente della postazione. Salva prima un backup se devi conservare la versione attuale.",
   "status_draft": "Bozza",
@@ -201,7 +200,7 @@ Object.assign(translations.it, {
   "status_sample_approved": "Campione approvato",
   "status_approved": "Approvato",
   "status_final": "Finale",
-  "status_placeholder": "Segnaposto",
+  "status_placeholder": "Valore provvisorio",
   "status_quote_requested": "Preventivo richiesto",
   "status_quote_received": "Preventivo ricevuto",
   "status_paid": "Pagato",
@@ -244,7 +243,7 @@ Object.assign(translations.it, {
   "risk_loan_viability": "Tenuta del prestito",
   "risk_packaging_moq": "MOQ packaging",
   "risk_packaging_shortage": "Scatole mancanti",
-  "risk_placeholders": "Segnaposto",
+  "risk_placeholders": "Valori provvisori",
   "risk_cash_drawdown": "Fabbisogno di cassa",
   "risk_vanity_spend": "Spesa di vanità",
   "risk_fiscal_mode": "Regime fiscale",
@@ -254,7 +253,7 @@ Object.assign(translations.it, {
   "risk_pkg_ok": "{waste} scatole extra · {amount} immobilizzati.",
   "risk_pkg_short_bad": "{shortage} sciarpe non hanno scatola assegnata. La quantità manuale di packaging è inferiore al lotto.",
   "risk_pkg_short_ok": "La quantità di packaging copre il lotto.",
-  "risk_placeholders_text": "{count} costi fissi sono ancora segnaposto.",
+  "risk_placeholders_text": "{count} costi fissi sono ancora valori provvisori.",
   "risk_drawdown_text": "{amount} necessari prima delle vendite.",
   "risk_vanity_text": "{amount} segnati come vanità.",
   "risk_forfettario_caution": "In Forfettario normalmente non si applica IVA sulle vendite.",
@@ -340,7 +339,7 @@ Object.assign(translations.pt, {
   "threshold_eyebrow": "Moscatelli · Suite financeira interna",
   "threshold_index": "ÍNDICE DE ENTRADA",
   "threshold_motto_title": "Disciplina operacional antes da exposição financeira.",
-  "threshold_motto_text": "Esta estação obriga o primeiro lançamento de produto da Moscatelli a passar pelos números: produção, embalagem, sell-through, necessidade de caixa, pressão do empréstimo e prova documentada.",
+  "threshold_motto_text": "Esta suite obriga o primeiro lançamento de produto da Moscatelli a passar pelos números: produção, embalagem, sell-through, necessidade de caixa, pressão do empréstimo e prova documentada.",
   "index_scenario_sub": "Modelo de trabalho atual",
   "index_cash_sub": "Antes da entrada de receita",
   "index_break_sub": "Antes do pagamento do empréstimo",
@@ -391,7 +390,7 @@ Object.assign(translations.pt, {
   "k_approvalGate": "Aprovação necessária",
   "k_vat": "IVA",
   "k_vatRate": "IVA %",
-  "k_gate": "Gate",
+  "k_gate": "Ponto de controle",
   "k_unit": "Unid.",
   "k_gross": "Bruto",
   "k_riskHint": "Alertas vermelhos aparecem quando as premissas são perigosas ou estruturalmente impossíveis.",
@@ -411,11 +410,10 @@ Object.assign(translations.pt, {
   "assistant_eyebrow": "Moscatelli · Camada futura",
   "assistant_subtitle": "A camada de IA ainda não está conectada. Por enquanto, use o assistente flutuante para copiar um resumo estruturado do cenário ou exportar o backup JSON atual.",
   "assistant_status_title": "Status do assistente",
-  "assistant_status_hint": "Nenhuma chamada de API está ativa. Nenhuma chave de API é armazenada neste arquivo.",
+  "assistant_status_hint": "A revisão acontece no GPT dedicado, fora deste arquivo.",
   "assistant_open": "Abrir painel do assistente",
   "assistant_panel_title": "ASSISTENTE FINANCEIRO MOSCATELLI",
   "assistant_panel_status": "Status: não conectado. Exporte seu cenário e cole no Claude, Grok, Gemini ou ChatGPT para revisão externa.",
-  "assistant_security": "Nunca armazene chaves de API, dados bancários, códigos fiscais ou contratos de fornecedores em código client-side ou localStorage.",
   "import_confirm_title": "Carregar backup?",
   "import_confirm_text": "Isso substituirá o estado atual da estação. Salve um backup primeiro se precisar preservar a versão atual.",
   "status_draft": "Rascunho",
@@ -423,7 +421,7 @@ Object.assign(translations.pt, {
   "status_sample_approved": "Amostra aprovada",
   "status_approved": "Aprovado",
   "status_final": "Final",
-  "status_placeholder": "Placeholder",
+  "status_placeholder": "Valor provisório",
   "status_quote_requested": "Orçamento solicitado",
   "status_quote_received": "Orçamento recebido",
   "status_paid": "Pago",
@@ -466,7 +464,7 @@ Object.assign(translations.pt, {
   "risk_loan_viability": "Viabilidade do empréstimo",
   "risk_packaging_moq": "MOQ embalagem",
   "risk_packaging_shortage": "Falta de caixas",
-  "risk_placeholders": "Placeholders",
+  "risk_placeholders": "valores provisórios",
   "risk_cash_drawdown": "Necessidade de caixa",
   "risk_vanity_spend": "Gasto de vaidade",
   "risk_fiscal_mode": "Regime fiscal",
@@ -476,7 +474,7 @@ Object.assign(translations.pt, {
   "risk_pkg_ok": "{waste} caixas extras · {amount} presos.",
   "risk_pkg_short_bad": "{shortage} cachecóis não têm caixa alocada. A quantidade manual de embalagem está abaixo do lote.",
   "risk_pkg_short_ok": "A quantidade de embalagem cobre o lote.",
-  "risk_placeholders_text": "{count} custos fixos ainda são placeholders.",
+  "risk_placeholders_text": "{count} custos fixos ainda são valores provisórios.",
   "risk_drawdown_text": "{amount} necessários antes das vendas.",
   "risk_vanity_text": "{amount} marcados como vaidade.",
   "risk_forfettario_caution": "No Forfettario normalmente não se cobra IVA nas vendas.",
@@ -487,10 +485,10 @@ Object.assign(translations.pt, {
   "warn_negative_loan": "Aviso: o cenário atual falha após o pagamento completo do empréstimo.",
   "warn_shortfall": "de déficit.",
   "warn_negative_cash": "Aviso: o cenário é negativo antes do empréstimo. Trate isso como gasto de prova, não como lançamento comercial.",
-  "warn_positive": "Cenário positivo no papel. Substitua todos os placeholders por orçamentos reais antes de confiar no resultado.",
+  "warn_positive": "Cenário positivo no papel. Substitua todos os valores provisórios por orçamentos reais antes de confiar no resultado.",
   "structural_banner_bad": "AVISO ESTRUTURAL — este cenário não cobre custos e pagamento do empréstimo mesmo com sell-through vendável total.",
   "structural_banner_cash_bad": "AVISO DE CAIXA — este cenário é negativo antes de qualquer pagamento de dívida.",
-  "structural_banner_ok": "Estrutura viável apenas no papel. Substitua placeholders por orçamentos de fornecedores antes de confiar no resultado.",
+  "structural_banner_ok": "Estrutura viável apenas no papel. Substitua valores provisórios por orçamentos de fornecedores antes de confiar no resultado.",
   "import_corrected": "Backup carregado com {count} campo(s) corrigido(s).",
   "import_loaded": "Backup carregado: {file}",
   "import_error": "Não foi possível carregar o backup: {message}",
@@ -540,7 +538,7 @@ Object.assign(translations.pt, {
   "academy_l1_title": "Como ler o resumo executivo",
   "academy_l1_text": "Os cartões superiores mostram os números mínimos que importam: necessidade máxima de caixa, custo real unitário, receita líquida, resultado de caixa, pressão da dívida e sell-through de equilíbrio. Leia-os antes de qualquer decisão estética ou de marketing.",
   "academy_l2_title": "Disciplina do cenário: rascunho, orçamento, aprovado",
-  "academy_l2_text": "Um cenário em rascunho é uma hipótese. “Baseado em orçamento” significa que números de fornecedores substituíram placeholders. “Amostra aprovada” significa que o produto físico passou pela revisão. Não trate esses status como decoração.",
+  "academy_l2_text": "Um cenário em rascunho é uma hipótese. “Baseado em orçamento” significa que números de fornecedores substituíram valores provisórios. “Amostra aprovada” significa que o produto físico passou pela revisão. Não trate esses status como decoração.",
   "academy_l3_title": "Tamanho do lote e perigo do MOQ",
   "academy_l3_text": "Mudar de 15 para 50 unidades altera produção, embalagem, risco e necessidade de caixa. A ferramenta liga lote a custo para que o modelo não finja que receita escala enquanto custos ficam congelados.",
   "academy_l4_title": "Custo real unitário",
@@ -649,29 +647,25 @@ const state = {
 
 const $ = id => document.getElementById(id);
 const els = {
-  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), closeAssistantPanel: $('closeAssistantPanel'), copyScenarioBtn: $('copyScenarioBtn'), assistantExportJsonBtn: $('assistantExportJsonBtn'), askAiBtn: $('askAiBtn'), aiResponse: $('aiResponse'), aiStatusLine: $('aiStatusLine'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
+  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
 };
 
 
-// v5.2 — GPT link patch. Removes API/external assistant behaviour and uses the dedicated ChatGPT GPT instead.
+// v5.2 — GPT link patch. Uses the dedicated ChatGPT GPT instead of an embedded assistant.
 Object.assign(translations.en, {
   nav_assistant: 'GPT Studio',
   assistant_eyebrow: 'Moscatelli · GPT Studio',
   assistant_title: 'Financial Studio GPT',
-  assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review inside ChatGPT without any embedded API setup.',
+  assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review inside ChatGPT without any technical setup.',
   assistant_status_title: 'Dedicated GPT link',
   assistant_status_hint: 'Use this as a smooth bridge: copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.',
   assistant_open: 'Open GPT launcher',
   assistant_open_gpt: 'Open GPT directly',
   assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
   assistant_panel_status: 'Status: ready to open the dedicated GPT in ChatGPT.',
-  assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No API connection is required.',
+  assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No extra setup is required.',
   assistant_response_ready: 'The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.',
   assistant_ask_ai: 'Copy scenario brief & open GPT',
-  assistant_copy: 'Copy scenario brief',
-  assistant_export_json: 'Export scenario JSON',
-  assistant_netlify_note: 'No embedded API is used. The GPT opens in ChatGPT; the workstation remains a local financial tool.',
-  assistant_security: 'No embedded API key is stored in this website. Use the dedicated GPT through ChatGPT.',
   assistant_gpt_copied: 'Scenario brief copied. The dedicated GPT has been opened in ChatGPT.',
   assistant_gpt_opened: 'The dedicated GPT has been opened in ChatGPT.',
   assistant_gpt_popup_blocked: 'The browser blocked the new tab. Use “Open GPT directly”, then paste the copied scenario brief manually.',
@@ -681,46 +675,38 @@ Object.assign(translations.it, {
   nav_assistant: 'GPT Studio',
   assistant_eyebrow: 'Moscatelli · GPT Studio',
   assistant_title: 'Financial Studio GPT',
-  assistant_subtitle: 'Apri il GPT Moscatelli dedicato in ChatGPT. Copia prima il brief dello scenario, poi continua la revisione in ChatGPT senza alcuna configurazione API incorporata.',
+  assistant_subtitle: 'Apri il GPT Moscatelli dedicato in ChatGPT. Copia prima il riepilogo dello scenario, poi continua la revisione in ChatGPT senza alcuna configurazione tecnica incorporata.',
   assistant_status_title: 'Collegamento al GPT dedicato',
   assistant_status_hint: 'Usalo come ponte operativo: copia il pacchetto dello scenario attuale, poi apri il Moscatelli Financial Studio Assistant in ChatGPT.',
   assistant_open: 'Apri launcher GPT',
   assistant_open_gpt: 'Apri GPT direttamente',
   assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
   assistant_panel_status: 'Stato: pronto per aprire il GPT dedicato in ChatGPT.',
-  assistant_chat_ready: 'Copia il brief dello scenario attuale, poi apri il GPT Moscatelli per la revisione. Non è richiesta alcuna connessione API.',
-  assistant_response_ready: 'Il GPT si aprirà in ChatGPT. Incolla lì il brief copiato se non viene inserito automaticamente.',
-  assistant_ask_ai: 'Copia brief scenario e apri GPT',
-  assistant_copy: 'Copia brief scenario',
-  assistant_export_json: 'Esporta JSON scenario',
-  assistant_netlify_note: 'Non viene usata alcuna chiave API. Il GPT si apre in ChatGPT; la postazione resta uno strumento finanziario locale.',
-  assistant_security: 'Nessuna chiave API è salvata in questo sito. Usa il GPT dedicato tramite ChatGPT.',
-  assistant_gpt_copied: 'Brief dello scenario copiato. Il GPT dedicato è stato aperto in ChatGPT.',
+  assistant_chat_ready: 'Copia il riepilogo dello scenario attuale, poi apri il GPT Moscatelli per la revisione. Non è richiesta alcuna configurazione tecnica.',
+  assistant_response_ready: 'Il GPT si aprirà in ChatGPT. Incolla lì il riepilogo copiato se non viene inserito automaticamente.',
+  assistant_ask_ai: 'Copia riepilogo scenario e apri GPT',
+  assistant_gpt_copied: 'Riepilogo dello scenario copiato. Il GPT dedicato è stato aperto in ChatGPT.',
   assistant_gpt_opened: 'Il GPT dedicato è stato aperto in ChatGPT.',
-  assistant_gpt_popup_blocked: 'Il browser ha bloccato la nuova scheda. Usa “Apri GPT direttamente”, poi incolla manualmente il brief copiato.',
+  assistant_gpt_popup_blocked: 'Il browser ha bloccato la nuova scheda. Usa “Apri GPT direttamente”, poi incolla manualmente il riepilogo copiato.',
   assistant_copy_failed: 'Copia automatica non riuscita. Apri il GPT e incolla manualmente il riepilogo dello scenario.'
 });
 Object.assign(translations.pt, {
   nav_assistant: 'GPT Studio',
   assistant_eyebrow: 'Moscatelli · GPT Studio',
   assistant_title: 'Financial Studio GPT',
-  assistant_subtitle: 'Abra o GPT Moscatelli dedicado no ChatGPT. Copie primeiro o briefing do cenário atual e continue a revisão no ChatGPT, sem nenhuma configuração API incorporada.',
+  assistant_subtitle: 'Abra o GPT Moscatelli dedicado no ChatGPT. Copie primeiro o resumo do cenário atual e continue a revisão no ChatGPT, sem nenhuma configuração técnica incorporada.',
   assistant_status_title: 'Link para o GPT dedicado',
   assistant_status_hint: 'Use isto como uma ponte operacional: copie o pacote do cenário atual e abra o Moscatelli Financial Studio Assistant no ChatGPT.',
   assistant_open: 'Abrir launcher do GPT',
   assistant_open_gpt: 'Abrir GPT diretamente',
   assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
   assistant_panel_status: 'Status: pronto para abrir o GPT dedicado no ChatGPT.',
-  assistant_chat_ready: 'Copie o briefing do cenário atual e abra o GPT Moscatelli para a revisão. Nenhuma conexão API é necessária.',
-  assistant_response_ready: 'O GPT será aberto no ChatGPT. Cole ali o briefing copiado, caso ele não esteja automaticamente na área de transferência.',
-  assistant_ask_ai: 'Copiar briefing e abrir GPT',
-  assistant_copy: 'Copiar briefing do cenário',
-  assistant_export_json: 'Exportar JSON do cenário',
-  assistant_netlify_note: 'Nenhuma chave API é usada. O GPT abre no ChatGPT; a estação continua sendo uma ferramenta financeira local.',
-  assistant_security: 'Nenhuma chave API é armazenada neste site. Use o GPT dedicado pelo ChatGPT.',
-  assistant_gpt_copied: 'Briefing do cenário copiado. O GPT dedicado foi aberto no ChatGPT.',
+  assistant_chat_ready: 'Copie o resumo do cenário atual e abra o GPT Moscatelli para a revisão. Nenhuma configuração técnica é necessária.',
+  assistant_response_ready: 'O GPT será aberto no ChatGPT. Cole ali o resumo copiado, caso ele não esteja automaticamente na área de transferência.',
+  assistant_ask_ai: 'Copiar resumo e abrir GPT',
+  assistant_gpt_copied: 'Resumo do cenário copiado. O GPT dedicado foi aberto no ChatGPT.',
   assistant_gpt_opened: 'O GPT dedicado foi aberto no ChatGPT.',
-  assistant_gpt_popup_blocked: 'O navegador bloqueou a nova aba. Use “Abrir GPT diretamente” e depois cole manualmente o briefing copiado.',
+  assistant_gpt_popup_blocked: 'O navegador bloqueou a nova aba. Use “Abrir GPT diretamente” e depois cole manualmente o resumo copiado.',
   assistant_copy_failed: 'Não foi possível copiar automaticamente. Abra o GPT e cole manualmente o resumo do cenário.'
 });
 
@@ -839,7 +825,6 @@ function labelForValue(value) {
 function applyLanguage() {
   document.documentElement.lang = state.uiLang;
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
   if (els.languageSelect) els.languageSelect.value = state.uiLang;
 }
@@ -1200,6 +1185,43 @@ function renderStructuralBanner(c) {
   }
 }
 
+
+// v5.6 patch validation and terminology refinements
+Object.assign(translations.en, {
+  assistant_local_gpt_note: 'The GPT opens in ChatGPT; the workstation remains a local financial tool.',
+  current_plan_warning: 'Current Plan is a provisional working model for Terra Bruna / Bianco Avorio. It replaces current values and does not prove supplier cost, sell-through, or loan safety.',
+  confirm_current_plan: 'Load Current Plan? This will replace the current scenario values. Save a backup first if you need to preserve the current work.',
+  bridge_wrong_section: 'Patch blocked: this instruction targets “{target}”, but the active section is “{section}”. Open the correct section or ask Leonardo for a general patch.',
+  bridge_invalid_value: 'Invalid value for {field}: {value}',
+  bridge_unknown_field: 'Unknown workstation field: {field}',
+  bridge_invalid_version: 'Invalid workstation patch. Ask Leonardo to return a moscatelli-workstation-patch block with workstationPatchVersion 1.',
+  bridge_high_risk_confirm: 'This GPT patch changes high-risk financial fields: {fields}. Apply anyway?'
+});
+Object.assign(translations.it, {
+  nav_threshold: 'Indice', threshold_title: 'Suite Finanziaria', threshold_enter: 'Apri suite',
+  assistant_local_gpt_note: 'Il GPT si apre in ChatGPT; la suite resta uno strumento finanziario locale.',
+  current_plan_warning: 'Il Piano attuale è un modello operativo provvisorio per Terra Bruna / Bianco Avorio. Sostituisce i valori correnti e non prova costo fornitore, sell-through o sicurezza del prestito.',
+  confirm_current_plan: 'Caricare il Piano attuale? Questo sostituirà i valori dello scenario corrente. Salva prima un backup se vuoi conservare il lavoro attuale.',
+  assistant_open: 'Apri pannello GPT',
+  bridge_wrong_section: 'Patch bloccata: questa istruzione riguarda “{target}”, ma la sezione attiva è “{section}”. Apri la sezione corretta o chiedi a Leonardo una patch generale.',
+  bridge_invalid_value: 'Valore non valido per {field}: {value}',
+  bridge_unknown_field: 'Campo della suite non riconosciuto: {field}',
+  bridge_invalid_version: 'Patch non valida. Chiedi a Leonardo di restituire un blocco moscatelli-workstation-patch con workstationPatchVersion 1.',
+  bridge_high_risk_confirm: 'Questa patch modifica campi finanziari ad alto rischio: {fields}. Applicarla comunque?'
+});
+Object.assign(translations.pt, {
+  nav_threshold: 'Índice', threshold_title: 'Suite Financeira', threshold_enter: 'Abrir suite',
+  assistant_local_gpt_note: 'O GPT abre no ChatGPT; a suite continua sendo uma ferramenta financeira local.',
+  current_plan_warning: 'O Plano atual é um modelo de trabalho provisório para Terra Bruna / Bianco Avorio. Ele substitui os valores atuais e não comprova custo de fornecedor, sell-through ou segurança do empréstimo.',
+  confirm_current_plan: 'Carregar o Plano atual? Isso substituirá os valores do cenário atual. Salve um backup antes se quiser preservar o trabalho atual.',
+  assistant_open: 'Abrir painel do GPT',
+  bridge_wrong_section: 'Patch bloqueada: esta instrução mira “{target}”, mas a seção ativa é “{section}”. Abra a seção correta ou peça a Leonardo uma patch geral.',
+  bridge_invalid_value: 'Valor inválido para {field}: {value}',
+  bridge_unknown_field: 'Campo da suite não reconhecido: {field}',
+  bridge_invalid_version: 'Patch inválida. Peça a Leonardo para devolver um bloco moscatelli-workstation-patch com workstationPatchVersion 1.',
+  bridge_high_risk_confirm: 'Esta patch altera campos financeiros de alto risco: {fields}. Aplicar mesmo assim?'
+});
+
 function updateRailAndIndex(c) {
   els.railScenarioName.textContent = state.scenario.scenarioName;
   els.railNetRevenue.textContent = eur(c.netRevenue);
@@ -1294,14 +1316,15 @@ function addExpense() {
 }
 
 function applyCurrentPlan() {
-  Object.assign(state.scenario, { scenarioName: 'Current plan · 15 scarf launch', scenarioStatus: 'Draft', fiscalMode: 'forfettario', retailPrice: 350, batchSize: 15, sellThrough: 100, salesVatRate: 0, salesVatMode: 'none', paymentFee: 3, fixedFee: 0.30, shippingCharged: 0 });
-  Object.assign(state.variable, { productionUnitCost: 0, smallBatchPremium: 0, setupFee: 0, dyeingSurcharge: 0, colourCount: 1, fringeCost: 0, labelCost: 0, inboundShipping: 0, packagingMode: 'auto', packagingMoq: 0, boxesOrdered: 0, boxCost: 0, fulfilmentCost: 0, outboundShipping: 0, returnRate: 0, returnPenalty: 0, defectRate: 0, defectPenalty: 0, contingencyRate: 0 });
-  Object.assign(state.loan, { loanAmount: 0, interestRate: 0, loanTermMonths: 12, bufferTarget: 0 });
+  Object.assign(state.scenario, { scenarioName: 'Current Plan · Terra Bruna / Bianco Avorio · provisional', scenarioStatus: 'Draft', fiscalMode: 'forfettario', retailPrice: 350, batchSize: 15, sellThrough: 60, salesVatRate: 0, salesVatMode: 'none', paymentFee: 3, fixedFee: 0.30, shippingCharged: 0 });
+  Object.assign(state.variable, { productionUnitCost: 145, smallBatchPremium: 35, setupFee: 0, dyeingSurcharge: 0, colourCount: 2, fringeCost: 0, labelCost: 5, inboundShipping: 80, packagingMode: 'auto', packagingMoq: 100, boxesOrdered: 100, boxCost: 35, fulfilmentCost: 5, outboundShipping: 18, returnRate: 8, returnPenalty: 25, defectRate: 5, defectPenalty: 145, contingencyRate: 10 });
+  Object.assign(state.loan, { loanAmount: 0, interestRate: 0, loanTermMonths: 12, bufferTarget: 20 });
   state.expenses = currentPlanExpenses();
 }
 
 function preset(name) {
   if (name === 'currentPlan') {
+    if (!confirm(t('confirm_current_plan'))) return;
     applyCurrentPlan();
     render();
     return;
@@ -1463,6 +1486,13 @@ function openGptAssistant() {
   return window.open(GPT_ASSISTANT_URL, '_blank', 'noopener,noreferrer');
 }
 
+function setAiResponse(message, isError = false) {
+  if (!els.aiResponse) return;
+  els.aiResponse.textContent = message || '';
+  els.aiResponse.classList.toggle('is-error', Boolean(isError));
+  els.aiResponse.classList.add('is-visible');
+}
+
 async function copyScenarioAndOpenGpt() {
   const opened = openGptAssistant();
   try {
@@ -1479,11 +1509,17 @@ function askFinancialAssistant() {
 }
 
 function toggleAssistant(open) {
-  if (!els.assistantPanel) return;
-  els.assistantPanel.classList.toggle('is-open', open);
-  els.assistantPanel.setAttribute('aria-hidden', String(!open));
-  if (open && els.aiResponse && !els.aiResponse.textContent.trim()) {
-    setAiResponse(t('assistant_response_ready'));
+  if (!els.assistantPanel || !els.assistantFab) return;
+  const shouldOpen = Boolean(open);
+  els.assistantPanel.classList.toggle('is-open', shouldOpen);
+  els.assistantPanel.setAttribute('aria-hidden', String(!shouldOpen));
+  els.assistantFab.setAttribute('aria-expanded', String(shouldOpen));
+  if (shouldOpen) {
+    const link = document.getElementById('assistantGptDirectPanel');
+    if (link) setTimeout(() => link.focus(), 40);
+    if (els.aiResponse && !els.aiResponse.textContent.trim()) setAiResponse(t('assistant_response_ready'));
+  } else if (document.activeElement && els.assistantPanel.contains(document.activeElement)) {
+    els.assistantFab.focus();
   }
 }
 
@@ -3672,7 +3708,7 @@ function updateBridgeStatus(statusEl, message, level = '') {
 }
 
 function extractJsonCandidate(text) {
-  const fence = text.match(/```(?:moscatelli-workstation-patch|json)?\s*([\s\S]*?)```/i);
+  const fence = text.match(/```(?:moscatelli-workstation-patch|json)?[^\n]*\n([\s\S]*?)```/i);
   if (fence) return fence[1].trim();
   const marker = text.indexOf('"moscatelliWorkstationPatch"');
   const marker2 = text.indexOf('"workstationPatchVersion"');
@@ -3688,10 +3724,70 @@ function extractJsonCandidate(text) {
 function parseGptPatch(text) {
   const candidate = extractJsonCandidate(text);
   const patch = JSON.parse(candidate);
-  if (!patch || (patch.moscatelliWorkstationPatch !== true && !patch.workstationPatchVersion)) {
-    throw new Error(t('bridge_no_patch'));
+  if (!patch || patch.moscatelliWorkstationPatch !== true || Number(patch.workstationPatchVersion) !== 1) {
+    throw new Error(t('bridge_invalid_version'));
   }
   return patch;
+}
+
+const allowedPatchValues = {
+  scenarioStatus: ['Draft', 'Quote-based', 'Sample approved', 'Approved', 'Final'],
+  fiscalMode: ['forfettario', 'standardVat', 'customNoVat'],
+  salesVatMode: ['none', 'included', 'excluded'],
+  packagingMode: ['auto', 'manual']
+};
+
+const highRiskPatchFields = new Set([
+  'retailPrice', 'batchSize', 'fiscalMode', 'salesVatMode', 'salesVatRate',
+  'loanAmount', 'scenarioStatus', 'packagingMode', 'boxesOrdered'
+]);
+
+function knownPatchField(id) {
+  return scenarioIds.includes(id) || variableIds.includes(id) || loanIds.includes(id);
+}
+
+function fieldElementBounds(id) {
+  const el = document.getElementById(id);
+  if (!el) return { min: -Infinity, max: Infinity, isNumber: false };
+  const minAttr = el.getAttribute('min');
+  const maxAttr = el.getAttribute('max');
+  return {
+    min: minAttr === null ? -Infinity : Number(minAttr),
+    max: maxAttr === null ? Infinity : Number(maxAttr),
+    isNumber: el.type === 'number'
+  };
+}
+
+function cleanPatchValue(id, value) {
+  if (!knownPatchField(id)) throw new Error(tmpl('bridge_unknown_field', { field: id }));
+  if (allowedPatchValues[id]) {
+    const str = String(value);
+    if (!allowedPatchValues[id].includes(str)) {
+      throw new Error(tmpl('bridge_invalid_value', { field: id, value: str }));
+    }
+    return str;
+  }
+
+  const bounds = fieldElementBounds(id);
+  if (bounds.isNumber || variableIds.includes(id) || loanIds.includes(id)) {
+    if (value === undefined || value === null || value === '') throw new Error(tmpl('bridge_invalid_value', { field: id, value: 'empty' }));
+    const n = Number(value);
+    if (!Number.isFinite(n)) throw new Error(tmpl('bridge_invalid_value', { field: id, value }));
+    if (Number.isFinite(bounds.min) && n < bounds.min) {
+      throw new Error(tmpl('bridge_invalid_value', { field: id, value }));
+    }
+    if (Number.isFinite(bounds.max) && n > bounds.max) {
+      throw new Error(tmpl('bridge_invalid_value', { field: id, value }));
+    }
+    if (['sellThrough', 'returnRate', 'defectRate'].includes(id) && (n < 0 || n > 100)) {
+      throw new Error(tmpl('bridge_invalid_value', { field: id, value }));
+    }
+    if (id === 'loanTermMonths' && n < 1) {
+      throw new Error(tmpl('bridge_invalid_value', { field: id, value }));
+    }
+    return n;
+  }
+  return String(value);
 }
 
 function normaliseExpenseFromPatch(exp) {
@@ -3699,38 +3795,75 @@ function normaliseExpenseFromPatch(exp) {
   const allowedPriorities = ['Essential','Optional','Vanity'];
   const allowedStatuses = ['Placeholder','Quote requested','Quote received','Sample approved','Approved','Paid'];
   const allowedVatModes = ['included','excluded','none'];
+  const allowedApprovalValues = ['yes','no'];
+
+  function requireAllowedExpenseField(field, value, allowed) {
+    const str = String(value ?? '');
+    if (!allowed.includes(str)) {
+      throw new Error(tmpl('bridge_invalid_value', { field: `expense.${field}`, value: str || 'empty' }));
+    }
+    return str;
+  }
+
+  function requireNonNegativeExpenseNumber(field, value) {
+    if (value === undefined || value === null || value === '') {
+      throw new Error(tmpl('bridge_invalid_value', { field: `expense.${field}`, value: 'empty' }));
+    }
+    const n = Number(value);
+    if (!Number.isFinite(n) || n < 0) {
+      throw new Error(tmpl('bridge_invalid_value', { field: `expense.${field}`, value }));
+    }
+    return n;
+  }
+
   return {
     id: uid(),
     item: String(exp.item || 'GPT suggested expense'),
-    category: allowedCategories.includes(exp.category) ? exp.category : 'Other',
-    priority: allowedPriorities.includes(exp.priority) ? exp.priority : 'Essential',
-    status: allowedStatuses.includes(exp.status) ? exp.status : 'Placeholder',
-    requiresApproval: exp.requiresApproval === 'no' ? 'no' : 'yes',
-    qty: Math.max(0, num(exp.qty ?? 1)),
-    unitCost: Math.max(0, num(exp.unitCost ?? 0)),
-    vatMode: allowedVatModes.includes(exp.vatMode) ? exp.vatMode : 'included',
-    vatRate: Math.max(0, num(exp.vatRate ?? 22)),
+    category: requireAllowedExpenseField('category', exp.category, allowedCategories),
+    priority: requireAllowedExpenseField('priority', exp.priority, allowedPriorities),
+    status: requireAllowedExpenseField('status', exp.status, allowedStatuses),
+    requiresApproval: requireAllowedExpenseField('requiresApproval', exp.requiresApproval, allowedApprovalValues),
+    qty: requireNonNegativeExpenseNumber('qty', exp.qty),
+    unitCost: requireNonNegativeExpenseNumber('unitCost', exp.unitCost),
+    vatMode: requireAllowedExpenseField('vatMode', exp.vatMode, allowedVatModes),
+    vatRate: requireNonNegativeExpenseNumber('vatRate', exp.vatRate),
     notes: String(exp.notes || 'Added from GPT patch.')
   };
 }
 
 function applyFieldUpdate(id, value) {
-  let applied = false;
+  const clean = cleanPatchValue(id, value);
   if (scenarioIds.includes(id)) {
-    state.scenario[id] = document.getElementById(id)?.type === 'number' ? num(value) : String(value);
-    applied = true;
+    state.scenario[id] = clean;
   } else if (variableIds.includes(id)) {
-    state.variable[id] = document.getElementById(id)?.type === 'number' ? num(value) : String(value);
-    applied = true;
+    state.variable[id] = clean;
   } else if (loanIds.includes(id)) {
-    state.loan[id] = num(value);
-    applied = true;
+    state.loan[id] = clean;
   }
   if (state.scenario.fiscalMode === 'forfettario') {
     state.scenario.salesVatMode = 'none';
     state.scenario.salesVatRate = 0;
   }
-  return applied ? 1 : 0;
+  return 1;
+}
+
+function collectPatchFieldIds(patch) {
+  const ids = new Set();
+  if (patch.fieldUpdates && typeof patch.fieldUpdates === 'object') {
+    Object.keys(patch.fieldUpdates).forEach(id => ids.add(id));
+  }
+  if (patch.stateUpdates && typeof patch.stateUpdates === 'object') {
+    Object.entries(gptFieldGroups).forEach(([group, groupIds]) => {
+      const source = patch.stateUpdates[group];
+      if (!source || typeof source !== 'object') return;
+      Object.keys(source).forEach(id => ids.add(id));
+    });
+  }
+  return Array.from(ids);
+}
+
+function patchHasHighRiskFields(patch) {
+  return collectPatchFieldIds(patch).filter(id => highRiskPatchFields.has(id));
 }
 
 function applyGptPatch(patch) {
@@ -3745,7 +3878,8 @@ function applyGptPatch(patch) {
       const source = patch.stateUpdates[group];
       if (!source || typeof source !== 'object') return;
       Object.entries(source).forEach(([key, value]) => {
-        if (ids.includes(key)) count += applyFieldUpdate(key, value);
+        if (!ids.includes(key)) throw new Error(tmpl('bridge_unknown_field', { field: `${group}.${key}` }));
+        count += applyFieldUpdate(key, value);
       });
     });
   }
@@ -3783,8 +3917,16 @@ async function pasteGptInstruction(section, statusEl) {
 
   try {
     const patch = parseGptPatch(text);
-    if (patch.targetSection && patch.targetSection !== section && patch.targetSection !== 'any') {
-      updateBridgeStatus(statusEl, `${t('bridge_applied').replace('{count}', '0')} Target: ${patch.targetSection}`, 'warn');
+    const target = patch.targetSection || 'general';
+    if (target !== section && target !== 'any' && target !== 'general') {
+      updateBridgeStatus(statusEl, tmpl('bridge_wrong_section', { target, section }), 'warn');
+      return;
+    }
+    const risky = patchHasHighRiskFields(patch);
+    const fullPatch = target === 'any' && String(patch.note || '').toLowerCase().includes('deliberate full-scenario patch');
+    if (risky.length && !fullPatch && !confirm(tmpl('bridge_high_risk_confirm', { fields: risky.join(', ') }))) {
+      updateBridgeStatus(statusEl, t('btn_cancel'), 'warn');
+      return;
     }
     const count = applyGptPatch(patch);
     updateBridgeStatus(statusEl, tmpl('bridge_applied', { count }), 'good');
@@ -3891,10 +4033,18 @@ function attachEvents() {
     });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') toggleAssistant(false);
+      if (event.key === 'Escape' && els.alertsMenu && els.alertsMenu.classList.contains('is-open')) {
+        els.alertsMenu.classList.remove('is-open');
+        els.alertsMenu.setAttribute('aria-hidden', 'true');
+        if (els.alertsToggle) {
+          els.alertsToggle.setAttribute('aria-expanded', 'false');
+          els.alertsToggle.focus();
+        }
+      }
     });
   }
-  if (els.openAssistantPanel) els.openAssistantPanel.onclick = () => toggleAssistant(true);
-  if (els.assistantRouteAskBtn) els.assistantRouteAskBtn.onclick = () => { toggleAssistant(true); askFinancialAssistant(); };
+  if (els.openAssistantPanel) els.openAssistantPanel.onclick = (event) => { event.stopPropagation(); toggleAssistant(true); };
+  if (els.assistantRouteAskBtn) els.assistantRouteAskBtn.onclick = (event) => { event.stopPropagation(); toggleAssistant(true); askFinancialAssistant(); };
   if (els.closeAssistantPanel) els.closeAssistantPanel.onclick = () => toggleAssistant(false);
   if (els.copyScenarioBtn) els.copyScenarioBtn.onclick = copyScenarioSummary;
   if (els.assistantExportJsonBtn) els.assistantExportJsonBtn.onclick = exportBackup;
