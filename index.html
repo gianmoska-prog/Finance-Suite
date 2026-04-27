@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moscatelli Financial Workstation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="print-confidential" id="printHeader">MOSCATELLI FINANCIALS — CONFIDENTIAL</div>
+
+  <aside class="nav-rail" aria-label="Primary navigation">
+    <div class="nav-brand nav-brand--logo" aria-label="Moscatelli">
+      <img class="brand-logo" src="assets/img/moscatelli-logo-ivory.png" alt="Moscatelli" />
+    </div>
+    <nav class="nav-list">
+      <a href="#threshold" class="nav-link" data-route="threshold"><span class="nav-mark">I</span><span data-i18n="nav_threshold">Threshold</span></a>
+      <a href="#calculator" class="nav-link" data-route="calculator"><span class="nav-mark">II</span><span data-i18n="nav_calculator">Calculator</span></a>
+      <a href="#academy" class="nav-link" data-route="academy"><span class="nav-mark">III</span><span data-i18n="nav_academy">Academy</span></a>
+      <a href="#assistant" class="nav-link" data-route="assistant"><span class="nav-mark">IV</span><span data-i18n="nav_assistant">Assistant</span></a>
+    </nav>
+    <div class="nav-footer">
+      <div class="language-field" aria-label="Language selector">
+        <select class="language-select" id="languageSelect">
+          <option value="en">English</option>
+          <option value="it">Italiano</option>
+          <option value="pt">Português</option>
+        </select>
+      </div>
+      <div class="nav-version">v4.8</div>
+    </div>
+  </aside>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="#threshold" class="mobile-link" data-route="threshold" data-i18n="nav_threshold">Threshold</a>
+    <a href="#calculator" class="mobile-link" data-route="calculator" data-i18n="nav_calculator">Calculator</a>
+    <a href="#academy" class="mobile-link" data-route="academy" data-i18n="nav_academy">Academy</a>
+    <a href="#assistant" class="mobile-link" data-route="assistant" data-i18n="nav_assistant">Assistant</a>
+  </nav>
+
+  <main class="app-shell">
+    <div class="notification-centre" id="notificationCentre">
+      <button class="alert-bell" id="alertsToggle" type="button" aria-expanded="false" aria-controls="alertsMenu" aria-label="Financial alerts">
+        <span class="bell-symbol" aria-hidden="true">◔</span>
+        <span class="alert-count" id="alertsCount">0</span>
+      </button>
+      <div class="alerts-menu" id="alertsMenu" aria-hidden="true">
+        <div class="alerts-menu__head">
+          <h2 data-i18n="alerts_title">Financial Alerts</h2>
+          <small data-i18n="alerts_subtitle">Warnings are grouped here to keep the index calm.</small>
+        </div>
+        <div class="alerts-list" id="alertsList"></div>
+      </div>
+    </div>
+    <section class="route-section" id="section-threshold" data-section="threshold">
+      <header class="page-header threshold-header">
+        <div>
+          <div class="eyebrow" data-i18n="threshold_eyebrow">Moscatelli · Internal Financial Suite</div>
+          <h1 data-i18n="threshold_title">Financial Workstation</h1>
+          <p class="subtitle" data-i18n="threshold_subtitle">Numbers before ambition. No projection is doctrine until proven by quote, sample, and sale.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn" id="printBtn" data-i18n="btn_print">Print / Save PDF</button>
+          <button class="btn" id="exportBtn" data-i18n="btn_export_csv">Export CSV</button>
+          <button class="btn danger" id="resetBtn" data-i18n="btn_reset">Reset</button>
+        </div>
+      </header>
+
+      <div class="threshold-grid">
+        <article class="threshold-card threshold-card--large">
+          <div class="card-kicker" data-i18n="threshold_index">INDEX THRESHOLD</div>
+          <h2 data-i18n="threshold_motto_title">Operational discipline before financial exposure.</h2>
+          <p data-i18n="threshold_motto_text">This workstation exists to force Moscatelli’s first product launch through the numbers: production, packaging, sell-through, cash drawdown, loan pressure, and documented proof.</p>
+          <div class="threshold-actions">
+            <a class="btn primary" href="#calculator" data-i18n="threshold_enter">Enter Workstation</a>
+            <a class="btn" href="#academy" data-i18n="threshold_academy">Open Academy</a>
+          </div>
+        </article>
+
+        <article class="threshold-card"><span class="card-kicker" data-i18n="k_scenarioName">Scenario Name</span><strong id="indexScenarioName">—</strong><small data-i18n="index_scenario_sub">Current working model</small></article>
+        <article class="threshold-card"><span class="card-kicker" data-i18n="k_cashDrawdown">Max Cash Drawdown</span><strong id="indexCashDrawdown">€0</strong><small data-i18n="index_cash_sub">Before revenue arrives</small></article>
+        <article class="threshold-card"><span class="card-kicker" data-i18n="k_breakEvenSell">Break-even Sell-through</span><strong id="indexBreakEven">—</strong><small data-i18n="index_break_sub">Before loan repayment</small></article>
+        <article class="threshold-card"><span class="card-kicker" data-i18n="k_afterLoan">After Loan</span><strong id="indexAfterLoan">€0</strong><small data-i18n="index_loan_sub">Current scenario result</small></article>
+        <article class="threshold-card"><span class="card-kicker" data-i18n="alerts_title">Financial Alerts</span><strong id="indexRiskStatus">0</strong><small id="indexRiskSub" data-i18n="alerts_index_sub">Open the bell menu for warnings.</small></article>
+      </div>
+    </section>
+
+    <section class="route-section" id="section-calculator" data-section="calculator">
+      <header class="page-header">
+        <div>
+          <div class="eyebrow" data-i18n="calc_eyebrow">Moscatelli · First Product Launch</div>
+          <h1 data-i18n="calc_title">Budget Calculator</h1>
+          <p class="subtitle" data-i18n="calc_subtitle">A stricter local calculator for the Terra Bruna and Bianco Avorio scarf launch. It links batch size to production and packaging costs, models returns, defects, loan pressure, cash drawdown, inventory risk, and scenario sensitivity.</p>
+        </div>
+      </header>
+
+      <div class="notice danger inline-warning-source"><strong data-i18n="k_assumptionTitle">Assumption discipline.</strong> <span data-i18n="k_assumptionText">All figures are provisional until replaced with real supplier quotes, physical samples, packaging tests, VAT/commercialista confirmation, and buyer commitments. This tool should punish optimism, not decorate it.</span></div>
+      <div class="notice tax-notice inline-warning-source" id="taxNotice"><strong data-i18n="tax_notice_title">Tax exclusion.</strong> <span data-i18n="tax_notice_text">Results are pre-income-tax, pre-INPS, pre-founder-withdrawal, and subject to commercialista confirmation.</span></div>
+      <div class="notice structural-banner inline-warning-source" id="structuralBanner" aria-live="polite"></div>
+
+      <div class="calc-layout">
+        <div class="calculator-main">
+          <div class="subtab-strip" role="tablist" aria-label="Calculator sections">
+            <button class="subtab is-active" type="button" role="tab" aria-selected="true" data-calctab="overview" data-i18n="tab_overview">Overview</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="launch" data-i18n="tab_launch">Launch</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="unit" data-i18n="tab_unit">Unit Economics</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="fixed" data-i18n="tab_fixed">Fixed Expenses</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="loan" data-i18n="tab_loan">Loan & Capital</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="risk" data-i18n="tab_risk">Risk</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="comparison" data-i18n="tab_comparison">Comparison</button>
+            <button class="subtab" type="button" role="tab" aria-selected="false" data-calctab="archive" data-i18n="tab_archive">Archive</button>
+          </div>
+
+          <section class="calc-tab is-active" role="tabpanel" data-calctab-panel="overview">
+            <section class="cards" aria-label="Summary cards">
+              <article class="card"><div class="label" data-i18n="k_cashDrawdown">Max Cash Drawdown</div><div class="value" id="cashDrawdown">€0</div><div class="sub" data-i18n="k_cashDrawdownSub">Cash needed before sales</div></article>
+              <article class="card"><div class="label" data-i18n="k_landed">True Landed Cost / Unit</div><div class="value" id="landedCost">€0</div><div class="sub" data-i18n="k_landedSub">Product + packaging + inbound</div></article>
+              <article class="card"><div class="label" data-i18n="k_netRevenue">Net Revenue</div><div class="value" id="netRevenue">€0</div><div class="sub" data-i18n="k_netRevenueSub">After VAT mode, returns, fees</div></article>
+              <article class="card"><div class="label" data-i18n="k_cashResult">Cash Result</div><div class="value" id="cashResult">€0</div><div class="sub" data-i18n="k_cashResultSub">Before loan repayment</div></article>
+              <article class="card"><div class="label" data-i18n="k_afterLoan">After Loan</div><div class="value" id="afterLoan">€0</div><div class="sub" id="loanSub">Includes interest</div></article>
+              <article class="card"><div class="label" data-i18n="k_breakEvenSell">Break-even Sell-through</div><div class="value" id="breakEvenSellThrough">—</div><div class="sub" id="breakEvenSub">Before loan</div></article>
+            </section>
+            <div class="overview-grid">
+              <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_revenueInventory">Revenue & Inventory</h2><div class="hint" data-i18n="k_revenueHint">Shows units sold, returned, defective, unsold inventory, and cash tied in packaging.</div></div></div><div class="panel-body"><div class="result-list" id="revenueResults"></div></div></section>
+              <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_loanModel">Loan / Capital Model</h2><div class="hint" data-i18n="k_loanHint">APR is modelled over time. A 12% rate over 6 months is not the same as 12% over 24 months.</div></div></div><div class="panel-body"><div class="result-list" id="loanResults"></div><div class="notice" id="loanWarning"></div></div></section>
+            </div>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="launch">
+            <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_launchAssumptions">Launch Assumptions</h2><div class="hint" data-i18n="k_launchHint">Use presets, then refine manually. Under Regime Forfettario, sales VAT should normally be set to “No VAT Model”.</div></div></div><div class="panel-body"><div class="preset-strip"><span class="label-text" data-i18n="k_presets">Presets:</span><button class="btn preset primary-preset" data-preset="currentPlan" data-i18n="k_currentPlan">Current Plan</button><button class="btn preset" data-preset="bootstrap15">Bootstrap 15</button><button class="btn preset" data-preset="private30" data-i18n="k_private30">Private 30</button><button class="btn preset" data-preset="pilot50" data-i18n="k_pilot50">Pilot 50</button><button class="btn preset" data-preset="loan75" data-i18n="k_loan75">Loan 75</button><button class="btn preset" data-preset="loan100" data-i18n="k_loan100">Loan 100</button></div><div class="wide-grid"><div class="span-2"><label for="scenarioName" data-i18n="k_scenarioName">Scenario Name</label><input id="scenarioName" placeholder="e.g. Bootstrap proof launch" data-i18n-placeholder="ph_scenario" /></div><div><label for="scenarioStatus" data-i18n="k_status">Status</label><select id="scenarioStatus"><option value="Draft" data-i18n="status_draft">Draft</option><option value="Quote-based" data-i18n="status_quote_based">Quote-based</option><option value="Sample approved" data-i18n="status_sample_approved">Sample approved</option><option value="Approved" data-i18n="status_approved">Approved</option><option value="Final" data-i18n="status_final">Final</option></select></div><div><label for="fiscalMode" data-i18n="k_fiscalMode">Fiscal Mode</label><select id="fiscalMode"><option value="forfettario" data-i18n="opt_forfettario">Regime Forfettario / No VAT sales</option><option value="standardVat" data-i18n="opt_standard_vat">Standard VAT registered</option><option value="customNoVat" data-i18n="opt_custom_no_vat">Custom no-VAT model</option></select></div><div><label for="retailPrice" data-i18n="k_retailPrice">Retail Price</label><input id="retailPrice" type="number" min="0" step="0.01" /></div><div><label for="batchSize" data-i18n="k_batchSize">Batch Size</label><input id="batchSize" type="number" min="0" step="1" /></div><div><label for="sellThrough" data-i18n="k_sellThrough">Sell-through %</label><input id="sellThrough" type="number" min="0" max="100" step="1" /></div><div><label for="salesVatRate" data-i18n="k_salesVat">Sales VAT %</label><input id="salesVatRate" type="number" min="0" step="0.1" /></div><div><label for="salesVatMode" data-i18n="k_retailVat">Retail Price VAT</label><select id="salesVatMode"><option value="none" data-i18n="opt_no_vat_model">No VAT Model</option><option value="included" data-i18n="opt_vat_included">VAT Included</option><option value="excluded" data-i18n="opt_vat_excluded">VAT Excluded</option></select></div><div><label for="paymentFee" data-i18n="k_paymentFee">Payment Fee %</label><input id="paymentFee" type="number" min="0" step="0.1" /></div><div><label for="fixedFee" data-i18n="k_fixedFee">Fixed Fee / Sale</label><input id="fixedFee" type="number" min="0" step="0.01" /></div><div><label for="shippingCharged" data-i18n="k_shippingCharged">Shipping Charged / Sale</label><input id="shippingCharged" type="number" min="0" step="0.01" /></div></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="unit">
+            <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_variable">Variable Unit Economics</h2><div class="hint" data-i18n="k_variableHint">These costs scale with batch size, so revenue cannot rise while production stays frozen. This is the main correction from the AI audits.</div></div></div><div class="panel-body"><div class="wide-grid"><div><label for="productionUnitCost" data-i18n="k_prodCost">Production / Scarf</label><input id="productionUnitCost" type="number" min="0" step="0.01" /></div><div><label for="smallBatchPremium" data-i18n="k_smallBatch">Small Batch Premium %</label><input id="smallBatchPremium" type="number" min="0" step="0.1" /></div><div><label for="setupFee" data-i18n="k_setupFee">Mill Setup Fee</label><input id="setupFee" type="number" min="0" step="0.01" /></div><div><label for="dyeingSurcharge" data-i18n="k_dyeing">Dyeing Surcharge / Colour</label><input id="dyeingSurcharge" type="number" min="0" step="0.01" /></div><div><label for="colourCount" data-i18n="k_colours">Colours</label><input id="colourCount" type="number" min="1" step="1" /></div><div><label for="fringeCost" data-i18n="k_fringe">Fringe Finishing / Scarf</label><input id="fringeCost" type="number" min="0" step="0.01" /></div><div><label for="labelCost" data-i18n="k_labelCost">Label + Care Tag / Scarf</label><input id="labelCost" type="number" min="0" step="0.01" /></div><div><label for="inboundShipping" data-i18n="k_inbound">Inbound Shipping Total</label><input id="inboundShipping" type="number" min="0" step="0.01" /></div><div><label for="packagingMode" data-i18n="k_boxRule">Box Order Rule</label><select id="packagingMode"><option value="auto" data-i18n="opt_auto_packaging">Auto: max batch/MOQ</option><option value="manual" data-i18n="opt_manual_packaging">Manual box quantity</option></select></div><div><label for="packagingMoq" data-i18n="k_packagingMoq">Packaging MOQ</label><input id="packagingMoq" type="number" min="0" step="1" /></div><div><label for="boxesOrdered" data-i18n="k_boxesOrdered">Boxes Ordered</label><input id="boxesOrdered" type="number" min="0" step="1" /></div><div><label for="boxCost" data-i18n="k_boxCost">Cost / Box</label><input id="boxCost" type="number" min="0" step="0.01" /></div><div><label for="fulfilmentCost" data-i18n="k_fulfilmentCost">Fulfilment Materials / Sale</label><input id="fulfilmentCost" type="number" min="0" step="0.01" /></div><div><label for="outboundShipping" data-i18n="k_outbound">Outbound Shipping / Sale</label><input id="outboundShipping" type="number" min="0" step="0.01" /></div><div><label for="returnRate" data-i18n="k_returnRate">Return Rate %</label><input id="returnRate" type="number" min="0" max="100" step="0.1" /></div><div><label for="returnPenalty" data-i18n="k_returnPenalty">Return/Repack Cost</label><input id="returnPenalty" type="number" min="0" step="0.01" /></div><div><label for="defectRate" data-i18n="k_defectRate">Defect Rate %</label><input id="defectRate" type="number" min="0" max="100" step="0.1" /></div><div><label for="defectPenalty" data-i18n="k_defectPenalty">Defect Handling / Unit</label><input id="defectPenalty" type="number" min="0" step="0.01" /></div><div><label for="contingencyRate" data-i18n="k_contingencyRate">Contingency %</label><input id="contingencyRate" type="number" min="0" step="0.1" /></div></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="fixed">
+            <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_fixedRegister">Fixed / One-off Expense Register</h2><div class="hint" data-i18n="k_fixedHint">Use this for samples, photography, legal, website, travel, admin, and non-scaling costs. Product and packaging are now calculated above.</div></div><button class="btn primary" id="addBtn" data-i18n="k_addExpense">Add Expense</button></div><div class="panel-body"><div class="entry-form form-grid"><div class="span-2"><label for="item" data-i18n="k_item">Item</label><input id="item" placeholder="e.g. product photography, legal review" data-i18n-placeholder="ph_item" /></div><div><label for="category" data-i18n="k_category">Category</label><select id="category"><option value="Samples">Samples</option><option value="Photography">Photography</option><option value="Website">Website</option><option value="Legal / Admin">Legal / Admin</option><option value="Marketing">Marketing</option><option value="Travel">Travel</option><option value="Fulfilment">Fulfilment</option><option value="Contingency">Contingency</option><option value="Other">Other</option></select></div><div><label for="priority" data-i18n="k_priority">Priority</label><select id="priority"><option value="Essential">Essential</option><option value="Optional">Optional</option><option value="Vanity">Vanity</option></select></div><div><label for="status" data-i18n="k_status">Status</label><select id="status"><option value="Placeholder">Placeholder</option><option value="Quote requested">Quote requested</option><option value="Quote received">Quote received</option><option value="Sample approved">Sample approved</option><option value="Approved">Approved</option><option value="Paid">Paid</option></select></div><div><label for="requiresApproval" data-i18n="k_approvalGate">Approval Gate</label><select id="requiresApproval"><option value="yes" data-i18n="opt_needs_approval">Needs physical approval</option><option value="no" data-i18n="opt_no_approval">No approval gate</option></select></div><div><label for="qty" data-i18n="k_qty">Qty</label><input id="qty" type="number" min="0" step="1" value="1" /></div><div><label for="unitCost" data-i18n="k_unitCost">Unit Cost</label><input id="unitCost" type="number" min="0" step="0.01" value="0" /></div><div><label for="vatMode" data-i18n="k_vat">VAT</label><select id="vatMode"><option value="included" data-i18n="opt_vat_included">Included</option><option value="excluded" data-i18n="opt_vat_excluded">Excluded</option><option value="none" data-i18n="opt_vat_none">No VAT</option></select></div><div><label for="vatRateExpense" data-i18n="k_vatRate">VAT %</label><input id="vatRateExpense" type="number" min="0" step="0.1" value="22" /></div><div class="span-4"><label for="notes" data-i18n="k_notes">Notes</label><input id="notes" placeholder="Supplier, quote status, risk, or deadline" data-i18n-placeholder="ph_notes" /></div></div><div class="table-hint" data-i18n="table_swipe_hint">Swipe table horizontally if needed.</div><div class="table-wrap"><table class="table--wide" aria-label="Fixed expenses"><thead><tr><th data-i18n="k_item">Item</th><th data-i18n="k_category">Category</th><th data-i18n="k_priority">Priority</th><th data-i18n="k_status">Status</th><th data-i18n="k_gate">Gate</th><th data-i18n="k_qty">Qty</th><th data-i18n="k_unit">Unit</th><th data-i18n="k_gross">Gross</th><th data-i18n="k_vat">VAT</th><th data-i18n="k_notes">Notes</th><th></th></tr></thead><tbody id="expenseRows"></tbody></table></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="loan">
+            <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_loanModel">Loan / Capital Model</h2><div class="hint" data-i18n="k_loanHint">APR is modelled over time. A 12% rate over 6 months is not the same as 12% over 24 months.</div></div></div><div class="panel-body"><div class="mini-grid"><div><label for="loanAmount" data-i18n="k_loanAmount">Loan Amount</label><input id="loanAmount" type="number" min="0" step="100" /></div><div><label for="interestRate" data-i18n="k_interest">Interest / APR %</label><input id="interestRate" type="number" min="0" step="0.1" /></div><div><label for="loanTermMonths" data-i18n="k_loanTerm">Loan Term Months</label><input id="loanTermMonths" type="number" min="1" step="1" /></div><div><label for="bufferTarget" data-i18n="k_bufferTarget">Cash Buffer Target %</label><input id="bufferTarget" type="number" min="0" step="1" /></div></div><div class="result-list duplicate-loan-results"></div><div class="notice duplicate-loan-warning"></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="risk">
+            <section class="panel"><div class="panel-head"><div><h2 data-i18n="k_riskDashboard">Risk Dashboard</h2><div class="hint" data-i18n="k_riskHint">Red flags appear when assumptions are dangerous or structurally impossible.</div></div></div><div class="panel-body"><div class="risk-grid" id="riskDashboard"></div></div></section>
+            <section class="panel page-break"><div class="panel-head"><div><h2 data-i18n="k_sensitivity">Sensitivity</h2><div class="hint" data-i18n="k_sensitivityHint">Current batch result at different sell-through levels.</div></div></div><div class="panel-body"><div class="table-wrap" style="margin-top:0"><table aria-label="Sell-through sensitivity"><thead><tr><th data-i18n="k_sellThrough">Sell-through %</th><th data-i18n="k_keptSales">Kept Sales</th><th data-i18n="k_netRevenue">Net Revenue</th><th data-i18n="k_cashResult">Cash Result</th><th data-i18n="k_afterLoan">After Loan</th></tr></thead><tbody id="sensitivityRows"></tbody></table></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="comparison">
+            <section class="panel page-break"><div class="panel-head"><div><h2 data-i18n="k_batchComparison">Batch Comparison</h2><div class="hint" data-i18n="k_batchHint">Compares 15, 30, 50, 75, and 100 units using the same cost assumptions.</div></div></div><div class="panel-body"><div class="table-wrap" style="margin-top:0"><table aria-label="Batch comparison"><thead><tr><th data-i18n="k_batch">Batch</th><th data-i18n="k_boxes">Boxes</th><th data-i18n="k_cashDrawdown">Max Cash Drawdown</th><th data-i18n="k_breakEven">Break-even</th><th data-i18n="k_afterLoanCurrent">After Loan @ Current Sell-through</th></tr></thead><tbody id="batchRows"></tbody></table></div></div></section>
+          </section>
+
+          <section class="calc-tab" role="tabpanel" data-calctab-panel="archive">
+            <section class="panel backup-panel" aria-label="Backup controls"><div class="panel-head"><div><h2 data-i18n="k_backupTitle">Version Backup</h2><div class="hint" data-i18n="k_backupHint">Save or reload a full dated JSON version. This preserves assumptions, expenses, documentation status, notes, loan settings, and scenario state.</div></div></div><div class="panel-body"><div class="backup-actions"><button class="btn primary" id="saveBackupBtn" data-i18n="k_saveBackup">Save Backup</button><button class="btn" id="loadBackupBtn" data-i18n="k_loadBackup">Load Backup</button><input class="sr-only" id="backupFileInput" type="file" accept="application/json,.json" /></div><div class="backup-status" id="backupStatus" data-i18n="k_noBackup">No backup loaded in this session.</div><div class="backup-status" id="lastSavedStatus">—</div><div class="backup-status" id="lastBackupStatus">—</div><p class="footer-note" data-i18n="k_backupFooter">Local browser storage remains enabled, but JSON backups are the safer record. Export a backup after any important change.</p></div></section>
+          </section>
+        </div>
+
+        <aside class="summary-rail" aria-label="Financial summary">
+          <div class="summary-rail__head"><span data-i18n="rail_title">Current Scenario</span><strong id="railScenarioName">—</strong></div>
+          <div class="rail-row"><span data-i18n="k_netRevenue">Net Revenue</span><strong id="railNetRevenue">€0</strong></div>
+          <div class="rail-row"><span data-i18n="k_cashResult">Cash Result</span><strong id="railCashResult">€0</strong></div>
+          <div class="rail-row"><span data-i18n="k_afterLoan">After Loan</span><strong id="railAfterLoan">€0</strong></div>
+          <div class="rail-row"><span data-i18n="k_cashDrawdown">Max Cash Drawdown</span><strong id="railCashDrawdown">€0</strong></div>
+          <div class="rail-row"><span data-i18n="k_breakEvenSell">Break-even Sell-through</span><strong id="railBreakEven">—</strong></div>
+          <div class="rail-risk" id="railRiskBadge">—</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="route-section" id="section-academy" data-section="academy">
+      <header class="page-header">
+        <div>
+          <div class="eyebrow" data-i18n="academy_eyebrow">Moscatelli · Academy</div>
+          <h1 data-i18n="academy_title">Financial Academy</h1>
+          <p class="subtitle" data-i18n="academy_subtitle">Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.</p>
+        </div>
+      </header>
+      <div class="academy-grid" id="academyModules"></div>
+    </section>
+
+    <section class="route-section" id="section-assistant" data-section="assistant">
+      <header class="page-header">
+        <div>
+          <div class="eyebrow" data-i18n="assistant_eyebrow">Moscatelli · Future Layer</div>
+          <h1 data-i18n="assistant_title">Financial Assistant</h1>
+          <p class="subtitle" data-i18n="assistant_subtitle">The AI layer is not connected yet. For now, use the floating assistant to copy a structured scenario summary or export the current JSON backup.</p>
+        </div>
+      </header>
+      <section class="panel"><div class="panel-head"><div><h2 data-i18n="assistant_status_title">Assistant status</h2><div class="hint" data-i18n="assistant_status_hint">No API calls are active. No API keys are stored in this file.</div></div></div><div class="panel-body"><button class="btn primary" id="openAssistantPanel" data-i18n="assistant_open">Open assistant panel</button></div></section>
+    </section>
+  </main>
+
+  <button class="assistant-fab" id="assistantFab" type="button" aria-label="Financial Assistant">Φ</button>
+  <aside class="assistant-panel" id="assistantPanel" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="assistantPanelTitle">
+    <div class="assistant-panel__head"><div><span class="assistant-status-dot"></span><strong id="assistantPanelTitle" data-i18n="assistant_panel_title">MOSCATELLI FINANCIAL ASSISTANT</strong></div><button class="btn small" id="closeAssistantPanel">×</button></div>
+    <p class="assistant-muted" data-i18n="assistant_panel_status">Status: not connected. Export your scenario and paste it into Claude or ChatGPT for external review.</p>
+    <button class="btn primary" id="copyScenarioBtn" data-i18n="assistant_copy">Copy scenario summary</button>
+    <button class="btn" id="assistantExportJsonBtn" data-i18n="assistant_export_json">Export scenario JSON</button>
+    <p class="assistant-foot" data-i18n="assistant_security">Future API keys must never be stored in this HTML file or in localStorage.</p>
+  </aside>
+
+  <div class="modal-backdrop" id="importConfirmModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="importConfirmTitle">
+    <div class="modal-card">
+      <h2 id="importConfirmTitle" data-i18n="import_confirm_title">Load backup?</h2>
+      <p data-i18n="import_confirm_text">This will replace your current workstation state. Save a backup first if you need to preserve the current version.</p>
+      <div class="modal-actions"><button class="btn" id="cancelImportBtn" data-i18n="btn_cancel">Cancel</button><button class="btn primary" id="confirmImportBtn" data-i18n="btn_confirm">Confirm</button></div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
