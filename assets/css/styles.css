@@ -380,3 +380,8 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 .assistant-response{display:none;margin-top:12px;border:1px solid var(--border);border-radius:14px;background:rgba(0,0,0,.18);padding:12px;white-space:pre-wrap;color:var(--text-data);font-size:.88rem;line-height:1.55;max-height:360px;overflow:auto}
 .assistant-response.is-visible{display:block}
 .assistant-response.is-error{border-color:rgba(192,57,43,.48);color:#e0a19a}
+
+/* v5.0 Moscatelli Finance AI endpoint patch */
+.assistant-input#aiEndpointUrl {
+  font-size: .82rem;
+}

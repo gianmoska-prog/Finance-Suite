@@ -9,7 +9,7 @@ This package is prepared for the path where the website remains on GitHub/GitHub
 - The website AI assistant panel now accepts a Netlify Function URL, for example:
 
 ```text
-https://YOUR-NETLIFY-SITE.netlify.app/.netlify/functions/financial-review
+https://finance-suite-ai.netlify.app/.netlify/functions/financial-review
 ```
 
 ## Required Netlify environment variables
@@ -36,12 +36,12 @@ MFW_ALLOWED_ORIGINS = https://YOUR-GITHUB-USERNAME.github.io
 6. Copy the function URL from Netlify:
 
 ```text
-https://YOUR-NETLIFY-SITE.netlify.app/.netlify/functions/financial-review
+https://finance-suite-ai.netlify.app/.netlify/functions/financial-review
 ```
 
 7. Open the workstation on GitHub Pages.
 8. Open the Financial Assistant panel.
-9. Paste the Netlify Function URL into the field.
+9. The workstation is already pre-filled with the finance-suite-ai endpoint. Paste a different URL only if the Netlify site name changes.
 10. Click “Ask AI for financial review”.
 
 ## Security rules
@@ -50,3 +50,24 @@ https://YOUR-NETLIFY-SITE.netlify.app/.netlify/functions/financial-review
 - The browser sends only scenario data to the Netlify Function.
 - The Netlify Function reads the API key from Netlify environment variables.
 - Do not paste bank data, tax codes, private contracts, or API keys into the workstation.
+
+
+## v5.0 pre-linked endpoint
+
+The workstation assistant is now pre-linked to:
+
+```text
+https://finance-suite-ai.netlify.app/.netlify/functions/financial-review
+```
+
+You do not need to paste this URL manually unless the Netlify site name changes.
+
+Required Netlify variables remain:
+
+```text
+OPENAI_API_KEY = your OpenAI key
+OPENAI_MODEL = gpt-5.5
+MFW_ALLOWED_ORIGINS = https://gianmoska-prog.github.io
+```
+
+The OpenAI API key must never be committed to GitHub or placed inside the website files.

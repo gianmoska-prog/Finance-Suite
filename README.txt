@@ -1,4 +1,4 @@
-MOSCATELLI FINANCIAL WORKSTATION v4.8
+MOSCATELLI FINANCIAL WORKSTATION v5.0
 
 Open index.html in a browser.
 
@@ -55,3 +55,10 @@ V4.9 Netlify AI integration patch:
 - Added a Netlify Function URL field inside the Financial Assistant panel.
 - The OpenAI API key must be stored only in Netlify environment variables, never in the website, GitHub, localStorage, or backups.
 - See NETLIFY_SETUP.md for the GitHub Pages + separate Netlify function workflow.
+
+
+V5.0 Moscatelli Finance AI endpoint patch:
+- Assistant panel is pre-filled with https://finance-suite-ai.netlify.app/.netlify/functions/financial-review.
+- Netlify Function prompt is tuned as MOSCATELLI FINANCE AI: severe internal financial controller, refined tone, no flattery, no invented facts.
+- Browser still does not store or expose the OpenAI API key. The key belongs only in Netlify environment variables.
+- The only required Netlify secret remains OPENAI_API_KEY.
