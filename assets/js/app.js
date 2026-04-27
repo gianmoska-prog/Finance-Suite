@@ -1,7 +1,7 @@
 'use strict';
 
-const APP_VERSION = '5.1';
-const DEFAULT_NETLIFY_FUNCTION_URL = 'https://finance-suite-ai.netlify.app/.netlify/functions/financial-review';
+const APP_VERSION = '5.2';
+const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
 const LAST_SAVED_KEY = 'mfw_lastSavedDate';
@@ -26,7 +26,7 @@ const translations = {
     k_fixedRegister: 'Fixed / One-off Expense Register', k_fixedHint: 'Use this for samples, photography, legal, website, travel, admin, and non-scaling costs. Product and packaging are now calculated above.', k_addExpense: 'Add Expense', k_item: 'Item', k_category: 'Category', k_priority: 'Priority', k_approvalGate: 'Approval Gate', k_qty: 'Qty', k_unitCost: 'Unit Cost', k_vat: 'VAT', k_vatRate: 'VAT %', k_notes: 'Notes', k_gate: 'Gate', k_unit: 'Unit', k_gross: 'Gross',
     k_loanAmount: 'Loan Amount', k_interest: 'Interest / APR %', k_loanTerm: 'Loan Term Months', k_bufferTarget: 'Cash Buffer Target %', k_riskDashboard: 'Risk Dashboard', k_riskHint: 'Red flags appear when assumptions are dangerous or structurally impossible.', k_sensitivity: 'Sensitivity', k_sensitivityHint: 'Current batch result at different sell-through levels.', k_keptSales: 'Kept Sales', k_batchComparison: 'Batch Comparison', k_batchHint: 'Compares 15, 30, 50, 75, and 100 units using the same cost assumptions.', k_batch: 'Batch', k_boxes: 'Boxes', k_breakEven: 'Break-even', k_afterLoanCurrent: 'After Loan @ Current Sell-through',
     k_backupTitle: 'Version Backup', k_backupHint: 'Save or reload a full dated JSON version. This preserves assumptions, expenses, documentation status, notes, loan settings, and scenario state.', k_saveBackup: 'Save Backup', k_loadBackup: 'Load Backup', k_noBackup: 'No backup loaded in this session.', k_backupFooter: 'Local browser storage remains enabled, but JSON backups are the safer record. Export a backup after any important change.', rail_title: 'Current Scenario',
-    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Assistant', assistant_subtitle: 'The assistant opens directly as a review console. The Netlify endpoint is pre-linked; the OpenAI key remains inside Netlify, never in this website.', assistant_status_title: 'AI review console', assistant_status_hint: 'Open the assistant panel to request a Moscatelli Finance review of the current scenario. The endpoint is configured automatically.', assistant_open: 'Open AI review console', assistant_panel_title: 'MOSCATELLI FINANCE AI', assistant_panel_status: 'Status: connected to Moscatelli Finance AI. Request a review when the scenario is ready.', assistant_chat_ready: 'Ready. Add an optional instruction below, or request a severe review of the current scenario.', assistant_response_ready: 'The review will appear here. The assistant sends only the current financial scenario, assumptions and optional instruction to the Netlify function.', assistant_prompt_label: 'Optional instruction to AI', assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.', assistant_endpoint_summary: 'Endpoint settings', assistant_endpoint_label: 'Netlify Function URL', assistant_ask_ai: 'Ask AI for financial review', assistant_netlify_note: 'Connected to finance-suite-ai.netlify.app through a Netlify Function. The API key stays in Netlify environment variables.', assistant_ai_loading: 'Requesting financial review…', assistant_ai_missing_endpoint: 'The Netlify endpoint is missing. Restore the default endpoint or paste the correct function URL.', assistant_ai_error: 'AI review failed: {message}', assistant_copy: 'Copy scenario summary', assistant_export_json: 'Export scenario JSON', assistant_security: 'Never store API keys, bank data, tax codes, supplier contracts, or API secrets in client-side code or localStorage.', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
+    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Studio GPT', assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review there without any embedded API setup.', assistant_status_title: 'Dedicated GPT link', assistant_status_hint: 'Copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.', assistant_open: 'Open GPT launcher', assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT', assistant_panel_status: 'Status: ready to open the dedicated GPT in ChatGPT.', assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No API connection is required.', assistant_response_ready: 'The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.', assistant_prompt_label: 'Optional instruction for the GPT', assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.', assistant_endpoint_summary: 'GPT link settings', assistant_endpoint_label: 'GPT URL', assistant_ask_ai: 'Copy scenario brief & open GPT', assistant_netlify_note: 'No embedded API is used. The GPT opens in ChatGPT; the workstation remains a local financial tool.', assistant_ai_loading: 'Opening GPT…', assistant_ai_missing_endpoint: 'The GPT link is missing. Restore the dedicated GPT URL.', assistant_ai_error: 'GPT launch failed: {message}', assistant_copy: 'Copy scenario brief', assistant_export_json: 'Export scenario JSON', assistant_security: 'No embedded API key is stored in this website. Use the dedicated GPT through ChatGPT.', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
     status_draft: 'Draft', status_quote_based: 'Quote-based', status_sample_approved: 'Sample approved', status_approved: 'Approved', status_final: 'Final', table_swipe_hint: 'Swipe table horizontally if needed.',
     sub_repayment_over: '{amount} repayment over {months} months', sub_breakeven_detail: '{units} kept sales before loan · {loanUnits} with loan', sub_set_price: 'Set price to calculate', expenses_empty: 'No fixed expenses yet. Add costs above.',
     rev_batch: 'Batch size', rev_saleable: 'Saleable after defects', rev_initialSold: 'Initial sold', rev_returned: 'Returned/refunded', rev_keptSales: 'Kept sales', rev_unsold: 'Unsold units', rev_grossReceipts: 'Gross receipts kept', rev_outputVat: 'Output VAT shown', rev_paymentFees: 'Payment fees', rev_productCost: 'Product cost', rev_boxesOrdered: 'Boxes ordered', rev_packagingTied: 'Packaging cash tied in extras', rev_packagingShortage: 'Packaging shortage', rev_variableCosts: 'Variable costs', rev_fixedExpenses: 'Fixed expenses', rev_contingency: 'Contingency reserve', rev_initialRequired: 'Initial sales required after returns',
@@ -36,10 +36,10 @@ const translations = {
     alert_copied: 'Scenario summary copied.', confirm_reset: 'Reset all entries and restore default assumptions?', import_corrected: 'Backup loaded with {count} corrected field(s).', import_loaded: 'Backup loaded: {file}', import_error: 'Could not load backup: {message}', backup_saved: 'Backup saved: {file}', delete_expense: 'Delete this expense?', delete_btn: 'Delete', physical_approval: 'Physical approval', no_value: '—'
   },
   it: {
-    nav_threshold: 'Soglia', nav_calculator: 'Calcolatore', nav_academy: 'Accademia', nav_assistant: 'Assistente', threshold_title: 'Postazione Finanziaria', threshold_subtitle: 'Numeri prima dell’ambizione. Nessuna proiezione diventa dottrina finché non è provata da preventivo, campione e vendita.', threshold_enter: 'Entra nella postazione', threshold_academy: 'Apri Accademia', calc_title: 'Calcolatore Budget', academy_title: 'Accademia Finanziaria', assistant_title: 'Assistente Finanziario', btn_print: 'Stampa / Salva PDF', btn_export_csv: 'Esporta CSV', btn_reset: 'Reimposta', btn_cancel: 'Annulla', btn_confirm: 'Conferma', k_cashDrawdown: 'Fabbisogno massimo di cassa', k_landed: 'Costo reale unitario', k_netRevenue: 'Ricavo netto', k_cashResult: 'Risultato di cassa', k_afterLoan: 'Dopo rimborso completo prestito', k_breakEvenSell: 'Sell-through di pareggio', tab_overview: 'Sintesi', tab_launch: 'Lancio', tab_unit: 'Economia unitaria', tab_fixed: 'Costi fissi', tab_loan: 'Prestito e capitale', tab_risk: 'Rischio', tab_comparison: 'Confronto', tab_archive: 'Archivio', k_launchAssumptions: 'Ipotesi di lancio', k_variable: 'Economia variabile unitaria', k_fixedRegister: 'Registro costi fissi / una tantum', k_loanModel: 'Modello prestito / capitale', k_riskDashboard: 'Cruscotto rischi', k_sensitivity: 'Sensibilità', k_batchComparison: 'Confronto lotti', k_saveBackup: 'Salva backup', k_loadBackup: 'Carica backup', k_addExpense: 'Aggiungi costo', k_scenarioName: 'Nome scenario', k_status: 'Stato', k_fiscalMode: 'Regime fiscale', k_retailPrice: 'Prezzo retail', k_batchSize: 'Dimensione lotto', k_sellThrough: 'Sell-through %', k_paymentFee: 'Commissione pagamento %', k_loanAmount: 'Importo prestito', k_interest: 'Interesse / TAEG %', k_loanTerm: 'Durata prestito mesi', k_bufferTarget: 'Target riserva cassa %', k_item: 'Voce', k_category: 'Categoria', k_priority: 'Priorità', k_qty: 'Qtà', k_unitCost: 'Costo unitario', k_notes: 'Note', k_backupTitle: 'Backup versione', assistant_copy: 'Copia riepilogo scenario', assistant_export_json: 'Esporta JSON scenario', assistant_endpoint_label: 'URL della Function Netlify', assistant_ask_ai: 'Chiedi una revisione finanziaria all’AI', assistant_netlify_note: 'L’endpoint predefinito è finance-suite-ai.netlify.app. Modificalo solo se cambia il nome del sito Netlify. La chiave OpenAI resta nelle variabili ambiente di Netlify.', assistant_ai_loading: 'Richiesta di revisione finanziaria…', assistant_ai_missing_endpoint: 'L’endpoint Netlify manca. Ripristina l’endpoint predefinito o inserisci l’URL corretto della Function.', assistant_ai_error: 'Revisione AI non riuscita: {message}', tax_notice_title: 'Esclusione fiscale.', tax_notice_text: 'I risultati sono al lordo di imposte sul reddito, INPS, prelievi del fondatore e soggetti a conferma del commercialista.', risk_tax_text: 'Imposte sul reddito, INPS e prelievi del fondatore sono esclusi.', alert_copied: 'Riepilogo scenario copiato.', confirm_reset: 'Reimpostare tutto e ripristinare le ipotesi predefinite?'
+    nav_threshold: 'Soglia', nav_calculator: 'Calcolatore', nav_academy: 'Accademia', nav_assistant: 'Assistente', threshold_title: 'Postazione Finanziaria', threshold_subtitle: 'Numeri prima dell’ambizione. Nessuna proiezione diventa dottrina finché non è provata da preventivo, campione e vendita.', threshold_enter: 'Entra nella postazione', threshold_academy: 'Apri Accademia', calc_title: 'Calcolatore Budget', academy_title: 'Accademia Finanziaria', assistant_title: 'Assistente Finanziario', btn_print: 'Stampa / Salva PDF', btn_export_csv: 'Esporta CSV', btn_reset: 'Reimposta', btn_cancel: 'Annulla', btn_confirm: 'Conferma', k_cashDrawdown: 'Fabbisogno massimo di cassa', k_landed: 'Costo reale unitario', k_netRevenue: 'Ricavo netto', k_cashResult: 'Risultato di cassa', k_afterLoan: 'Dopo rimborso completo prestito', k_breakEvenSell: 'Sell-through di pareggio', tab_overview: 'Sintesi', tab_launch: 'Lancio', tab_unit: 'Economia unitaria', tab_fixed: 'Costi fissi', tab_loan: 'Prestito e capitale', tab_risk: 'Rischio', tab_comparison: 'Confronto', tab_archive: 'Archivio', k_launchAssumptions: 'Ipotesi di lancio', k_variable: 'Economia variabile unitaria', k_fixedRegister: 'Registro costi fissi / una tantum', k_loanModel: 'Modello prestito / capitale', k_riskDashboard: 'Cruscotto rischi', k_sensitivity: 'Sensibilità', k_batchComparison: 'Confronto lotti', k_saveBackup: 'Salva backup', k_loadBackup: 'Carica backup', k_addExpense: 'Aggiungi costo', k_scenarioName: 'Nome scenario', k_status: 'Stato', k_fiscalMode: 'Regime fiscale', k_retailPrice: 'Prezzo retail', k_batchSize: 'Dimensione lotto', k_sellThrough: 'Sell-through %', k_paymentFee: 'Commissione pagamento %', k_loanAmount: 'Importo prestito', k_interest: 'Interesse / TAEG %', k_loanTerm: 'Durata prestito mesi', k_bufferTarget: 'Target riserva cassa %', k_item: 'Voce', k_category: 'Categoria', k_priority: 'Priorità', k_qty: 'Qtà', k_unitCost: 'Costo unitario', k_notes: 'Note', k_backupTitle: 'Backup versione', assistant_copy: 'Copia riepilogo scenario', assistant_export_json: 'Esporta JSON scenario', assistant_endpoint_label: 'URL del GPT', assistant_ask_ai: 'Copia brief scenario e apri GPT', assistant_netlify_note: 'Non viene usata alcuna chiave API. Il GPT si apre in ChatGPT; la postazione resta uno strumento finanziario locale.', assistant_ai_loading: 'Apertura del GPT…', assistant_ai_missing_endpoint: 'Il link al GPT manca. Ripristina l’URL del GPT dedicato.', assistant_ai_error: 'Apertura GPT non riuscita: {message}', tax_notice_title: 'Esclusione fiscale.', tax_notice_text: 'I risultati sono al lordo di imposte sul reddito, INPS, prelievi del fondatore e soggetti a conferma del commercialista.', risk_tax_text: 'Imposte sul reddito, INPS e prelievi del fondatore sono esclusi.', alert_copied: 'Riepilogo scenario copiato.', confirm_reset: 'Reimpostare tutto e ripristinare le ipotesi predefinite?'
   },
   pt: {
-    nav_threshold: 'Índice', nav_calculator: 'Calculadora', nav_academy: 'Academia', nav_assistant: 'Assistente', threshold_title: 'Estação Financeira', threshold_subtitle: 'Números antes da ambição. Nenhuma projeção vira doutrina antes de ser comprovada por orçamento, amostra e venda.', threshold_enter: 'Entrar na estação', threshold_academy: 'Abrir Academia', calc_title: 'Calculadora de Orçamento', academy_title: 'Academia Financeira', assistant_title: 'Assistente Financeiro', btn_print: 'Imprimir / Salvar PDF', btn_export_csv: 'Exportar CSV', btn_reset: 'Reiniciar', btn_cancel: 'Cancelar', btn_confirm: 'Confirmar', k_cashDrawdown: 'Necessidade máxima de caixa', k_landed: 'Custo real unitário', k_netRevenue: 'Receita líquida', k_cashResult: 'Resultado de caixa', k_afterLoan: 'Após quitação total do empréstimo', k_breakEvenSell: 'Sell-through de equilíbrio', tab_overview: 'Resumo', tab_launch: 'Lançamento', tab_unit: 'Economia unitária', tab_fixed: 'Custos fixos', tab_loan: 'Empréstimo e capital', tab_risk: 'Risco', tab_comparison: 'Comparação', tab_archive: 'Arquivo', k_launchAssumptions: 'Premissas de lançamento', k_variable: 'Economia variável unitária', k_fixedRegister: 'Registro de custos fixos / pontuais', k_loanModel: 'Modelo de empréstimo / capital', k_riskDashboard: 'Painel de riscos', k_sensitivity: 'Sensibilidade', k_batchComparison: 'Comparação de lotes', k_saveBackup: 'Salvar backup', k_loadBackup: 'Carregar backup', k_addExpense: 'Adicionar custo', k_scenarioName: 'Nome do cenário', k_status: 'Status', k_fiscalMode: 'Regime fiscal', k_retailPrice: 'Preço de venda', k_batchSize: 'Tamanho do lote', k_sellThrough: 'Sell-through %', k_paymentFee: 'Taxa de pagamento %', k_loanAmount: 'Valor do empréstimo', k_interest: 'Juros / taxa anual %', k_loanTerm: 'Prazo do empréstimo meses', k_bufferTarget: 'Meta de reserva de caixa %', k_item: 'Item', k_category: 'Categoria', k_priority: 'Prioridade', k_qty: 'Qtd', k_unitCost: 'Custo unitário', k_notes: 'Notas', k_backupTitle: 'Backup de versão', assistant_copy: 'Copiar resumo do cenário', assistant_export_json: 'Exportar JSON do cenário', assistant_endpoint_label: 'URL da Function Netlify', assistant_ask_ai: 'Pedir revisão financeira à IA', assistant_netlify_note: 'O endpoint padrão é finance-suite-ai.netlify.app. Altere apenas se o nome do site Netlify mudar. A chave da OpenAI fica nas variáveis de ambiente da Netlify.', assistant_ai_loading: 'Solicitando revisão financeira…', assistant_ai_missing_endpoint: 'O endpoint da Netlify está faltando. Restaure o endpoint padrão ou insira a URL correta da Function.', assistant_ai_error: 'Falha na revisão por IA: {message}', tax_notice_title: 'Exclusão fiscal.', tax_notice_text: 'Os resultados não incluem imposto de renda, INPS, retiradas do fundador e dependem de confirmação contábil.', risk_tax_text: 'Imposto de renda, INPS e retiradas do fundador estão excluídos.', alert_copied: 'Resumo do cenário copiado.', confirm_reset: 'Reiniciar tudo e restaurar as premissas padrão?'
+    nav_threshold: 'Índice', nav_calculator: 'Calculadora', nav_academy: 'Academia', nav_assistant: 'Assistente', threshold_title: 'Estação Financeira', threshold_subtitle: 'Números antes da ambição. Nenhuma projeção vira doutrina antes de ser comprovada por orçamento, amostra e venda.', threshold_enter: 'Entrar na estação', threshold_academy: 'Abrir Academia', calc_title: 'Calculadora de Orçamento', academy_title: 'Academia Financeira', assistant_title: 'Assistente Financeiro', btn_print: 'Imprimir / Salvar PDF', btn_export_csv: 'Exportar CSV', btn_reset: 'Reiniciar', btn_cancel: 'Cancelar', btn_confirm: 'Confirmar', k_cashDrawdown: 'Necessidade máxima de caixa', k_landed: 'Custo real unitário', k_netRevenue: 'Receita líquida', k_cashResult: 'Resultado de caixa', k_afterLoan: 'Após quitação total do empréstimo', k_breakEvenSell: 'Sell-through de equilíbrio', tab_overview: 'Resumo', tab_launch: 'Lançamento', tab_unit: 'Economia unitária', tab_fixed: 'Custos fixos', tab_loan: 'Empréstimo e capital', tab_risk: 'Risco', tab_comparison: 'Comparação', tab_archive: 'Arquivo', k_launchAssumptions: 'Premissas de lançamento', k_variable: 'Economia variável unitária', k_fixedRegister: 'Registro de custos fixos / pontuais', k_loanModel: 'Modelo de empréstimo / capital', k_riskDashboard: 'Painel de riscos', k_sensitivity: 'Sensibilidade', k_batchComparison: 'Comparação de lotes', k_saveBackup: 'Salvar backup', k_loadBackup: 'Carregar backup', k_addExpense: 'Adicionar custo', k_scenarioName: 'Nome do cenário', k_status: 'Status', k_fiscalMode: 'Regime fiscal', k_retailPrice: 'Preço de venda', k_batchSize: 'Tamanho do lote', k_sellThrough: 'Sell-through %', k_paymentFee: 'Taxa de pagamento %', k_loanAmount: 'Valor do empréstimo', k_interest: 'Juros / taxa anual %', k_loanTerm: 'Prazo do empréstimo meses', k_bufferTarget: 'Meta de reserva de caixa %', k_item: 'Item', k_category: 'Categoria', k_priority: 'Prioridade', k_qty: 'Qtd', k_unitCost: 'Custo unitário', k_notes: 'Notas', k_backupTitle: 'Backup de versão', assistant_copy: 'Copiar resumo do cenário', assistant_export_json: 'Exportar JSON do cenário', assistant_endpoint_label: 'URL do GPT', assistant_ask_ai: 'Copiar briefing e abrir GPT', assistant_netlify_note: 'Nenhuma chave API é usada. O GPT abre no ChatGPT; a estação continua sendo uma ferramenta financeira local.', assistant_ai_loading: 'Abrindo o GPT…', assistant_ai_missing_endpoint: 'O link do GPT está faltando. Restaure a URL do GPT dedicado.', assistant_ai_error: 'Falha ao abrir o GPT: {message}', tax_notice_title: 'Exclusão fiscal.', tax_notice_text: 'Os resultados não incluem imposto de renda, INPS, retiradas do fundador e dependem de confirmação contábil.', risk_tax_text: 'Imposto de renda, INPS e retiradas do fundador estão excluídos.', alert_copied: 'Resumo do cenário copiado.', confirm_reset: 'Reiniciar tudo e restaurar as premissas padrão?'
   }
 };
 
@@ -649,55 +649,79 @@ const state = {
 
 const $ = id => document.getElementById(id);
 const els = {
-  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), closeAssistantPanel: $('closeAssistantPanel'), copyScenarioBtn: $('copyScenarioBtn'), assistantExportJsonBtn: $('assistantExportJsonBtn'), aiEndpointUrl: $('aiEndpointUrl'), aiEndpointVisible: $('aiEndpointVisible'), aiUserInstruction: $('aiUserInstruction'), askAiBtn: $('askAiBtn'), aiResponse: $('aiResponse'), aiStatusLine: $('aiStatusLine'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
+  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), closeAssistantPanel: $('closeAssistantPanel'), copyScenarioBtn: $('copyScenarioBtn'), assistantExportJsonBtn: $('assistantExportJsonBtn'), askAiBtn: $('askAiBtn'), aiResponse: $('aiResponse'), aiStatusLine: $('aiStatusLine'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
 };
 
 
-// v5.1 — AI assistant chat-console patch. Keeps endpoint internal and pre-linked.
+// v5.2 — GPT link patch. Removes API/external assistant behaviour and uses the dedicated ChatGPT GPT instead.
 Object.assign(translations.en, {
-  assistant_eyebrow: 'Moscatelli · Finance AI',
-  assistant_subtitle: 'The assistant opens directly as a review console. The Netlify endpoint is pre-linked; the OpenAI key remains inside Netlify, never in this website.',
-  assistant_status_title: 'AI review console',
-  assistant_status_hint: 'Open the assistant panel to request a Moscatelli Finance review of the current scenario. The endpoint is configured automatically.',
-  assistant_open: 'Open AI review console',
-  assistant_panel_title: 'MOSCATELLI FINANCE AI',
-  assistant_panel_status: 'Status: connected to Moscatelli Finance AI. Request a review when the scenario is ready.',
-  assistant_chat_ready: 'Ready. Add an optional instruction below, or request a severe review of the current scenario.',
-  assistant_response_ready: 'The review will appear here. The assistant sends only the current financial scenario, assumptions and optional instruction to the Netlify function.',
-  assistant_prompt_label: 'Optional instruction to AI',
-  assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.',
-  assistant_endpoint_summary: 'Endpoint settings',
-  assistant_netlify_note: 'Connected to finance-suite-ai.netlify.app through a Netlify Function. The API key stays in Netlify environment variables.'
+  nav_assistant: 'GPT Studio',
+  assistant_eyebrow: 'Moscatelli · GPT Studio',
+  assistant_title: 'Financial Studio GPT',
+  assistant_subtitle: 'Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review inside ChatGPT without any embedded API setup.',
+  assistant_status_title: 'Dedicated GPT link',
+  assistant_status_hint: 'Use this as a smooth bridge: copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.',
+  assistant_open: 'Open GPT launcher',
+  assistant_open_gpt: 'Open GPT directly',
+  assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
+  assistant_panel_status: 'Status: ready to open the dedicated GPT in ChatGPT.',
+  assistant_chat_ready: 'Copy the current scenario brief, then open the Moscatelli GPT for the review. No API connection is required.',
+  assistant_response_ready: 'The GPT will open in ChatGPT. Paste the copied scenario brief there if it is not already in your clipboard.',
+  assistant_ask_ai: 'Copy scenario brief & open GPT',
+  assistant_copy: 'Copy scenario brief',
+  assistant_export_json: 'Export scenario JSON',
+  assistant_netlify_note: 'No embedded API is used. The GPT opens in ChatGPT; the workstation remains a local financial tool.',
+  assistant_security: 'No embedded API key is stored in this website. Use the dedicated GPT through ChatGPT.',
+  assistant_gpt_copied: 'Scenario brief copied. The dedicated GPT has been opened in ChatGPT.',
+  assistant_gpt_opened: 'The dedicated GPT has been opened in ChatGPT.',
+  assistant_gpt_popup_blocked: 'The browser blocked the new tab. Use “Open GPT directly”, then paste the copied scenario brief manually.',
+  assistant_copy_failed: 'Could not copy automatically. Open the GPT and paste the scenario summary manually.'
 });
 Object.assign(translations.it, {
-  assistant_eyebrow: 'Moscatelli · Finance AI',
-  assistant_subtitle: 'L’assistente si apre direttamente come console di revisione. L’endpoint Netlify è già collegato; la chiave OpenAI resta in Netlify, mai in questo sito.',
-  assistant_status_title: 'Console di revisione AI',
-  assistant_status_hint: 'Apri il pannello per richiedere una revisione Moscatelli Finance dello scenario attuale. L’endpoint è configurato automaticamente.',
-  assistant_open: 'Apri console AI',
-  assistant_panel_title: 'MOSCATELLI FINANCE AI',
-  assistant_panel_status: 'Stato: collegato a Moscatelli Finance AI. Richiedi una revisione quando lo scenario è pronto.',
-  assistant_chat_ready: 'Pronto. Aggiungi un’istruzione facoltativa qui sotto, oppure richiedi una revisione severa dello scenario attuale.',
-  assistant_response_ready: 'La revisione apparirà qui. L’assistente invia alla Function Netlify solo lo scenario finanziario attuale, le ipotesi e l’istruzione facoltativa.',
-  assistant_prompt_label: 'Istruzione facoltativa per l’AI',
-  assistant_prompt_placeholder: 'Esempio: concentrati sul rischio debito e sul MOQ packaging. Sii severo ma conciso.',
-  assistant_endpoint_summary: 'Impostazioni endpoint',
-  assistant_netlify_note: 'Collegato a finance-suite-ai.netlify.app tramite Netlify Function. La chiave API resta nelle variabili ambiente di Netlify.'
+  nav_assistant: 'GPT Studio',
+  assistant_eyebrow: 'Moscatelli · GPT Studio',
+  assistant_title: 'Financial Studio GPT',
+  assistant_subtitle: 'Apri il GPT Moscatelli dedicato in ChatGPT. Copia prima il brief dello scenario, poi continua la revisione in ChatGPT senza alcuna configurazione API incorporata.',
+  assistant_status_title: 'Collegamento al GPT dedicato',
+  assistant_status_hint: 'Usalo come ponte operativo: copia il pacchetto dello scenario attuale, poi apri il Moscatelli Financial Studio Assistant in ChatGPT.',
+  assistant_open: 'Apri launcher GPT',
+  assistant_open_gpt: 'Apri GPT direttamente',
+  assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
+  assistant_panel_status: 'Stato: pronto per aprire il GPT dedicato in ChatGPT.',
+  assistant_chat_ready: 'Copia il brief dello scenario attuale, poi apri il GPT Moscatelli per la revisione. Non è richiesta alcuna connessione API.',
+  assistant_response_ready: 'Il GPT si aprirà in ChatGPT. Incolla lì il brief copiato se non viene inserito automaticamente.',
+  assistant_ask_ai: 'Copia brief scenario e apri GPT',
+  assistant_copy: 'Copia brief scenario',
+  assistant_export_json: 'Esporta JSON scenario',
+  assistant_netlify_note: 'Non viene usata alcuna chiave API. Il GPT si apre in ChatGPT; la postazione resta uno strumento finanziario locale.',
+  assistant_security: 'Nessuna chiave API è salvata in questo sito. Usa il GPT dedicato tramite ChatGPT.',
+  assistant_gpt_copied: 'Brief dello scenario copiato. Il GPT dedicato è stato aperto in ChatGPT.',
+  assistant_gpt_opened: 'Il GPT dedicato è stato aperto in ChatGPT.',
+  assistant_gpt_popup_blocked: 'Il browser ha bloccato la nuova scheda. Usa “Apri GPT direttamente”, poi incolla manualmente il brief copiato.',
+  assistant_copy_failed: 'Copia automatica non riuscita. Apri il GPT e incolla manualmente il riepilogo dello scenario.'
 });
 Object.assign(translations.pt, {
-  assistant_eyebrow: 'Moscatelli · Finance AI',
-  assistant_subtitle: 'O assistente abre diretamente como console de revisão. O endpoint da Netlify já está conectado; a chave da OpenAI fica na Netlify, nunca neste site.',
-  assistant_status_title: 'Console de revisão por IA',
-  assistant_status_hint: 'Abra o painel para pedir uma revisão Moscatelli Finance do cenário atual. O endpoint já está configurado automaticamente.',
-  assistant_open: 'Abrir console de IA',
-  assistant_panel_title: 'MOSCATELLI FINANCE AI',
-  assistant_panel_status: 'Status: conectado ao Moscatelli Finance AI. Peça uma revisão quando o cenário estiver pronto.',
-  assistant_chat_ready: 'Pronto. Adicione uma instrução opcional abaixo ou peça uma revisão severa do cenário atual.',
-  assistant_response_ready: 'A revisão aparecerá aqui. O assistente envia para a Function da Netlify apenas o cenário financeiro atual, as premissas e a instrução opcional.',
-  assistant_prompt_label: 'Instrução opcional para a IA',
-  assistant_prompt_placeholder: 'Exemplo: foque no risco de dívida e no MOQ de embalagem. Seja severo, mas conciso.',
-  assistant_endpoint_summary: 'Configurações do endpoint',
-  assistant_netlify_note: 'Conectado a finance-suite-ai.netlify.app por uma Netlify Function. A chave API fica nas variáveis de ambiente da Netlify.'
+  nav_assistant: 'GPT Studio',
+  assistant_eyebrow: 'Moscatelli · GPT Studio',
+  assistant_title: 'Financial Studio GPT',
+  assistant_subtitle: 'Abra o GPT Moscatelli dedicado no ChatGPT. Copie primeiro o briefing do cenário atual e continue a revisão no ChatGPT, sem nenhuma configuração API incorporada.',
+  assistant_status_title: 'Link para o GPT dedicado',
+  assistant_status_hint: 'Use isto como uma ponte operacional: copie o pacote do cenário atual e abra o Moscatelli Financial Studio Assistant no ChatGPT.',
+  assistant_open: 'Abrir launcher do GPT',
+  assistant_open_gpt: 'Abrir GPT diretamente',
+  assistant_panel_title: 'MOSCATELLI FINANCIAL STUDIO GPT',
+  assistant_panel_status: 'Status: pronto para abrir o GPT dedicado no ChatGPT.',
+  assistant_chat_ready: 'Copie o briefing do cenário atual e abra o GPT Moscatelli para a revisão. Nenhuma conexão API é necessária.',
+  assistant_response_ready: 'O GPT será aberto no ChatGPT. Cole ali o briefing copiado, caso ele não esteja automaticamente na área de transferência.',
+  assistant_ask_ai: 'Copiar briefing e abrir GPT',
+  assistant_copy: 'Copiar briefing do cenário',
+  assistant_export_json: 'Exportar JSON do cenário',
+  assistant_netlify_note: 'Nenhuma chave API é usada. O GPT abre no ChatGPT; a estação continua sendo uma ferramenta financeira local.',
+  assistant_security: 'Nenhuma chave API é armazenada neste site. Use o GPT dedicado pelo ChatGPT.',
+  assistant_gpt_copied: 'Briefing do cenário copiado. O GPT dedicado foi aberto no ChatGPT.',
+  assistant_gpt_opened: 'O GPT dedicado foi aberto no ChatGPT.',
+  assistant_gpt_popup_blocked: 'O navegador bloqueou a nova aba. Use “Abrir GPT diretamente” e depois cole manualmente o briefing copiado.',
+  assistant_copy_failed: 'Não foi possível copiar automaticamente. Abra o GPT e cole manualmente o resumo do cenário.'
 });
 
 const scenarioIds = ['scenarioName', 'scenarioStatus', 'fiscalMode', 'retailPrice', 'batchSize', 'sellThrough', 'salesVatRate', 'salesVatMode', 'paymentFee', 'fixedFee', 'shippingCharged'];
@@ -1368,96 +1392,30 @@ async function copyScenarioSummary() {
   catch { alert(buildScenarioSummary()); }
 }
 
-function buildScenarioAiPayload() {
-  const c = calc();
-  return {
-    app: 'Moscatelli Financial Workstation',
-    appVersion: APP_VERSION,
-    generatedAt: new Date().toISOString(),
-    language: state.uiLang,
-    reviewMode: 'Moscatelli Finance severe internal audit',
-    userInstruction: (els.aiUserInstruction?.value || '').trim(),
-    brandContext: {
-      house: 'Moscatelli',
-      category: 'emerging luxury fashion house',
-      launchObject: 'Terra Bruna and Bianco Avorio scarf launch',
-      doctrine: ['Standards first, exposure second', 'Full-price proof before scale', 'No discount logic', 'Debt requires mathematical repayment discipline']
-    },
-    scenario: { ...state.scenario },
-    variableAssumptions: { ...state.variable },
-    loanAssumptions: { ...state.loan },
-    fixedExpenses: state.expenses.map(exp => ({ ...exp })),
-    results: {
-      cashDrawdown: c.cashDrawdown,
-      trueLandedCostPerUnit: c.landedCostPerUnit,
-      netRevenue: c.netRevenue,
-      cashResult: c.cashResult,
-      interestCost: c.interest,
-      economicResultAfterInterest: c.economicResultAfterInterest,
-      fullLoanRepayment: c.loanRepayment,
-      batchSurplusAfterFullLoanRepayment: c.afterLoan,
-      financedCashPosition: c.financedCashPosition,
-      breakEvenKeptSales: c.breakEvenUnits,
-      requiredInitialSalesAfterReturns: c.requiredInitialSales,
-      breakEvenSellThroughAfterReturns: c.breakEvenSellThrough,
-      breakEvenLoanSellThroughAfterReturns: c.breakEvenLoanSellThrough,
-      packagingShortage: c.packagingShortage,
-      boxesOrdered: c.boxes
-    },
-    warnings: [
-      'Pre-income-tax, pre-INPS, pre-founder-withdrawal model.',
-      'Figures remain assumptions until validated by supplier quotes, physical samples, commercialista guidance, and buyer commitments.'
-    ]
-  };
+function openGptAssistant() {
+  return window.open(GPT_ASSISTANT_URL, '_blank', 'noopener,noreferrer');
 }
 
-function setAiResponse(text, isError = false) {
-  if (!els.aiResponse) return;
-  els.aiResponse.textContent = text || '';
-  els.aiResponse.classList.toggle('is-visible', Boolean(text));
-  els.aiResponse.classList.toggle('is-error', Boolean(isError));
-}
-
-async function askFinancialAssistant() {
-  const visibleEndpoint = (els.aiEndpointVisible?.value || '').trim();
-  const endpoint = visibleEndpoint || DEFAULT_NETLIFY_FUNCTION_URL;
-  if (els.aiEndpointUrl) els.aiEndpointUrl.value = endpoint;
-  if (els.aiEndpointVisible && !els.aiEndpointVisible.value.trim()) els.aiEndpointVisible.value = endpoint;
-  if (!endpoint) {
-    setAiResponse(t('assistant_ai_missing_endpoint'), true);
-    return;
-  }
+async function copyScenarioAndOpenGpt() {
+  const opened = openGptAssistant();
   try {
-    localStorage.setItem('mfw_netlify_function_url', endpoint);
-  } catch {}
-  if (els.askAiBtn) els.askAiBtn.disabled = true;
-  if (els.aiStatusLine) els.aiStatusLine.textContent = t('assistant_ai_loading');
-  setAiResponse(t('assistant_ai_loading'));
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(buildScenarioAiPayload())
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || data.detail || response.statusText || 'Request failed');
-    setAiResponse(data.text || 'No readable response returned.');
+    await navigator.clipboard.writeText(buildScenarioSummary());
+    setAiResponse(opened ? t('assistant_gpt_copied') : t('assistant_gpt_popup_blocked'), !opened);
     if (els.aiStatusLine) els.aiStatusLine.textContent = t('assistant_panel_status');
-  } catch (error) {
-    setAiResponse(tmpl('assistant_ai_error', { message: error.message }), true);
-  } finally {
-    if (els.askAiBtn) els.askAiBtn.disabled = false;
+  } catch {
+    setAiResponse(opened ? t('assistant_copy_failed') : t('assistant_gpt_popup_blocked'), true);
   }
+}
+
+function askFinancialAssistant() {
+  return copyScenarioAndOpenGpt();
 }
 
 function toggleAssistant(open) {
   els.assistantPanel.classList.toggle('is-open', open);
   els.assistantPanel.setAttribute('aria-hidden', String(!open));
   if (open) {
-    if (els.aiEndpointUrl) els.aiEndpointUrl.value = DEFAULT_NETLIFY_FUNCTION_URL;
-    if (els.aiEndpointVisible && !els.aiEndpointVisible.value.trim()) els.aiEndpointVisible.value = DEFAULT_NETLIFY_FUNCTION_URL;
     if (els.aiResponse && !els.aiResponse.textContent.trim()) setAiResponse(t('assistant_response_ready'));
-    setTimeout(() => els.aiUserInstruction?.focus(), 180);
   }
 }
 
@@ -3542,14 +3500,6 @@ function attachEvents() {
   els.copyScenarioBtn.onclick = copyScenarioSummary;
   els.assistantExportJsonBtn.onclick = exportBackup;
   if (els.askAiBtn) els.askAiBtn.onclick = askFinancialAssistant;
-  if (els.aiEndpointUrl) els.aiEndpointUrl.value = DEFAULT_NETLIFY_FUNCTION_URL;
-  if (els.aiEndpointVisible) els.aiEndpointVisible.value = DEFAULT_NETLIFY_FUNCTION_URL;
-  if (els.aiUserInstruction) {
-    els.aiUserInstruction.addEventListener('keydown', event => {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') askFinancialAssistant();
-    });
-  }
-
   scenarioIds.forEach(id => $(id).addEventListener($(id).tagName === 'SELECT' ? 'change' : 'input', () => {
     state.scenario[id] = $(id).type === 'number' ? num($(id).value) : $(id).value;
     if (id === 'fiscalMode' && state.scenario.fiscalMode === 'forfettario') {

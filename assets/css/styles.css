@@ -372,7 +372,7 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 }
 
 
-/* v4.9 Netlify AI integration patch */
+/* v5.2 GPT Studio link patch */
 .assistant-label{display:block;margin:12px 0 6px;color:var(--text-muted);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
 .assistant-input{width:100%;border:1px solid var(--border);background:rgba(0,0,0,.24);color:var(--text);border-radius:12px;padding:10px 11px;outline:none}
 .assistant-input:focus{border-color:rgba(196,145,74,.72)}
@@ -381,12 +381,7 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 .assistant-response.is-visible{display:block}
 .assistant-response.is-error{border-color:rgba(192,57,43,.48);color:#e0a19a}
 
-/* v5.1 Moscatelli Finance AI endpoint patch */
-.assistant-input#aiEndpointUrl {
-  font-size: .82rem;
-}
-
-/* v5.1 Moscatelli Finance AI chat-console patch */
+/* v5.2 GPT Studio launcher */
 .assistant-route-panel .assistant-route-body {
   display: grid;
   gap: 10px;
@@ -433,3 +428,8 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 .assistant-advanced[open] summary {
   margin-bottom: 8px;
 }
+
+
+/* v5.2 GPT Studio link refinement */
+.assistant-gpt-link{justify-content:center;text-decoration:none}
+.gpt-link-panel .assistant-route-body{max-width:720px}
