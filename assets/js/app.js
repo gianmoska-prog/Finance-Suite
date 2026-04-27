@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.6';
+const APP_VERSION = '5.8';
 const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -3442,6 +3442,17 @@ function ensureHelpPopover() {
 }
 
 function positionHelpPopover(button, popover) {
+  if (window.innerWidth <= 760) {
+    popover.style.width = 'calc(100vw - 24px)';
+    popover.style.left = '12px';
+    popover.style.right = '12px';
+    popover.style.top = 'auto';
+    popover.style.bottom = 'calc(86px + env(safe-area-inset-bottom, 0px))';
+    return;
+  }
+
+  popover.style.right = 'auto';
+  popover.style.bottom = 'auto';
   const rect = button.getBoundingClientRect();
   const width = Math.min(360, window.innerWidth - 28);
   const gap = 12;
@@ -3462,12 +3473,19 @@ function showContextualHelp(button) {
   if (!content) return;
   const popover = ensureHelpPopover();
   const exampleLabel = contextualHelpExampleLabels[state.uiLang] || contextualHelpExampleLabels.en;
-  popover.innerHTML = `<strong>${escapeHtml(content[0])}</strong><p>${escapeHtml(content[1])}</p>${content[2] ? `<div class="help-example"><span>${escapeHtml(exampleLabel)}</span><p>${escapeHtml(content[2])}</p></div>` : ''}`;
+  popover.innerHTML = `<button class="help-close" type="button" aria-label="Close contextual help">×</button><strong>${escapeHtml(content[0])}</strong><p>${escapeHtml(content[1])}</p>${content[2] ? `<div class="help-example"><span>${escapeHtml(exampleLabel)}</span><p>${escapeHtml(content[2])}</p></div>` : ''}`;
   popover.classList.add('is-visible');
   popover.setAttribute('aria-hidden', 'false');
   activeHelpButton = button;
   button.setAttribute('aria-expanded', 'true');
   positionHelpPopover(button, popover);
+  const close = popover.querySelector('.help-close');
+  if (close) close.onclick = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    hideContextualHelpImmediate();
+    button.focus({ preventScroll: true });
+  };
 }
 
 function scheduleContextualHelp(button, delay = 1000) {
@@ -3476,18 +3494,22 @@ function scheduleContextualHelp(button, delay = 1000) {
   helpTimer = setTimeout(() => showContextualHelp(button), delay);
 }
 
+function hideContextualHelpImmediate() {
+  clearTimeout(helpTimer);
+  clearTimeout(helpHideTimer);
+  const popover = document.getElementById('contextualHelpPopover');
+  if (popover) {
+    popover.classList.remove('is-visible');
+    popover.setAttribute('aria-hidden', 'true');
+  }
+  if (activeHelpButton) activeHelpButton.setAttribute('aria-expanded', 'false');
+  activeHelpButton = null;
+}
+
 function hideContextualHelp() {
   clearTimeout(helpTimer);
   clearTimeout(helpHideTimer);
-  helpHideTimer = setTimeout(() => {
-    const popover = document.getElementById('contextualHelpPopover');
-    if (popover) {
-      popover.classList.remove('is-visible');
-      popover.setAttribute('aria-hidden', 'true');
-    }
-    if (activeHelpButton) activeHelpButton.setAttribute('aria-expanded', 'false');
-    activeHelpButton = null;
-  }, 120);
+  helpHideTimer = setTimeout(hideContextualHelpImmediate, 120);
 }
 
 function addHelpButton(anchor, key, variant = '') {
@@ -4001,6 +4023,13 @@ function attachEvents() {
       els.alertsToggle.setAttribute('aria-expanded', 'false');
     }
   });
+  document.addEventListener('click', event => {
+    const popover = document.getElementById('contextualHelpPopover');
+    if (!popover || !popover.classList.contains('is-visible')) return;
+    if (event.target.closest('.contextual-help-popover') || event.target.closest('.help-dot')) return;
+    hideContextualHelpImmediate();
+  });
+
   if (els.languageSelect) els.languageSelect.addEventListener('change', () => { state.uiLang = els.languageSelect.value; render(); renderAcademy(); });
   els.addBtn.onclick = addExpense;
   [els.item, els.qty, els.unitCost, els.notes].forEach(input => input.addEventListener('keydown', event => { if (event.key === 'Enter') addExpense(); }));
