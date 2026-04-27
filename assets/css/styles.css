@@ -381,7 +381,55 @@ th{font-family:var(--body);font-weight:600;letter-spacing:.12em}
 .assistant-response.is-visible{display:block}
 .assistant-response.is-error{border-color:rgba(192,57,43,.48);color:#e0a19a}
 
-/* v5.0 Moscatelli Finance AI endpoint patch */
+/* v5.1 Moscatelli Finance AI endpoint patch */
 .assistant-input#aiEndpointUrl {
   font-size: .82rem;
+}
+
+/* v5.1 Moscatelli Finance AI chat-console patch */
+.assistant-route-panel .assistant-route-body {
+  display: grid;
+  gap: 10px;
+}
+.assistant-chat-ready {
+  border: 1px solid rgba(196,145,74,.28);
+  border-radius: 14px;
+  background: rgba(196,145,74,.055);
+  color: rgba(240,232,216,.78);
+  padding: 11px 12px;
+  line-height: 1.45;
+  font-size: .9rem;
+  margin-bottom: 10px;
+}
+.assistant-prompt {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.24);
+  color: var(--text);
+  border-radius: 14px;
+  padding: 11px 12px;
+  outline: none;
+  resize: vertical;
+  min-height: 86px;
+  line-height: 1.45;
+}
+.assistant-prompt:focus {
+  border-color: rgba(196,145,74,.72);
+}
+.assistant-advanced {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin: 12px 0;
+  background: rgba(0,0,0,.12);
+}
+.assistant-advanced summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: .76rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.assistant-advanced[open] summary {
+  margin-bottom: 8px;
 }

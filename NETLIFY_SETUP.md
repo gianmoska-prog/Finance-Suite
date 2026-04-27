@@ -52,7 +52,7 @@ https://finance-suite-ai.netlify.app/.netlify/functions/financial-review
 - Do not paste bank data, tax codes, private contracts, or API keys into the workstation.
 
 
-## v5.0 pre-linked endpoint
+## v5.1 pre-linked endpoint
 
 The workstation assistant is now pre-linked to:
 

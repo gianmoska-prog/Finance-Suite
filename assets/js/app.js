@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.0';
+const APP_VERSION = '5.1';
 const DEFAULT_NETLIFY_FUNCTION_URL = 'https://finance-suite-ai.netlify.app/.netlify/functions/financial-review';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -26,7 +26,7 @@ const translations = {
     k_fixedRegister: 'Fixed / One-off Expense Register', k_fixedHint: 'Use this for samples, photography, legal, website, travel, admin, and non-scaling costs. Product and packaging are now calculated above.', k_addExpense: 'Add Expense', k_item: 'Item', k_category: 'Category', k_priority: 'Priority', k_approvalGate: 'Approval Gate', k_qty: 'Qty', k_unitCost: 'Unit Cost', k_vat: 'VAT', k_vatRate: 'VAT %', k_notes: 'Notes', k_gate: 'Gate', k_unit: 'Unit', k_gross: 'Gross',
     k_loanAmount: 'Loan Amount', k_interest: 'Interest / APR %', k_loanTerm: 'Loan Term Months', k_bufferTarget: 'Cash Buffer Target %', k_riskDashboard: 'Risk Dashboard', k_riskHint: 'Red flags appear when assumptions are dangerous or structurally impossible.', k_sensitivity: 'Sensitivity', k_sensitivityHint: 'Current batch result at different sell-through levels.', k_keptSales: 'Kept Sales', k_batchComparison: 'Batch Comparison', k_batchHint: 'Compares 15, 30, 50, 75, and 100 units using the same cost assumptions.', k_batch: 'Batch', k_boxes: 'Boxes', k_breakEven: 'Break-even', k_afterLoanCurrent: 'After Loan @ Current Sell-through',
     k_backupTitle: 'Version Backup', k_backupHint: 'Save or reload a full dated JSON version. This preserves assumptions, expenses, documentation status, notes, loan settings, and scenario state.', k_saveBackup: 'Save Backup', k_loadBackup: 'Load Backup', k_noBackup: 'No backup loaded in this session.', k_backupFooter: 'Local browser storage remains enabled, but JSON backups are the safer record. Export a backup after any important change.', rail_title: 'Current Scenario',
-    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Assistant', assistant_subtitle: 'The AI layer is pre-linked to the Moscatelli Finance Netlify endpoint. The OpenAI key remains inside Netlify, never in this website.', assistant_status_title: 'Assistant status', assistant_status_hint: 'API calls use the pre-filled Moscatelli Finance Netlify endpoint. No API keys are stored in this website.', assistant_open: 'Open assistant panel', assistant_panel_title: 'MOSCATELLI FINANCIAL ASSISTANT', assistant_panel_status: 'Status: linked to Moscatelli Finance AI endpoint. Request a review when the scenario is ready.', assistant_endpoint_label: 'Netlify Function URL', assistant_ask_ai: 'Ask AI for financial review', assistant_netlify_note: 'The default endpoint is finance-suite-ai.netlify.app. Change it only if the Netlify site name changes. The OpenAI key stays in Netlify environment variables.', assistant_ai_loading: 'Requesting financial review…', assistant_ai_missing_endpoint: 'The Netlify endpoint is missing. Restore the default endpoint or paste the correct function URL.', assistant_ai_error: 'AI review failed: {message}', assistant_copy: 'Copy scenario summary', assistant_export_json: 'Export scenario JSON', assistant_security: 'Never store API keys, bank data, tax codes, supplier contracts, or API secrets in client-side code or localStorage.', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
+    academy_title: 'Financial Academy', academy_subtitle: 'Internal training for understanding the workstation, launch economics, Italian fiscal assumptions, and the financial discipline required before production or debt.', assistant_title: 'Financial Assistant', assistant_subtitle: 'The assistant opens directly as a review console. The Netlify endpoint is pre-linked; the OpenAI key remains inside Netlify, never in this website.', assistant_status_title: 'AI review console', assistant_status_hint: 'Open the assistant panel to request a Moscatelli Finance review of the current scenario. The endpoint is configured automatically.', assistant_open: 'Open AI review console', assistant_panel_title: 'MOSCATELLI FINANCE AI', assistant_panel_status: 'Status: connected to Moscatelli Finance AI. Request a review when the scenario is ready.', assistant_chat_ready: 'Ready. Add an optional instruction below, or request a severe review of the current scenario.', assistant_response_ready: 'The review will appear here. The assistant sends only the current financial scenario, assumptions and optional instruction to the Netlify function.', assistant_prompt_label: 'Optional instruction to AI', assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.', assistant_endpoint_summary: 'Endpoint settings', assistant_endpoint_label: 'Netlify Function URL', assistant_ask_ai: 'Ask AI for financial review', assistant_netlify_note: 'Connected to finance-suite-ai.netlify.app through a Netlify Function. The API key stays in Netlify environment variables.', assistant_ai_loading: 'Requesting financial review…', assistant_ai_missing_endpoint: 'The Netlify endpoint is missing. Restore the default endpoint or paste the correct function URL.', assistant_ai_error: 'AI review failed: {message}', assistant_copy: 'Copy scenario summary', assistant_export_json: 'Export scenario JSON', assistant_security: 'Never store API keys, bank data, tax codes, supplier contracts, or API secrets in client-side code or localStorage.', import_confirm_title: 'Load backup?', import_confirm_text: 'This will replace your current workstation state. Save a backup first if you need to preserve the current version.',
     status_draft: 'Draft', status_quote_based: 'Quote-based', status_sample_approved: 'Sample approved', status_approved: 'Approved', status_final: 'Final', table_swipe_hint: 'Swipe table horizontally if needed.',
     sub_repayment_over: '{amount} repayment over {months} months', sub_breakeven_detail: '{units} kept sales before loan · {loanUnits} with loan', sub_set_price: 'Set price to calculate', expenses_empty: 'No fixed expenses yet. Add costs above.',
     rev_batch: 'Batch size', rev_saleable: 'Saleable after defects', rev_initialSold: 'Initial sold', rev_returned: 'Returned/refunded', rev_keptSales: 'Kept sales', rev_unsold: 'Unsold units', rev_grossReceipts: 'Gross receipts kept', rev_outputVat: 'Output VAT shown', rev_paymentFees: 'Payment fees', rev_productCost: 'Product cost', rev_boxesOrdered: 'Boxes ordered', rev_packagingTied: 'Packaging cash tied in extras', rev_packagingShortage: 'Packaging shortage', rev_variableCosts: 'Variable costs', rev_fixedExpenses: 'Fixed expenses', rev_contingency: 'Contingency reserve', rev_initialRequired: 'Initial sales required after returns',
@@ -649,8 +649,56 @@ const state = {
 
 const $ = id => document.getElementById(id);
 const els = {
-  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), closeAssistantPanel: $('closeAssistantPanel'), copyScenarioBtn: $('copyScenarioBtn'), assistantExportJsonBtn: $('assistantExportJsonBtn'), aiEndpointUrl: $('aiEndpointUrl'), askAiBtn: $('askAiBtn'), aiResponse: $('aiResponse'), aiStatusLine: $('aiStatusLine'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
+  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), closeAssistantPanel: $('closeAssistantPanel'), copyScenarioBtn: $('copyScenarioBtn'), assistantExportJsonBtn: $('assistantExportJsonBtn'), aiEndpointUrl: $('aiEndpointUrl'), aiEndpointVisible: $('aiEndpointVisible'), aiUserInstruction: $('aiUserInstruction'), askAiBtn: $('askAiBtn'), aiResponse: $('aiResponse'), aiStatusLine: $('aiStatusLine'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
 };
+
+
+// v5.1 — AI assistant chat-console patch. Keeps endpoint internal and pre-linked.
+Object.assign(translations.en, {
+  assistant_eyebrow: 'Moscatelli · Finance AI',
+  assistant_subtitle: 'The assistant opens directly as a review console. The Netlify endpoint is pre-linked; the OpenAI key remains inside Netlify, never in this website.',
+  assistant_status_title: 'AI review console',
+  assistant_status_hint: 'Open the assistant panel to request a Moscatelli Finance review of the current scenario. The endpoint is configured automatically.',
+  assistant_open: 'Open AI review console',
+  assistant_panel_title: 'MOSCATELLI FINANCE AI',
+  assistant_panel_status: 'Status: connected to Moscatelli Finance AI. Request a review when the scenario is ready.',
+  assistant_chat_ready: 'Ready. Add an optional instruction below, or request a severe review of the current scenario.',
+  assistant_response_ready: 'The review will appear here. The assistant sends only the current financial scenario, assumptions and optional instruction to the Netlify function.',
+  assistant_prompt_label: 'Optional instruction to AI',
+  assistant_prompt_placeholder: 'Example: Focus on debt risk and packaging MOQ. Be severe but concise.',
+  assistant_endpoint_summary: 'Endpoint settings',
+  assistant_netlify_note: 'Connected to finance-suite-ai.netlify.app through a Netlify Function. The API key stays in Netlify environment variables.'
+});
+Object.assign(translations.it, {
+  assistant_eyebrow: 'Moscatelli · Finance AI',
+  assistant_subtitle: 'L’assistente si apre direttamente come console di revisione. L’endpoint Netlify è già collegato; la chiave OpenAI resta in Netlify, mai in questo sito.',
+  assistant_status_title: 'Console di revisione AI',
+  assistant_status_hint: 'Apri il pannello per richiedere una revisione Moscatelli Finance dello scenario attuale. L’endpoint è configurato automaticamente.',
+  assistant_open: 'Apri console AI',
+  assistant_panel_title: 'MOSCATELLI FINANCE AI',
+  assistant_panel_status: 'Stato: collegato a Moscatelli Finance AI. Richiedi una revisione quando lo scenario è pronto.',
+  assistant_chat_ready: 'Pronto. Aggiungi un’istruzione facoltativa qui sotto, oppure richiedi una revisione severa dello scenario attuale.',
+  assistant_response_ready: 'La revisione apparirà qui. L’assistente invia alla Function Netlify solo lo scenario finanziario attuale, le ipotesi e l’istruzione facoltativa.',
+  assistant_prompt_label: 'Istruzione facoltativa per l’AI',
+  assistant_prompt_placeholder: 'Esempio: concentrati sul rischio debito e sul MOQ packaging. Sii severo ma conciso.',
+  assistant_endpoint_summary: 'Impostazioni endpoint',
+  assistant_netlify_note: 'Collegato a finance-suite-ai.netlify.app tramite Netlify Function. La chiave API resta nelle variabili ambiente di Netlify.'
+});
+Object.assign(translations.pt, {
+  assistant_eyebrow: 'Moscatelli · Finance AI',
+  assistant_subtitle: 'O assistente abre diretamente como console de revisão. O endpoint da Netlify já está conectado; a chave da OpenAI fica na Netlify, nunca neste site.',
+  assistant_status_title: 'Console de revisão por IA',
+  assistant_status_hint: 'Abra o painel para pedir uma revisão Moscatelli Finance do cenário atual. O endpoint já está configurado automaticamente.',
+  assistant_open: 'Abrir console de IA',
+  assistant_panel_title: 'MOSCATELLI FINANCE AI',
+  assistant_panel_status: 'Status: conectado ao Moscatelli Finance AI. Peça uma revisão quando o cenário estiver pronto.',
+  assistant_chat_ready: 'Pronto. Adicione uma instrução opcional abaixo ou peça uma revisão severa do cenário atual.',
+  assistant_response_ready: 'A revisão aparecerá aqui. O assistente envia para a Function da Netlify apenas o cenário financeiro atual, as premissas e a instrução opcional.',
+  assistant_prompt_label: 'Instrução opcional para a IA',
+  assistant_prompt_placeholder: 'Exemplo: foque no risco de dívida e no MOQ de embalagem. Seja severo, mas conciso.',
+  assistant_endpoint_summary: 'Configurações do endpoint',
+  assistant_netlify_note: 'Conectado a finance-suite-ai.netlify.app por uma Netlify Function. A chave API fica nas variáveis de ambiente da Netlify.'
+});
 
 const scenarioIds = ['scenarioName', 'scenarioStatus', 'fiscalMode', 'retailPrice', 'batchSize', 'sellThrough', 'salesVatRate', 'salesVatMode', 'paymentFee', 'fixedFee', 'shippingCharged'];
 const variableIds = ['productionUnitCost', 'smallBatchPremium', 'setupFee', 'dyeingSurcharge', 'colourCount', 'fringeCost', 'labelCost', 'inboundShipping', 'packagingMode', 'packagingMoq', 'boxesOrdered', 'boxCost', 'fulfilmentCost', 'outboundShipping', 'returnRate', 'returnPenalty', 'defectRate', 'defectPenalty', 'contingencyRate'];
@@ -700,6 +748,7 @@ function labelForValue(value) {
 function applyLanguage() {
   document.documentElement.lang = state.uiLang;
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
   if (els.languageSelect) els.languageSelect.value = state.uiLang;
 }
@@ -1327,6 +1376,7 @@ function buildScenarioAiPayload() {
     generatedAt: new Date().toISOString(),
     language: state.uiLang,
     reviewMode: 'Moscatelli Finance severe internal audit',
+    userInstruction: (els.aiUserInstruction?.value || '').trim(),
     brandContext: {
       house: 'Moscatelli',
       category: 'emerging luxury fashion house',
@@ -1369,8 +1419,10 @@ function setAiResponse(text, isError = false) {
 }
 
 async function askFinancialAssistant() {
-  const endpoint = (els.aiEndpointUrl?.value || DEFAULT_NETLIFY_FUNCTION_URL).trim();
-  if (els.aiEndpointUrl && !els.aiEndpointUrl.value.trim()) els.aiEndpointUrl.value = endpoint;
+  const visibleEndpoint = (els.aiEndpointVisible?.value || '').trim();
+  const endpoint = visibleEndpoint || DEFAULT_NETLIFY_FUNCTION_URL;
+  if (els.aiEndpointUrl) els.aiEndpointUrl.value = endpoint;
+  if (els.aiEndpointVisible && !els.aiEndpointVisible.value.trim()) els.aiEndpointVisible.value = endpoint;
   if (!endpoint) {
     setAiResponse(t('assistant_ai_missing_endpoint'), true);
     return;
@@ -1401,6 +1453,12 @@ async function askFinancialAssistant() {
 function toggleAssistant(open) {
   els.assistantPanel.classList.toggle('is-open', open);
   els.assistantPanel.setAttribute('aria-hidden', String(!open));
+  if (open) {
+    if (els.aiEndpointUrl) els.aiEndpointUrl.value = DEFAULT_NETLIFY_FUNCTION_URL;
+    if (els.aiEndpointVisible && !els.aiEndpointVisible.value.trim()) els.aiEndpointVisible.value = DEFAULT_NETLIFY_FUNCTION_URL;
+    if (els.aiResponse && !els.aiResponse.textContent.trim()) setAiResponse(t('assistant_response_ready'));
+    setTimeout(() => els.aiUserInstruction?.focus(), 180);
+  }
 }
 
 
@@ -3478,13 +3536,18 @@ function attachEvents() {
   els.cancelImportBtn.onclick = closeImportConfirm;
   els.confirmImportBtn.onclick = () => loadBackupFile(pendingImportFile);
   els.assistantFab.onclick = () => toggleAssistant(!els.assistantPanel.classList.contains('is-open'));
-  els.openAssistantPanel.onclick = () => toggleAssistant(true);
+  if (els.openAssistantPanel) els.openAssistantPanel.onclick = () => toggleAssistant(true);
+  if (els.assistantRouteAskBtn) els.assistantRouteAskBtn.onclick = () => { toggleAssistant(true); askFinancialAssistant(); };
   els.closeAssistantPanel.onclick = () => toggleAssistant(false);
   els.copyScenarioBtn.onclick = copyScenarioSummary;
   els.assistantExportJsonBtn.onclick = exportBackup;
   if (els.askAiBtn) els.askAiBtn.onclick = askFinancialAssistant;
-  if (els.aiEndpointUrl) {
-    try { els.aiEndpointUrl.value = localStorage.getItem('mfw_netlify_function_url') || DEFAULT_NETLIFY_FUNCTION_URL; } catch { els.aiEndpointUrl.value = DEFAULT_NETLIFY_FUNCTION_URL; }
+  if (els.aiEndpointUrl) els.aiEndpointUrl.value = DEFAULT_NETLIFY_FUNCTION_URL;
+  if (els.aiEndpointVisible) els.aiEndpointVisible.value = DEFAULT_NETLIFY_FUNCTION_URL;
+  if (els.aiUserInstruction) {
+    els.aiUserInstruction.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') askFinancialAssistant();
+    });
   }
 
   scenarioIds.forEach(id => $(id).addEventListener($(id).tagName === 'SELECT' ? 'change' : 'input', () => {

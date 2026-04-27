@@ -30,7 +30,7 @@
           <option value="pt">Português</option>
         </select>
       </div>
-      <div class="nav-version">v5.0</div>
+      <div class="nav-version">v5.1</div>
     </div>
   </aside>
 
@@ -185,27 +185,49 @@
     <section class="route-section" id="section-assistant" data-section="assistant">
       <header class="page-header">
         <div>
-          <div class="eyebrow" data-i18n="assistant_eyebrow">Moscatelli · Future Layer</div>
+          <div class="eyebrow" data-i18n="assistant_eyebrow">Moscatelli · Finance AI</div>
           <h1 data-i18n="assistant_title">Financial Assistant</h1>
-          <p class="subtitle" data-i18n="assistant_subtitle">The AI layer is pre-linked to the Moscatelli Finance Netlify endpoint. The API key remains inside Netlify, never in this website.</p>
+          <p class="subtitle" data-i18n="assistant_subtitle">The assistant opens directly as a review console. The Netlify endpoint is pre-linked; the OpenAI key remains inside Netlify, never in this website.</p>
         </div>
       </header>
-      <section class="panel"><div class="panel-head"><div><h2 data-i18n="assistant_status_title">Assistant status</h2><div class="hint" data-i18n="assistant_status_hint">API calls use the pre-filled Moscatelli Finance Netlify endpoint. No API keys are stored in this website.</div></div></div><div class="panel-body"><button class="btn primary" id="openAssistantPanel" data-i18n="assistant_open">Open assistant panel</button><p class="assistant-foot" data-i18n="assistant_netlify_note">The default endpoint is finance-suite-ai.netlify.app. Change it only if the Netlify site name changes. The OpenAI key stays in Netlify environment variables.</p></div></section>
+      <section class="panel assistant-route-panel">
+        <div class="panel-head">
+          <div>
+            <h2 data-i18n="assistant_status_title">AI review console</h2>
+            <div class="hint" data-i18n="assistant_status_hint">Open the assistant panel to request a Moscatelli Finance review of the current scenario. The endpoint is configured automatically.</div>
+          </div>
+        </div>
+        <div class="panel-body assistant-route-body">
+          <button class="btn primary" id="openAssistantPanel" data-i18n="assistant_open">Open AI review console</button>
+          <button class="btn" id="assistantRouteAskBtn" data-i18n="assistant_ask_ai">Ask AI for financial review</button>
+          <p class="assistant-foot" data-i18n="assistant_netlify_note">Connected to finance-suite-ai.netlify.app through a Netlify Function. The API key stays in Netlify environment variables.</p>
+        </div>
+      </section>
     </section>
   </main>
 
   <button class="assistant-fab" id="assistantFab" type="button" aria-label="Financial Assistant">Φ</button>
   <aside class="assistant-panel" id="assistantPanel" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="assistantPanelTitle">
-    <div class="assistant-panel__head"><div><span class="assistant-status-dot"></span><strong id="assistantPanelTitle" data-i18n="assistant_panel_title">MOSCATELLI FINANCIAL ASSISTANT</strong></div><button class="btn small" id="closeAssistantPanel">×</button></div>
-    <p class="assistant-muted" id="aiStatusLine" data-i18n="assistant_panel_status">Status: linked to Moscatelli Finance AI endpoint. Request a review when the scenario is ready.</p>
-    <label class="assistant-label" for="aiEndpointUrl" data-i18n="assistant_endpoint_label">Netlify Function URL</label>
-    <input class="assistant-input" id="aiEndpointUrl" type="url" value="https://finance-suite-ai.netlify.app/.netlify/functions/financial-review" placeholder="https://finance-suite-ai.netlify.app/.netlify/functions/financial-review" autocomplete="off" />
+    <div class="assistant-panel__head">
+      <div><span class="assistant-status-dot"></span><strong id="assistantPanelTitle" data-i18n="assistant_panel_title">MOSCATELLI FINANCE AI</strong></div>
+      <button class="btn small" id="closeAssistantPanel">×</button>
+    </div>
+    <p class="assistant-muted" id="aiStatusLine" data-i18n="assistant_panel_status">Status: connected to Moscatelli Finance AI. Request a review when the scenario is ready.</p>
+    <div class="assistant-chat-ready" data-i18n="assistant_chat_ready">Ready. Add an optional instruction below, or request a severe review of the current scenario.</div>
+    <label class="assistant-label" for="aiUserInstruction" data-i18n="assistant_prompt_label">Optional instruction to AI</label>
+    <textarea class="assistant-prompt" id="aiUserInstruction" rows="3" data-i18n-placeholder="assistant_prompt_placeholder" placeholder="Example: Focus on debt risk and packaging MOQ. Be severe but concise."></textarea>
+    <input id="aiEndpointUrl" type="hidden" value="https://finance-suite-ai.netlify.app/.netlify/functions/financial-review" />
+    <details class="assistant-advanced">
+      <summary data-i18n="assistant_endpoint_summary">Endpoint settings</summary>
+      <label class="assistant-label" for="aiEndpointVisible" data-i18n="assistant_endpoint_label">Netlify Function URL</label>
+      <input class="assistant-input" id="aiEndpointVisible" type="url" value="https://finance-suite-ai.netlify.app/.netlify/functions/financial-review" placeholder="https://finance-suite-ai.netlify.app/.netlify/functions/financial-review" autocomplete="off" />
+    </details>
     <div class="assistant-actions">
       <button class="btn primary" id="askAiBtn" data-i18n="assistant_ask_ai">Ask AI for financial review</button>
       <button class="btn" id="copyScenarioBtn" data-i18n="assistant_copy">Copy scenario summary</button>
       <button class="btn" id="assistantExportJsonBtn" data-i18n="assistant_export_json">Export scenario JSON</button>
     </div>
-    <div class="assistant-response" id="aiResponse" aria-live="polite"></div>
+    <div class="assistant-response is-visible" id="aiResponse" aria-live="polite" data-i18n="assistant_response_ready">The review will appear here. The assistant sends only the current financial scenario, assumptions and optional instruction to the Netlify function.</div>
     <p class="assistant-foot" data-i18n="assistant_security">Never store API keys in this website, in GitHub, or in localStorage. The OpenAI key belongs only in Netlify environment variables.</p>
   </aside>
 

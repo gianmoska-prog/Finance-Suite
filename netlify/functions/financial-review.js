@@ -87,6 +87,8 @@ Important tax and legal boundary:
 - Do not provide formal tax, legal, or accounting advice.
 - State that figures remain subject to commercialista confirmation when relevant.
 
+If the scenario includes a userInstruction field, address that instruction directly while still preserving the audit structure below.
+
 Return exactly this structure:
 
 1. Executive verdict
@@ -119,7 +121,11 @@ Return exactly this structure:
 }
 
 function buildScenarioInput(scenario) {
-  return `Review the following Moscatelli Financial Workstation scenario data. Do not assume anything not present in the data.\n\n${JSON.stringify(scenario, null, 2)}`;
+  const specificInstruction = scenario && scenario.userInstruction
+    ? `\n\nSpecific user instruction to address: ${scenario.userInstruction}`
+    : '';
+
+  return `Review the following Moscatelli Financial Workstation scenario data. Do not assume anything not present in the data.${specificInstruction}\n\n${JSON.stringify(scenario, null, 2)}`;
 }
 
 function languageFor(language) {
