@@ -1,4 +1,4 @@
-MOSCATELLI FINANCIAL WORKSTATION — v5.8 Mobile Compatibility Follow-up
+MOSCATELLI FINANCIAL WORKSTATION — v5.9 Mobile Native Refinement
 
 This package contains the Moscatelli Financial Workstation as a GitHub-ready static site.
 
@@ -48,3 +48,10 @@ v5.7 Mobile Compatibility Patch
 
 Mobile compatibility patch:
 - Refined phone/tablet layout, safer touch targets, mobile bottom-sheet contextual help, compact GPT bridge controls, and safe-area spacing for modern mobile browsers.
+
+
+v5.9 Mobile Native Refinement
+- Added visible mobile language selector.
+- Removed GPT Studio route from desktop and mobile navigation; Leonardo remains available through the floating button.
+- Removed mobile header action controls for a leaner phone layout.
+- Added mobile-specific calculator width hygiene and compact summary behaviour without altering desktop layout.

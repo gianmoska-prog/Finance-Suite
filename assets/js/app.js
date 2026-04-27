@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.8';
+const APP_VERSION = '5.9';
 const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -647,7 +647,7 @@ const state = {
 
 const $ = id => document.getElementById(id);
 const els = {
-  languageSelect: $('languageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
+  languageSelect: $('languageSelect'), mobileLanguageSelect: $('mobileLanguageSelect'), item: $('item'), category: $('category'), priority: $('priority'), status: $('status'), requiresApproval: $('requiresApproval'), qty: $('qty'), unitCost: $('unitCost'), vatMode: $('vatMode'), vatRateExpense: $('vatRateExpense'), notes: $('notes'), expenseRows: $('expenseRows'), addBtn: $('addBtn'), resetBtn: $('resetBtn'), exportBtn: $('exportBtn'), printBtn: $('printBtn'), saveBackupBtn: $('saveBackupBtn'), loadBackupBtn: $('loadBackupBtn'), backupFileInput: $('backupFileInput'), backupStatus: $('backupStatus'), lastSavedStatus: $('lastSavedStatus'), lastBackupStatus: $('lastBackupStatus'), cashDrawdown: $('cashDrawdown'), landedCost: $('landedCost'), netRevenue: $('netRevenue'), cashResult: $('cashResult'), afterLoan: $('afterLoan'), loanSub: $('loanSub'), breakEvenSellThrough: $('breakEvenSellThrough'), breakEvenSub: $('breakEvenSub'), revenueResults: $('revenueResults'), loanResults: $('loanResults'), loanWarning: $('loanWarning'), riskDashboard: $('riskDashboard'), sensitivityRows: $('sensitivityRows'), batchRows: $('batchRows'), railScenarioName: $('railScenarioName'), railNetRevenue: $('railNetRevenue'), railCashResult: $('railCashResult'), railAfterLoan: $('railAfterLoan'), railCashDrawdown: $('railCashDrawdown'), railBreakEven: $('railBreakEven'), railRiskBadge: $('railRiskBadge'), indexScenarioName: $('indexScenarioName'), indexCashDrawdown: $('indexCashDrawdown'), indexBreakEven: $('indexBreakEven'), indexAfterLoan: $('indexAfterLoan'), indexRiskStatus: $('indexRiskStatus'), indexRiskSub: $('indexRiskSub'), assistantFab: $('assistantFab'), assistantPanel: $('assistantPanel'), openAssistantPanel: $('openAssistantPanel'), assistantRouteAskBtn: $('assistantRouteAskBtn'), importConfirmModal: $('importConfirmModal'), cancelImportBtn: $('cancelImportBtn'), confirmImportBtn: $('confirmImportBtn'), structuralBanner: $('structuralBanner'), alertsToggle: $('alertsToggle'), alertsMenu: $('alertsMenu'), alertsCount: $('alertsCount'), alertsList: $('alertsList'), printHeader: $('printHeader'), salesVatRate: $('salesVatRate'), salesVatMode: $('salesVatMode')
 };
 
 
@@ -780,7 +780,7 @@ Object.assign(translations.pt, {
 const scenarioIds = ['scenarioName', 'scenarioStatus', 'fiscalMode', 'retailPrice', 'batchSize', 'sellThrough', 'salesVatRate', 'salesVatMode', 'paymentFee', 'fixedFee', 'shippingCharged'];
 const variableIds = ['productionUnitCost', 'smallBatchPremium', 'setupFee', 'dyeingSurcharge', 'colourCount', 'fringeCost', 'labelCost', 'inboundShipping', 'packagingMode', 'packagingMoq', 'boxesOrdered', 'boxCost', 'fulfilmentCost', 'outboundShipping', 'returnRate', 'returnPenalty', 'defectRate', 'defectPenalty', 'contingencyRate'];
 const loanIds = ['loanAmount', 'interestRate', 'loanTermMonths', 'bufferTarget'];
-const validRoutes = ['threshold', 'calculator', 'academy', 'assistant'];
+const validRoutes = ['threshold', 'calculator', 'academy'];
 
 function t(key) {
   return (translations[state.uiLang] && translations[state.uiLang][key]) || translations.en[key] || key;
@@ -827,6 +827,7 @@ function applyLanguage() {
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
   if (els.languageSelect) els.languageSelect.value = state.uiLang;
+  if (els.mobileLanguageSelect) els.mobileLanguageSelect.value = state.uiLang;
 }
 
 function num(value) {
@@ -1659,7 +1660,7 @@ const academyCurriculum = {
           "warning": "Screenshots are not records. A proper report includes the backup or the scenario summary.",
           "action": "Open Assistant and copy the review packet.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "I made a mistake",
@@ -1927,7 +1928,7 @@ const academyCurriculum = {
           "warning": "Do not send only screenshots. Screenshots do not preserve the model.",
           "action": "Open Assistant and copy the review packet.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "Glossary quick reference",
@@ -1973,7 +1974,7 @@ const academyCurriculum = {
           "warning": "Asking early is not weakness. It prevents expensive corrections later.",
           "action": "Open Assistant and copy the scenario summary for review.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         }
       ]
     }
@@ -2112,7 +2113,7 @@ const academyCurriculum = {
           "warning": "Gli screenshot non sono archivio. Un report serio include backup o riepilogo scenario.",
           "action": "Apri Assistente e copia il pacchetto di revisione.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "Ho fatto un errore",
@@ -2380,7 +2381,7 @@ const academyCurriculum = {
           "warning": "Non inviare solo screenshot. Gli screenshot non preservano il modello.",
           "action": "Apri Assistente e copia il pacchetto di revisione.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "Glossario essenziale",
@@ -2426,7 +2427,7 @@ const academyCurriculum = {
           "warning": "Chiedere presto non è debolezza. Evita correzioni costose dopo.",
           "action": "Apri Assistente e copia il riepilogo scenario.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         }
       ]
     }
@@ -2565,7 +2566,7 @@ const academyCurriculum = {
           "warning": "Print não é arquivo de trabalho. Relatório sério inclui backup ou resumo do cenário.",
           "action": "Abra Assistente e copie o pacote de revisão.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "Cometi um erro",
@@ -2833,7 +2834,7 @@ const academyCurriculum = {
           "warning": "Não envie apenas prints. Prints não preservam o modelo.",
           "action": "Abra Assistente e copie o pacote de revisão.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         },
         {
           "title": "Glossário essencial",
@@ -2879,7 +2880,7 @@ const academyCurriculum = {
           "warning": "Perguntar cedo não é fraqueza. Evita correções caras depois.",
           "action": "Abra Assistente e copie o resumo do cenário.",
           "tab": null,
-          "route": "assistant"
+          "route": "calculator"
         }
       ]
     }
@@ -2975,7 +2976,6 @@ function route() {
     if (active) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
   });
-  if (name === 'assistant') toggleAssistant(true);
 }
 
 
@@ -4031,6 +4031,7 @@ function attachEvents() {
   });
 
   if (els.languageSelect) els.languageSelect.addEventListener('change', () => { state.uiLang = els.languageSelect.value; render(); renderAcademy(); });
+  if (els.mobileLanguageSelect) els.mobileLanguageSelect.addEventListener('change', () => { state.uiLang = els.mobileLanguageSelect.value; render(); renderAcademy(); });
   els.addBtn.onclick = addExpense;
   [els.item, els.qty, els.unitCost, els.notes].forEach(input => input.addEventListener('keydown', event => { if (event.key === 'Enter') addExpense(); }));
   els.resetBtn.onclick = () => {

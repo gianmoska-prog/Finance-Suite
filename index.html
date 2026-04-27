@@ -20,7 +20,6 @@
       <a href="#threshold" class="nav-link" data-route="threshold"><span class="nav-mark">I</span><span data-i18n="nav_threshold">Threshold</span></a>
       <a href="#calculator" class="nav-link" data-route="calculator"><span class="nav-mark">II</span><span data-i18n="nav_calculator">Calculator</span></a>
       <a href="#academy" class="nav-link" data-route="academy"><span class="nav-mark">III</span><span data-i18n="nav_academy">Academy</span></a>
-      <a href="#assistant" class="nav-link" data-route="assistant"><span class="nav-mark">IV</span><span data-i18n="nav_assistant">GPT Studio</span></a>
     </nav>
     <div class="nav-footer">
       <div class="language-field" aria-label="Language selector">
@@ -30,7 +29,7 @@
           <option value="pt">Português</option>
         </select>
       </div>
-      <div class="nav-version">v5.7</div>
+      <div class="nav-version">v5.9</div>
     </div>
   </aside>
 
@@ -38,8 +37,15 @@
     <a href="#threshold" class="mobile-link" data-route="threshold" data-i18n="nav_threshold">Threshold</a>
     <a href="#calculator" class="mobile-link" data-route="calculator" data-i18n="nav_calculator">Calculator</a>
     <a href="#academy" class="mobile-link" data-route="academy" data-i18n="nav_academy">Academy</a>
-    <a href="#assistant" class="mobile-link" data-route="assistant" data-i18n="nav_assistant">GPT Studio</a>
   </nav>
+
+  <div class="mobile-language-field" aria-label="Language selector">
+    <select class="language-select mobile-language-select" id="mobileLanguageSelect">
+      <option value="en">EN</option>
+      <option value="it">IT</option>
+      <option value="pt">PT</option>
+    </select>
+  </div>
 
   <main class="app-shell">
     <div class="notification-centre" id="notificationCentre">
@@ -180,30 +186,6 @@
         </div>
       </header>
       <div class="academy-grid" id="academyModules"></div>
-    </section>
-
-    <section class="route-section" id="section-assistant" data-section="assistant">
-      <header class="page-header">
-        <div>
-          <div class="eyebrow" data-i18n="assistant_eyebrow">Moscatelli · GPT Studio</div>
-          <h1 data-i18n="assistant_title">Financial Studio GPT</h1>
-          <p class="subtitle" data-i18n="assistant_subtitle">Open the dedicated Moscatelli GPT in ChatGPT. Copy the current scenario first, then continue the review inside ChatGPT without any embedded API setup.</p>
-        </div>
-      </header>
-      <section class="panel assistant-route-panel gpt-link-panel">
-        <div class="panel-head">
-          <div>
-            <h2 data-i18n="assistant_status_title">Dedicated GPT link</h2>
-            <div class="hint" data-i18n="assistant_status_hint">Use this as a smooth bridge: copy the current scenario package, then open the Moscatelli Financial Studio Assistant in ChatGPT.</div>
-          </div>
-        </div>
-        <div class="panel-body assistant-route-body">
-          <button class="btn primary" id="assistantRouteAskBtn" data-i18n="assistant_ask_ai">Copy scenario brief & open GPT</button>
-          <button class="btn" id="openAssistantPanel" data-i18n="assistant_open">Open GPT launcher</button>
-          <a class="btn assistant-gpt-link" id="assistantGptDirectRoute" href="https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant" target="_blank" rel="noopener noreferrer" data-i18n="assistant_open_gpt">Open GPT directly</a>
-          <p class="assistant-foot" data-i18n="assistant_local_gpt_note">The GPT opens in ChatGPT; the workstation remains a local financial tool.</p>
-        </div>
-      </section>
     </section>
   </main>
 
