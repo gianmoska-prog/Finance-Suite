@@ -1,4 +1,4 @@
-MOSCATELLI FINANCIAL WORKSTATION — v5.9 Mobile Native Refinement
+MOSCATELLI FINANCIAL WORKSTATION — v5.10 Mobile Language and Help Refinement
 
 This package contains the Moscatelli Financial Workstation as a GitHub-ready static site.
 
@@ -55,3 +55,9 @@ v5.9 Mobile Native Refinement
 - Removed GPT Studio route from desktop and mobile navigation; Leonardo remains available through the floating button.
 - Removed mobile header action controls for a leaner phone layout.
 - Added mobile-specific calculator width hygiene and compact summary behaviour without altering desktop layout.
+
+
+v5.10 Mobile Language and Help Refinement
+- Moved mobile language selector into the alert bell menu.
+- Replaced mobile question-mark help buttons with tap-on-text contextual help.
+- Added calculator mobile width hygiene refinements while preserving desktop layout.

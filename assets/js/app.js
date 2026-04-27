@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '5.9';
+const APP_VERSION = '5.10';
 const GPT_ASSISTANT_URL = 'https://chatgpt.com/g/g-69ef716b64788191a51c8a6d3363acb6-moscatelli-financial-studio-assistant';
 const SCHEMA_VERSION = 2;
 const STORAGE_KEY = 'moscatelliFinancialWorkstation.v31';
@@ -565,7 +565,7 @@ Object.assign(translations.en, {
   alerts_title: 'Financial Alerts',
   alerts_subtitle: 'Warnings are grouped here to keep the index calm.',
   alerts_empty: 'No active warnings. Continue replacing assumptions with quotes.',
-  alerts_index_sub: 'Open the bell menu for warnings.',
+  alerts_index_sub: 'Open the bell menu for warnings.', mobile_language_label: 'Language',
   alert_assumptions_title: 'Assumption discipline',
   alert_assumptions_text: 'All figures are provisional until replaced with real supplier quotes, physical samples, packaging tests, fiscal confirmation, and buyer commitments.',
   alert_tax_title: 'Tax exclusion',
@@ -578,7 +578,7 @@ Object.assign(translations.it, {
   alerts_title: 'Avvisi finanziari',
   alerts_subtitle: 'Gli avvisi sono raccolti qui per mantenere l’indice pulito.',
   alerts_empty: 'Nessun avviso attivo. Continua a sostituire le ipotesi con preventivi.',
-  alerts_index_sub: 'Apri il menu a campana per gli avvisi.',
+  alerts_index_sub: 'Apri il menu a campana per gli avvisi.', mobile_language_label: 'Lingua',
   alert_assumptions_title: 'Disciplina delle ipotesi',
   alert_assumptions_text: 'Tutti i numeri sono provvisori finché non vengono sostituiti da preventivi reali, campioni fisici, test di packaging, conferma fiscale e impegni d’acquisto.',
   alert_tax_title: 'Esclusione fiscale',
@@ -591,7 +591,7 @@ Object.assign(translations.pt, {
   alerts_title: 'Alertas financeiros',
   alerts_subtitle: 'Os avisos ficam agrupados aqui para manter o índice limpo.',
   alerts_empty: 'Nenhum aviso ativo. Continue substituindo premissas por orçamentos reais.',
-  alerts_index_sub: 'Abra o menu do sino para ver os avisos.',
+  alerts_index_sub: 'Abra o menu do sino para ver os avisos.', mobile_language_label: 'Idioma',
   alert_assumptions_title: 'Disciplina das premissas',
   alert_assumptions_text: 'Todos os números são provisórios até serem substituídos por orçamentos reais, amostras físicas, testes de embalagem, confirmação fiscal e compromissos de compra.',
   alert_tax_title: 'Exclusão fiscal',
@@ -3514,6 +3514,9 @@ function hideContextualHelp() {
 
 function addHelpButton(anchor, key, variant = '') {
   if (!anchor || !getHelpContent(key)) return;
+  anchor.classList.add('mobile-help-anchor');
+  anchor.dataset.helpKey = key;
+  anchor.setAttribute('aria-expanded', anchor.getAttribute('aria-expanded') || 'false');
   const parent = anchor.parentElement;
   if (!parent) return;
   const existing = Array.from(parent.children).find(child => child.classList && child.classList.contains('help-dot') && child.dataset.helpKey === key);
@@ -4026,8 +4029,17 @@ function attachEvents() {
   document.addEventListener('click', event => {
     const popover = document.getElementById('contextualHelpPopover');
     if (!popover || !popover.classList.contains('is-visible')) return;
-    if (event.target.closest('.contextual-help-popover') || event.target.closest('.help-dot')) return;
+    if (event.target.closest('.contextual-help-popover') || event.target.closest('.help-dot') || event.target.closest('.mobile-help-anchor')) return;
     hideContextualHelpImmediate();
+  });
+
+  document.addEventListener('click', event => {
+    if (!window.matchMedia('(max-width: 860px)').matches) return;
+    const anchor = event.target.closest('.mobile-help-anchor');
+    if (!anchor || !anchor.closest('#section-calculator')) return;
+    event.preventDefault();
+    event.stopPropagation();
+    showContextualHelp(anchor);
   });
 
   if (els.languageSelect) els.languageSelect.addEventListener('change', () => { state.uiLang = els.languageSelect.value; render(); renderAcademy(); });

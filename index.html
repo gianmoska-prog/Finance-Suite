@@ -29,7 +29,7 @@
           <option value="pt">Português</option>
         </select>
       </div>
-      <div class="nav-version">v5.9</div>
+      <div class="nav-version">v5.10</div>
     </div>
   </aside>
 
@@ -39,13 +39,6 @@
     <a href="#academy" class="mobile-link" data-route="academy" data-i18n="nav_academy">Academy</a>
   </nav>
 
-  <div class="mobile-language-field" aria-label="Language selector">
-    <select class="language-select mobile-language-select" id="mobileLanguageSelect">
-      <option value="en">EN</option>
-      <option value="it">IT</option>
-      <option value="pt">PT</option>
-    </select>
-  </div>
 
   <main class="app-shell">
     <div class="notification-centre" id="notificationCentre">
@@ -57,6 +50,14 @@
         <div class="alerts-menu__head">
           <h2 data-i18n="alerts_title">Financial Alerts</h2>
           <small data-i18n="alerts_subtitle">Warnings are grouped here to keep the index calm.</small>
+        </div>
+        <div class="alerts-language" aria-label="Language selector">
+          <span data-i18n="mobile_language_label">Language</span>
+          <select class="language-select mobile-language-select" id="mobileLanguageSelect">
+            <option value="en">EN</option>
+            <option value="it">IT</option>
+            <option value="pt">PT</option>
+          </select>
         </div>
         <div class="alerts-list" id="alertsList"></div>
       </div>
